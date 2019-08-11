@@ -7,18 +7,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>KK&#39;s Blog | </title>
-    <meta property="og:title" content="KK&#39;s Blog | ">
-    <meta property="og:type" content="website">
+    <title>Rust | KK&#39;s Blog</title>
+    <meta property="og:title" content="Rust - KK&#39;s Blog">
+    <meta property="og:type" content="article">
+        
+        
     <meta name="Keywords" content="">
-    <meta name="description" content="">
-    <meta property="og:url" content="https://kkua.github.io/">
+    <meta name="description" content="Rust">
+        
+    <meta name="author" content="KK">
+    <meta property="og:url" content="https://kkua.github.io/tags/rust/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
     
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="alternate" type="application/rss+xml+xml" href="https://kkua.github.io/index.xml" title="KK's Blog" />
+    <link rel="alternate" type="application/rss+xml+xml" href="https://kkua.github.io/tags/rust/index.xml" title="KK's Blog" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -35,17 +39,15 @@
         <div class="col-group">
             <div class="site-name ">
                 
-                    <h1>
-                        <a id="logo" href="https://kkua.github.io">
-                            KK&#39;s Blog
-                        </a>
-                    </h1>
+                    <a id="logo" href="https://kkua.github.io">
+                        KK&#39;s Blog
+                    </a>
                 
                 
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="current" href="https://kkua.github.io">首页</a>
+                    <a class="" href="https://kkua.github.io">首页</a>
                     
                     <a  href="https://kkua.github.io/archives/" title="归档">归档</a>
                     
@@ -63,20 +65,28 @@
             <div class="col-8" id="main">
                 <div class="res-cons">
                     
+                    <h3 class="archive-title">
+                        包含标签
+                        <span class="keyword">Rust</span>
+                        的文章
+                    </h3>
+                    
+
+                    
                         <article class="post">
                             <header>
                                 <h1 class="post-title">
-                                    <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标" >Rust程序交叉编译到aarch64目标</a>
+                                    <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">Rust程序交叉编译到aarch64目标</a>
                                 </h1>
                             </header>
                             <date class="post-meta meta-date">
                                 2019年8月11日
                             </date>
                             
-                            <div class="post-meta">
-                                <span>|</span>
+                            <div class="post-meta meta-category">
+                                |
                                 
-                                <span class="meta-category"><a href="https://kkua.github.io/categories/rust">Rust</a></span>
+                                    <a href="https://kkua.github.io/categories/rust">Rust</a>
                                 
                             </div>
                             
@@ -96,74 +106,11 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
 [target.aarch64-unknown-linux-gnu] linker = &quot;aarch64-linux-gnu-gcc&quot;  最后cargo build时需要添加参数--target aarch64-unknown-linux-gnu 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标
 [build] target = &quot;aarch64-unknown-linux-gnu&quot;  至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件
   ……
+                                <p class="readmore"><a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">阅读全文</a></p>
                             </div>
-                            <p class="readmore"><a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">阅读全文</a></p>
                         </article>
                     
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="https://kkua.github.io/post/sensitive-word-check/" title="敏感词检测" >敏感词检测</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年8月9日
-                            </date>
-                            
-                            <div class="post-meta">
-                                <span>|</span>
-                                
-                                <span class="meta-category"><a href="https://kkua.github.io/categories/java">java</a></span>
-                                
-                            </div>
-                            
-                            <div class="post-content">
-                                &emsp;&emsp;使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
-&emsp;&emsp;我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &quot;rawtypes&quot;, &quot;unchecked&quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
-import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.util.Map; import java.util.Set; /** * 敏感词检测 &lt;br&gt; * 修改自 https://blog.csdn.net/chenssy/article/details/26961957 */ public enum SensitiveWordUtil { INSTANCE; private Map&lt;Character, WordCharMapNode&gt; sensitiveWordMap; public static int minMatchType = 1; // 最小匹配规则 public static int maxMatchType = 2; // 最大匹配规则 private int matchType = 2; public static SensitiveWordUtil getInstance() { return INSTANCE; } public void init(String[] words) { sensitiveWordMap = new HashMap&lt;&gt;(words.length); // 初始化敏感词容器，减少扩容操作 for (String keyword : words) { keyword = keyword.……
-                            </div>
-                            <p class="readmore"><a href="https://kkua.github.io/post/sensitive-word-check/">阅读全文</a></p>
-                        </article>
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="https://kkua.github.io/post/java-util-code-snippet/" title="一些Java实用代码片段" >一些Java实用代码片段</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年8月9日
-                            </date>
-                            
-                            <div class="post-meta">
-                                <span>|</span>
-                                
-                                <span class="meta-category"><a href="https://kkua.github.io/categories/java">Java</a></span>
-                                
-                            </div>
-                            
-                            <div class="post-content">
-                                分布式id生成——雪花算法 import java.util.concurrent.ThreadLocalRandom; import java.util.concurrent.atomic.AtomicLong; import org.slf4j.Logger; import org.slf4j.LoggerFactory; public class IdGenerator { private static final Logger log = LoggerFactory.getLogger(IdGenerator.class); private static IdGenerator INSTANCE = new IdGenerator(); private long machineId; private AtomicLong lastId; private long twepoch = 1561910400000L; // 基准时间 2019-07-01 00:00:00 private long machineIdBits = 10L; private long maxMachineId = -1L ^ (-1L &lt;&lt; machineIdBits); private long sequenceBits = 10L; private long machineIdShift = sequenceBits; private long timestampLeftShift = sequenceBits + machineIdBits; private long maxSequence = (-1L ^ (-1L &lt;&lt; sequenceBits)) - 1L;// 序列号的最大值 private long sequenceMask = (-1L ^ (-1L &lt;&lt; sequenceBits)); private IdGenerator() { } public static IdGenerator getInstance() { return INSTANCE; } private void init(long machineId) { // sanity check for workerId if (machineId &gt; maxMachineId || machineId &lt; 0) { throw new IllegalArgumentException( String.……
-                            </div>
-                            <p class="readmore"><a href="https://kkua.github.io/post/java-util-code-snippet/">阅读全文</a></p>
-                        </article>
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="https://kkua.github.io/archives/" title="归档" >归档</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                1年1月1日
-                            </date>
-                            
-                            <div class="post-content">
-                                ……
-                            </div>
-                            <p class="readmore"><a href="https://kkua.github.io/archives/">阅读全文</a></p>
-                        </article>
-                    
+
                     
 
 

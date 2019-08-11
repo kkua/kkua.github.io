@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>java on KK&#39;s Blog</title>
+    <title>Java on KK&#39;s Blog</title>
     <link>https://kkua.github.io/tags/java/</link>
-    <description>Recent content in java on KK&#39;s Blog</description>
+    <description>Recent content in Java on KK&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Fri, 09 Aug 2019 21:35:35 +0800</lastBuildDate>
@@ -23,12 +23,12 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
     </item>
     
     <item>
-      <title>一些Java实现的实用代码片段</title>
+      <title>一些Java实用代码片段</title>
       <link>https://kkua.github.io/post/java-util-code-snippet/</link>
       <pubDate>Fri, 09 Aug 2019 20:47:32 +0800</pubDate>
       
       <guid>https://kkua.github.io/post/java-util-code-snippet/</guid>
-      <description>分布式id生成——雪花算法（lock-free实现） import java.util.concurrent.ThreadLocalRandom; import java.util.concurrent.atomic.AtomicLong; import org.slf4j.Logger; import org.slf4j.LoggerFactory; public class IdGenerator { private static final Logger log = LoggerFactory.getLogger(IdGenerator.class); private static IdGenerator INSTANCE = new IdGenerator(); private long machineId; private AtomicLong lastId; private long twepoch = 1561910400000L; // 基准时间 2019-07-01 00:00:00 private long machineIdBits = 10L; private long maxMachineId = -1L ^ (-1L &amp;lt;&amp;lt; machineIdBits); private long sequenceBits = 10L; private long machineIdShift = sequenceBits; private long timestampLeftShift = sequenceBits + machineIdBits; private long maxSequence = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)) - 1L;// 序列号的最大值 private long sequenceMask = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)); private IdGenerator() { } public static IdGenerator getInstance() { return INSTANCE; } private void init(long machineId) { // sanity check for workerId if (machineId &amp;gt; maxMachineId || machineId &amp;lt; 0) { throw new IllegalArgumentException( String.</description>
+      <description>分布式id生成——雪花算法 import java.util.concurrent.ThreadLocalRandom; import java.util.concurrent.atomic.AtomicLong; import org.slf4j.Logger; import org.slf4j.LoggerFactory; public class IdGenerator { private static final Logger log = LoggerFactory.getLogger(IdGenerator.class); private static IdGenerator INSTANCE = new IdGenerator(); private long machineId; private AtomicLong lastId; private long twepoch = 1561910400000L; // 基准时间 2019-07-01 00:00:00 private long machineIdBits = 10L; private long maxMachineId = -1L ^ (-1L &amp;lt;&amp;lt; machineIdBits); private long sequenceBits = 10L; private long machineIdShift = sequenceBits; private long timestampLeftShift = sequenceBits + machineIdBits; private long maxSequence = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)) - 1L;// 序列号的最大值 private long sequenceMask = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)); private IdGenerator() { } public static IdGenerator getInstance() { return INSTANCE; } private void init(long machineId) { // sanity check for workerId if (machineId &amp;gt; maxMachineId || machineId &amp;lt; 0) { throw new IllegalArgumentException( String.</description>
     </item>
     
   </channel>

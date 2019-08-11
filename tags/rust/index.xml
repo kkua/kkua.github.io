@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on KK&#39;s Blog</title>
-    <link>https://kkua.github.io/post/</link>
-    <description>Recent content in Posts on KK&#39;s Blog</description>
+    <title>Rust on KK&#39;s Blog</title>
+    <link>https://kkua.github.io/tags/rust/</link>
+    <description>Recent content in Rust on KK&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <lastBuildDate>Sun, 11 Aug 2019 09:31:24 +0800</lastBuildDate>
     
-	<atom:link href="https://kkua.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://kkua.github.io/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -32,26 +32,6 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
 [target.aarch64-unknown-linux-gnu] linker = &amp;quot;aarch64-linux-gnu-gcc&amp;quot;  最后cargo build时需要添加参数--target aarch64-unknown-linux-gnu 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标
 [build] target = &amp;quot;aarch64-unknown-linux-gnu&amp;quot;  至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件
   </description>
-    </item>
-    
-    <item>
-      <title>敏感词检测</title>
-      <link>https://kkua.github.io/post/sensitive-word-check/</link>
-      <pubDate>Fri, 09 Aug 2019 21:35:35 +0800</pubDate>
-      
-      <guid>https://kkua.github.io/post/sensitive-word-check/</guid>
-      <description>&amp;emsp;&amp;emsp;使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
-&amp;emsp;&amp;emsp;我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &amp;quot;rawtypes&amp;quot;, &amp;quot;unchecked&amp;quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
-import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.util.Map; import java.util.Set; /** * 敏感词检测 &amp;lt;br&amp;gt; * 修改自 https://blog.csdn.net/chenssy/article/details/26961957 */ public enum SensitiveWordUtil { INSTANCE; private Map&amp;lt;Character, WordCharMapNode&amp;gt; sensitiveWordMap; public static int minMatchType = 1; // 最小匹配规则 public static int maxMatchType = 2; // 最大匹配规则 private int matchType = 2; public static SensitiveWordUtil getInstance() { return INSTANCE; } public void init(String[] words) { sensitiveWordMap = new HashMap&amp;lt;&amp;gt;(words.length); // 初始化敏感词容器，减少扩容操作 for (String keyword : words) { keyword = keyword.</description>
-    </item>
-    
-    <item>
-      <title>一些Java实用代码片段</title>
-      <link>https://kkua.github.io/post/java-util-code-snippet/</link>
-      <pubDate>Fri, 09 Aug 2019 20:47:32 +0800</pubDate>
-      
-      <guid>https://kkua.github.io/post/java-util-code-snippet/</guid>
-      <description>分布式id生成——雪花算法 import java.util.concurrent.ThreadLocalRandom; import java.util.concurrent.atomic.AtomicLong; import org.slf4j.Logger; import org.slf4j.LoggerFactory; public class IdGenerator { private static final Logger log = LoggerFactory.getLogger(IdGenerator.class); private static IdGenerator INSTANCE = new IdGenerator(); private long machineId; private AtomicLong lastId; private long twepoch = 1561910400000L; // 基准时间 2019-07-01 00:00:00 private long machineIdBits = 10L; private long maxMachineId = -1L ^ (-1L &amp;lt;&amp;lt; machineIdBits); private long sequenceBits = 10L; private long machineIdShift = sequenceBits; private long timestampLeftShift = sequenceBits + machineIdBits; private long maxSequence = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)) - 1L;// 序列号的最大值 private long sequenceMask = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)); private IdGenerator() { } public static IdGenerator getInstance() { return INSTANCE; } private void init(long machineId) { // sanity check for workerId if (machineId &amp;gt; maxMachineId || machineId &amp;lt; 0) { throw new IllegalArgumentException( String.</description>
     </item>
     
   </channel>
