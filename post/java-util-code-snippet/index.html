@@ -64,14 +64,8 @@
 
 <div id="body">
         
-        
-        <div id="toc_div" style="margin: 10px;border: 1px solid gray;z-index:99999;">
-            <header style="background-color: #f3f3f3;color: black;border-bottom: 1px solid gray;padding: 10px 10px 10px 10px;">
-                <strong id="toc_btn_open" style="color: black;font-size: large;">目录</strong>
-                <strong id="toc_btn_close" style="color: black;font-size: large;float: right">╳</strong>
-            </header>
-            <div id="toc_list" style="background-color: #f3f3f3;color: black;padding: 10px;">
-                <nav id="TableOfContents">
+        <div id="virtual_toc_list" style="display: none">
+            <nav id="TableOfContents">
 <ul>
 <li>
 <ul>
@@ -85,88 +79,89 @@
 </ul></li>
 </ul>
 </nav>
+        </div>
+        <div id="float_toc_div">
+            <header style="background-color: #f3f3f3;color: black;border-bottom: 1px solid gray;padding: 10px 10px 10px 10px;">
+                <strong id="toc_btn_open" style="color: black;font-size: large;">目录</strong>
+                <strong id="toc_btn_close" style="color: black;font-size: large;float: right">╳</strong>
+            </header>
+            <div id="toc_list" class="float-toc-nav" style="background-color: #f3f3f3;color: black;padding: 10px;overflow-y: auto;min-width: 70px;">
+
             </div>
         </div>
         <style type="text/css">
-            header.intro-header {
-                background-image: url('https://kkua.github.io')
-            }
-        
-            #toc_div {
+            #float_toc_div {
                 position: fixed;
                 display: none;
-                width: 10.6%;
                 height: auto;
                 font-size: 13px;
+                margin: 10px;
+                border: 1px solid gray;
+                z-index:99999;
             }
-        
+
             #toc_list a:hover,
             #toc_list a:active {
                 color: #ba3925;
             }
         </style>
         <script>
-            $(document).ready(function () {
-                top();
-                $('#toc_div').css('left', '0px');
-                $("#toc_div").css('display', 'block');
-
-                function top() {
-                    if ($('.container').width() <= 720) {
-                        $("#toc_div").css('top', '0px');
-                    } else {
-
-                        $("#toc_div").css('top', window.innerHeight / 9 + 'px');
+            window.onload = function () {
+                let tocNavElem = document.getElementById("TableOfContents");
+                let floatTocDivElem = document.getElementById("float_toc_div");
+                let fixedTocElem = document.getElementsByClassName("toc-article")[0];
+                let floatTocListElem = floatTocDivElem.getElementsByTagName('div')[0];
+                let colGroupElem = document.getElementById("body").getElementsByClassName("col-group")[0]
+                let floatTocMaxWidth = (document.body.clientWidth - colGroupElem.offsetWidth) * 19 / 42;
+                if (floatTocMaxWidth >= 100) {
+                    floatTocListElem.appendChild(tocNavElem);
+                    floatTocDivElem.style.display = 'block';
+                    if (floatTocListElem.offsetWidth > floatTocMaxWidth) {
+                        floatTocDivElem.style.width = floatTocMaxWidth + 'px';
                     }
+                    floatTocListElem.style.maxHeight = window.screen.availHeight * 55 / 100 + 'px';
+                    top();
+                    floatTocDivElem.style.left = '0px';
+                    fixedTocElem.parentElement.remove();
+
+                    function top() {
+                        if (document.getElementsByClassName('container')[0].offsetWidth <= 720) {
+                            floatTocDivElem.style.top = '0px';
+                        } else {
+                            floatTocDivElem.style.top = window.innerHeight / 9 + 'px';
+                        }
+                    }
+
+                    document.getElementById("toc_btn_open").addEventListener('click', function () {
+                        switch (floatTocListElem.style.display) {
+                            case "none":
+                                document.getElementById("toc_btn_close").style.display = "";
+                                floatTocListElem.style.display = "";
+                                floatTocDivElem.getElementsByTagName("header")[0].style.borderBottom = "1px solid gray";
+                                break;
+                            default:
+                                break;
+                        }
+                    }, false);
+
+                    document.getElementById("toc_btn_close").addEventListener('click', function () {
+                        switch (floatTocListElem.style.display) {
+                            case "":
+                                document.getElementById("toc_btn_close").style.display = "none";
+                                floatTocListElem.style.display = "none";
+                                floatTocDivElem.getElementsByTagName("header")[0].style.borderBottom = "";
+                                break;
+                            default:
+                                break;
+                        }
+                    }, false);
+                } else {
+                    fixedTocElem.appendChild(tocNavElem);
+                    fixedTocElem.parentElement.style.display = "";
+                    floatTocDivElem.remove();
                 }
-
-                function ishide() {
-
-                    if ($('.container').width() <= 720) {
-                        $("#toc_div").css('top', '0px');
-                        
-                        
-                        
-                    } else {
-                        $("#toc_div").css('display', 'block');
-                    }
-                }
-
-                $(window).scroll(function () {
-                    ishide();
-                    if (($(window).scrollTop() != 0) && ($('#toc_div').css('display') == 'block')) {
-                        top();
-                    }
-                });
-
-                window.onresize = function () {
-                    ishide();
-                }
-
-                $("#toc_btn_open").click(function () {
-                    switch ($('#toc_div #toc_list').css('display')) {
-                        case "none":
-                            $("#toc_btn_close").show()
-                            $('#toc_div #toc_list').show();
-                            $('#toc_div header').css("border-bottom", "1px solid gray");
-                            break;
-                        default:
-                            break;
-                    }
-                });
-
-                $("#toc_btn_close").click(function () {
-                    switch ($('#toc_div #toc_list').css('display')) {
-                        case "block":
-                            $("#toc_btn_close").hide()
-                            $('#toc_div #toc_list').hide();
-                            $('#toc_div header').css("border-bottom", "");
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            });
+                document.getElementById("virtual_toc_list").remove();
+            };   
         </script>
         
     <div class="container">
@@ -189,6 +184,13 @@
                             
                         </div>
                         
+                        
+                        
+                        <div class="clear" style="display: none">
+                            <div class="toc-article">
+                                <div class="toc-title">文章目录</div>
+                            </div>
+                        </div>
                         
                         <div class="post-content">
                             
