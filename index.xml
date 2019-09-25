@@ -6,10 +6,21 @@
     <description>Recent content on KK&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 11 Aug 2019 09:31:24 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Sep 2019 22:14:20 +0800</lastBuildDate>
     
 	<atom:link href="https://kkua.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>C语言中static关键字的作用</title>
+      <link>https://kkua.github.io/post/static-keyword-in-c-language/</link>
+      <pubDate>Tue, 24 Sep 2019 22:14:20 +0800</pubDate>
+      
+      <guid>https://kkua.github.io/post/static-keyword-in-c-language/</guid>
+      <description>static修饰局部变量 首先来看一段程序，思考一下该程序调用foo、bar函数后输出a的值分别会是多少呢？
+#include &amp;lt;stdio.h&amp;gt; int main(){ foo(); bar(); foo(); bar(); return 0; } void foo() { static int a = 0x12345678; ++a; printf(&amp;quot;a in foo(), location: 0x%x, current value: 0x%x\n&amp;quot;, &amp;amp;a, a); } void bar() { static int a = 0x87654321; ++a; printf(&amp;quot;a in bar(), location: 0x%x, current value: 0x%x\n&amp;quot;, &amp;amp;a, a); }  使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.exe获得各个段的信息。可以看到.data段将被加载到0000000000403000处，它和打印出来的变量a的存储地址很接近。猜测变量a可能就在.data段。
+Test.exe: file format pei-x86-64 Sections: Idx Name Size VMA LMA File off Algn 0 .</description>
+    </item>
     
     <item>
       <title>Rust程序交叉编译到aarch64目标</title>
@@ -17,7 +28,7 @@
       <pubDate>Sun, 11 Aug 2019 09:31:24 +0800</pubDate>
       
       <guid>https://kkua.github.io/post/cross-compile-rust-to-aarch64/</guid>
-      <description> 不同ARM交叉编译工具链区别 &amp;emsp;&amp;emsp;“arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
+      <description> 不同ARM交叉编译工具链区别 “arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
  免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是Codesourcery，第三是Linora。
 收费版有ARM原厂提供的armcc、IAR提供的编译器等等，因为这些价格都比较昂贵，不适合学习用户使用，所以不做讲述。
 arm-none-linux-gnueabi-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
@@ -40,8 +51,8 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
       <pubDate>Fri, 09 Aug 2019 21:35:35 +0800</pubDate>
       
       <guid>https://kkua.github.io/post/sensitive-word-check/</guid>
-      <description>&amp;emsp;&amp;emsp;使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
-&amp;emsp;&amp;emsp;我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &amp;quot;rawtypes&amp;quot;, &amp;quot;unchecked&amp;quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
+      <description>使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
+我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &amp;quot;rawtypes&amp;quot;, &amp;quot;unchecked&amp;quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
 import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.util.Map; import java.util.Set; /** * 敏感词检测 &amp;lt;br&amp;gt; * 修改自 https://blog.csdn.net/chenssy/article/details/26961957 */ public enum SensitiveWordUtil { INSTANCE; private Map&amp;lt;Character, WordCharMapNode&amp;gt; sensitiveWordMap; public static int minMatchType = 1; // 最小匹配规则 public static int maxMatchType = 2; // 最大匹配规则 private int matchType = 2; public static SensitiveWordUtil getInstance() { return INSTANCE; } public void init(String[] words) { sensitiveWordMap = new HashMap&amp;lt;&amp;gt;(words.length); // 初始化敏感词容器，减少扩容操作 for (String keyword : words) { keyword = keyword.</description>
     </item>
     

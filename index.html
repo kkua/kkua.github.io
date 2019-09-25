@@ -66,6 +66,31 @@
                         <article class="post">
                             <header>
                                 <h1 class="post-title">
+                                    <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用" >C语言中static关键字的作用</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年9月24日
+                            </date>
+                            
+                            <div class="post-meta">
+                                <span>|</span>
+                                
+                                <span class="meta-category"><a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80">C语言</a></span>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                static修饰局部变量 首先来看一段程序，思考一下该程序调用foo、bar函数后输出a的值分别会是多少呢？
+#include &lt;stdio.h&gt; int main(){ foo(); bar(); foo(); bar(); return 0; } void foo() { static int a = 0x12345678; ++a; printf(&quot;a in foo(), location: 0x%x, current value: 0x%x\n&quot;, &amp;a, a); } void bar() { static int a = 0x87654321; ++a; printf(&quot;a in bar(), location: 0x%x, current value: 0x%x\n&quot;, &amp;a, a); }  使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.exe获得各个段的信息。可以看到.data段将被加载到0000000000403000处，它和打印出来的变量a的存储地址很接近。猜测变量a可能就在.data段。
+Test.exe: file format pei-x86-64 Sections: Idx Name Size VMA LMA File off Algn 0 .……
+                            </div>
+                            <p class="readmore"><a href="https://kkua.github.io/post/static-keyword-in-c-language/">阅读全文</a></p>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
                                     <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标" >Rust程序交叉编译到aarch64目标</a>
                                 </h1>
                             </header>
@@ -81,7 +106,7 @@
                             </div>
                             
                             <div class="post-content">
-                                 不同ARM交叉编译工具链区别 &emsp;&emsp;“arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
+                                 不同ARM交叉编译工具链区别 “arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
  免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是Codesourcery，第三是Linora。
 收费版有ARM原厂提供的armcc、IAR提供的编译器等等，因为这些价格都比较昂贵，不适合学习用户使用，所以不做讲述。
 arm-none-linux-gnueabi-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
@@ -118,8 +143,8 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
                             </div>
                             
                             <div class="post-content">
-                                &emsp;&emsp;使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
-&emsp;&emsp;我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &quot;rawtypes&quot;, &quot;unchecked&quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
+                                使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
+我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &quot;rawtypes&quot;, &quot;unchecked&quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
 import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.util.Map; import java.util.Set; /** * 敏感词检测 &lt;br&gt; * 修改自 https://blog.csdn.net/chenssy/article/details/26961957 */ public enum SensitiveWordUtil { INSTANCE; private Map&lt;Character, WordCharMapNode&gt; sensitiveWordMap; public static int minMatchType = 1; // 最小匹配规则 public static int maxMatchType = 2; // 最大匹配规则 private int matchType = 2; public static SensitiveWordUtil getInstance() { return INSTANCE; } public void init(String[] words) { sensitiveWordMap = new HashMap&lt;&gt;(words.length); // 初始化敏感词容器，减少扩容操作 for (String keyword : words) { keyword = keyword.……
                             </div>
                             <p class="readmore"><a href="https://kkua.github.io/post/sensitive-word-check/">阅读全文</a></p>
@@ -188,6 +213,10 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
 <ul class="widget-list">
     
     <li>
+        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用">C语言中static关键字的作用</a>
+    </li>
+    
+    <li>
         <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标">Rust程序交叉编译到aarch64目标</a>
     </li>
     
@@ -209,6 +238,10 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
 <ul class="widget-list">
     
     <li>
+        <a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80/">c语言(1)</a>
+    </li>
+    
+    <li>
         <a href="https://kkua.github.io/categories/java/">java(2)</a>
     </li>
     
@@ -226,6 +259,8 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
     <a href="https://kkua.github.io/tags/java/">java</a>
     
     <a href="https://kkua.github.io/tags/rust/">rust</a>
+    
+    <a href="https://kkua.github.io/tags/static/">static</a>
     
     <a href="https://kkua.github.io/tags/%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">交叉编译</a>
     
@@ -261,6 +296,8 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
 <script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
 
 
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
 

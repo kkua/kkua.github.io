@@ -7,13 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Java | KK&#39;s Blog</title>
-    <meta property="og:title" content="Java - KK&#39;s Blog">
+    <title>java | KK&#39;s Blog</title>
+    <meta property="og:title" content="java - KK&#39;s Blog">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="">
-    <meta name="description" content="Java">
+    <meta name="description" content="java">
         
     <meta name="author" content="KK">
     <meta property="og:url" content="https://kkua.github.io/tags/java/">
@@ -67,7 +67,7 @@
                     
                     <h3 class="archive-title">
                         包含标签
-                        <span class="keyword">Java</span>
+                        <span class="keyword">java</span>
                         的文章
                     </h3>
                     
@@ -91,8 +91,8 @@
                             </div>
                             
                             <div class="post-content">
-                                &emsp;&emsp;使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
-&emsp;&emsp;我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &quot;rawtypes&quot;, &quot;unchecked&quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
+                                使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
+我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &quot;rawtypes&quot;, &quot;unchecked&quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
 import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.util.Map; import java.util.Set; /** * 敏感词检测 &lt;br&gt; * 修改自 https://blog.csdn.net/chenssy/article/details/26961957 */ public enum SensitiveWordUtil { INSTANCE; private Map&lt;Character, WordCharMapNode&gt; sensitiveWordMap; public static int minMatchType = 1; // 最小匹配规则 public static int maxMatchType = 2; // 最大匹配规则 private int matchType = 2; public static SensitiveWordUtil getInstance() { return INSTANCE; } public void init(String[] words) { sensitiveWordMap = new HashMap&lt;&gt;(words.length); // 初始化敏感词容器，减少扩容操作 for (String keyword : words) { keyword = keyword.……
                                 <p class="readmore"><a href="https://kkua.github.io/post/sensitive-word-check/">阅读全文</a></p>
                             </div>
@@ -146,6 +146,10 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
 <ul class="widget-list">
     
     <li>
+        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用">C语言中static关键字的作用</a>
+    </li>
+    
+    <li>
         <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标">Rust程序交叉编译到aarch64目标</a>
     </li>
     
@@ -167,6 +171,10 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
 <ul class="widget-list">
     
     <li>
+        <a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80/">c语言(1)</a>
+    </li>
+    
+    <li>
         <a href="https://kkua.github.io/categories/java/">java(2)</a>
     </li>
     
@@ -184,6 +192,8 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
     <a href="https://kkua.github.io/tags/java/">java</a>
     
     <a href="https://kkua.github.io/tags/rust/">rust</a>
+    
+    <a href="https://kkua.github.io/tags/static/">static</a>
     
     <a href="https://kkua.github.io/tags/%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">交叉编译</a>
     
@@ -219,6 +229,8 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
 <script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
 
 
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
 

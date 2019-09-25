@@ -6,10 +6,19 @@
     <description>Recent content in Tags on KK&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 11 Aug 2019 09:31:24 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 24 Sep 2019 22:14:20 +0800</lastBuildDate>
     
 	<atom:link href="https://kkua.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>static</title>
+      <link>https://kkua.github.io/tags/static/</link>
+      <pubDate>Tue, 24 Sep 2019 22:14:20 +0800</pubDate>
+      
+      <guid>https://kkua.github.io/tags/static/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Rust</title>
@@ -30,7 +39,7 @@
     </item>
     
     <item>
-      <title>Java</title>
+      <title>java</title>
       <link>https://kkua.github.io/tags/java/</link>
       <pubDate>Fri, 09 Aug 2019 21:35:35 +0800</pubDate>
       
