@@ -135,14 +135,20 @@
 linker = &quot;aarch64-linux-gnu-gcc&quot;
 </code></pre></li>
 
-<li><p>最后cargo build时需要添加参数<code>--target aarch64-unknown-linux-gnu</code> 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标</p>
+<li><p>最后<code>cargo build</code>时需要添加参数<code>--target aarch64-unknown-linux-gnu</code> 。若是想要省略该参数则需要对<code>config</code>作如下的修改，以改变默认的构建目标</p>
 
 <pre><code class="language-toml">[build]
 target = &quot;aarch64-unknown-linux-gnu&quot;
-</code></pre>
+</code></pre></li>
 
-<p>至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件</p></li>
+<li><p>另外，也可以给<code>build --target aarch64-unknown-linux-gnu</code> 命令设置别名从而缩短构建命令。比如按下面的方式修改<code>config</code>文件后，就可以使用<code>cargo build_aarch64</code>来构建程序了</p>
+
+<pre><code class="language-toml">[alias]
+build_aarch64 = &quot;build --target aarch64-unknown-linux-gnu&quot;
+</code></pre></li>
 </ol>
+
+<p>至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件</p>
 
                         </div>
 

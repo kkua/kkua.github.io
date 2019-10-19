@@ -63,6 +63,7 @@
             <div class="col-8" id="main">
                 <div class="res-cons">
                     
+		    
                         <article class="post">
                             <header>
                                 <h1 class="post-title">
@@ -88,6 +89,8 @@ Test.exe: file format pei-x86-64 Sections: Idx Name Size VMA LMA File off Algn 0
                             <p class="readmore"><a href="https://kkua.github.io/post/static-keyword-in-c-language/">阅读全文</a></p>
                         </article>
                     
+                    
+		    
                         <article class="post">
                             <header>
                                 <h1 class="post-title">
@@ -106,7 +109,7 @@ Test.exe: file format pei-x86-64 Sections: Idx Name Size VMA LMA File off Algn 0
                             </div>
                             
                             <div class="post-content">
-                                 不同ARM交叉编译工具链区别 “arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
+                                不同ARM交叉编译工具链区别 “arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
  免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是Codesourcery，第三是Linora。
 收费版有ARM原厂提供的armcc、IAR提供的编译器等等，因为这些价格都比较昂贵，不适合学习用户使用，所以不做讲述。
 arm-none-linux-gnueabi-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
@@ -119,12 +122,14 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
  设置环境变量。把工具链bin目录的路径加入path环境变量
   配置Rust环境  运行命令rustup target add aarch64-unknown-linux-gnu，添加aarch64-unknown-linux-gnu rust toolchain到系统 修改cargo的config文件，配置新的目标架构
 [target.aarch64-unknown-linux-gnu] linker = &quot;aarch64-linux-gnu-gcc&quot;  最后cargo build时需要添加参数--target aarch64-unknown-linux-gnu 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标
-[build] target = &quot;aarch64-unknown-linux-gnu&quot;  至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件
-  ……
+[build] target = &quot;aarch64-unknown-linux-gnu&quot;  另外，也可以给build --target aarch64-unknown-linux-gnu 命令设置别名从而缩短构建命令。比如按下面的方式修改config文件后，就可以使用cargo build_aarch64来构建程序了
+[alias] build_aarch64 = &quot;build --target aarch64-unknown-linux-gnu&quot;   至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件……
                             </div>
                             <p class="readmore"><a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">阅读全文</a></p>
                         </article>
                     
+                    
+		    
                         <article class="post">
                             <header>
                                 <h1 class="post-title">
@@ -150,6 +155,8 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
                             <p class="readmore"><a href="https://kkua.github.io/post/sensitive-word-check/">阅读全文</a></p>
                         </article>
                     
+                    
+		    
                         <article class="post">
                             <header>
                                 <h1 class="post-title">
@@ -173,6 +180,8 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
                             <p class="readmore"><a href="https://kkua.github.io/post/java-util-code-snippet/">阅读全文</a></p>
                         </article>
                     
+                    
+		    
                         <article class="post">
                             <header>
                                 <h1 class="post-title">
@@ -188,6 +197,7 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
                             </div>
                             <p class="readmore"><a href="https://kkua.github.io/archives/">阅读全文</a></p>
                         </article>
+                    
                     
                     
 
