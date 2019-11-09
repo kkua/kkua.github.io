@@ -81,7 +81,7 @@
                         <div class="post-meta">
                             <span>|</span>
                             
-                                <span class="meta-category"><a href="https://kkua.github.io/categories/java">java</a></span>
+                                <span class="meta-category"><a href="https://kkua.github.io/categories/java">Java</a></span>
                             
                         </div>
                         
@@ -345,12 +345,21 @@ class WordCharMapNode {
 
                         
 
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/java-util-code-snippet/">一些Java实用代码片段</a></li>
+        
+    </ul>
+</div>
+
 
                         <div class="post-meta meta-tags">
                             
                             <ul class="clearfix">
                                 
-                                <li><a href="https://kkua.github.io/tags/java">java</a></li>
+                                <li><a href="https://kkua.github.io/tags/java">Java</a></li>
                                 
                             </ul>
                             
@@ -375,12 +384,21 @@ class WordCharMapNode {
             </div>
             <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
-      
-      <input type="text" name="q" maxlength="20" placeholder="Search">
-      <input type="hidden" name="sitesearch" value="https://kkua.github.io">
-      <button type="submit" class="submit icon-search"></button>
+        <form id="search" action="//www.bing.com/search">
+    <input type="text" name="q" maxlength="64" placeholder="Search">
+    <input type="hidden" name="site" value="https://kkua.github.io">
+    <button type="submit" class="submit icon-search"></button>
 </form>
+<script>
+    document.getElementById('search').onsubmit = function () {
+        var url = this.action;
+        var q = this.children['q'].value;
+        var site = this.children['site'].value;
+        var url = url + '?q=site:' + site + ' ' + q;
+        window.open(url);
+        return false;
+    };
+</script>
     </section>
     
     <section class="widget">
@@ -412,17 +430,11 @@ class WordCharMapNode {
         <h3 class="widget-title">分类</h3>
 <ul class="widget-list">
     
-    <li>
-        <a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80/">c语言(1)</a>
-    </li>
+    <li><a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80/">C语言 (1)</a></li>
     
-    <li>
-        <a href="https://kkua.github.io/categories/java/">java(2)</a>
-    </li>
+    <li><a href="https://kkua.github.io/categories/java/">Java (2)</a></li>
     
-    <li>
-        <a href="https://kkua.github.io/categories/rust/">rust(1)</a>
-    </li>
+    <li><a href="https://kkua.github.io/categories/rust/">Rust (1)</a></li>
     
 </ul>
     </section>
@@ -431,9 +443,9 @@ class WordCharMapNode {
         <h3 class="widget-title">标签</h3>
 <div class="tagcloud">
     
-    <a href="https://kkua.github.io/tags/java/">java</a>
+    <a href="https://kkua.github.io/tags/java/">Java</a>
     
-    <a href="https://kkua.github.io/tags/rust/">rust</a>
+    <a href="https://kkua.github.io/tags/rust/">Rust</a>
     
     <a href="https://kkua.github.io/tags/static/">static</a>
     
