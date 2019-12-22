@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.56.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,9 +18,8 @@
     <meta property="og:url" content="https://kkua.github.io/categories/java/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
     <link rel="alternate" type="application/rss+xml+xml" href="https://kkua.github.io/categories/java/index.xml" title="KK's Blog" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -34,7 +32,7 @@
 
 
 <body>
-<header id="header" class="clearfix">
+    <header id="header" class="clearfix">
     <div class="container">
         <div class="col-group">
             <div class="site-name ">
@@ -57,97 +55,102 @@
     </div>
 </header>
 
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
 
-<div id="body">
-    <div class="container">
-        <div class="col-group">
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <h3 class="archive-title">
+        分类
+        <span class="keyword">Java</span>
+        中的文章
+    </h3>
+    
 
-            <div class="col-8" id="main">
-                <div class="res-cons">
-                    
-                    <h3 class="archive-title">
-                        分类
-                        <span class="keyword">Java</span>
-                        中的文章
-                    </h3>
-                    
-
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="https://kkua.github.io/post/sensitive-word-check/">敏感词检测</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年8月9日
-                            </date>
-                            
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="https://kkua.github.io/categories/java">Java</a>
-                                
-                            </div>
-                            
-                            <div class="post-content">
-                                使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://kkua.github.io/post/sensitive-word-check/">敏感词检测</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年8月9日
+        </date>
+        
+        <div class="post-meta meta-category">
+            |
+            
+            <a href='https://kkua.github.io/categories/java'>Java</a>
+            
+        </div>
+        
+        <div class="post-content">
+            使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
 我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &quot;rawtypes&quot;, &quot;unchecked&quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
-import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.util.Map; import java.util.Set; /** * 敏感词检测 &lt;br&gt; * 修改自 https://blog.csdn.net/chenssy/article/details/26961957 */ public enum SensitiveWordUtil { INSTANCE; private Map&lt;Character, WordCharMapNode&gt; sensitiveWordMap; public static int minMatchType = 1; // 最小匹配规则 public static int maxMatchType = 2; // 最大匹配规则 private int matchType = 2; public static SensitiveWordUtil getInstance() { return INSTANCE; } public void init(String[] words) { sensitiveWordMap = new HashMap&lt;&gt;(words.length); // 初始化敏感词容器，减少扩容操作 for (String keyword : words) { keyword = keyword.……
-                                <p class="readmore"><a href="https://kkua.github.io/post/sensitive-word-check/">阅读全文</a></p>
-                            </div>
-                        </article>
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="https://kkua.github.io/post/java-util-code-snippet/">一些Java实用代码片段</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年8月9日
-                            </date>
-                            
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="https://kkua.github.io/categories/java">Java</a>
-                                
-                            </div>
-                            
-                            <div class="post-content">
-                                分布式id生成——雪花算法 import java.util.concurrent.ThreadLocalRandom; import java.util.concurrent.atomic.AtomicLong; import org.slf4j.Logger; import org.slf4j.LoggerFactory; public class IdGenerator { private static final Logger log = LoggerFactory.getLogger(IdGenerator.class); private static IdGenerator INSTANCE = new IdGenerator(); private long machineId; private AtomicLong lastId; private long twepoch = 1561910400000L; // 基准时间 2019-07-01 00:00:00 private long machineIdBits = 10L; private long maxMachineId = -1L ^ (-1L &lt;&lt; machineIdBits); private long sequenceBits = 10L; private long machineIdShift = sequenceBits; private long timestampLeftShift = sequenceBits + machineIdBits; private long maxSequence = (-1L ^ (-1L &lt;&lt; sequenceBits)) - 1L;// 序列号的最大值 private long sequenceMask = (-1L ^ (-1L &lt;&lt; sequenceBits)); private IdGenerator() { } public static IdGenerator getInstance() { return INSTANCE; } private void init(long machineId) { // sanity check for workerId if (machineId &gt; maxMachineId || machineId &lt; 0) { throw new IllegalArgumentException( String.……
-                                <p class="readmore"><a href="https://kkua.github.io/post/java-util-code-snippet/">阅读全文</a></p>
-                            </div>
-                        </article>
-                    
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231  import java.……
+            <p class="readmore"><a href="https://kkua.github.io/post/sensitive-word-check/">阅读全文</a></p>
+        </div>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://kkua.github.io/post/java-util-code-snippet/">一些Java实用代码片段</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年8月9日
+        </date>
+        
+        <div class="post-meta meta-category">
+            |
+            
+            <a href='https://kkua.github.io/categories/java'>Java</a>
+            
+        </div>
+        
+        <div class="post-content">
+            分布式id生成——雪花算法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101  import java.……
+            <p class="readmore"><a href="https://kkua.github.io/post/java-util-code-snippet/">阅读全文</a></p>
+        </div>
+    </article>
+    
 
-                    
-
-
+    
 
 
+
+
+
+</div>
 
                 </div>
-            </div>
 
-            <div id="secondary">
+                <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.bing.com/search">
-    <input type="text" name="q" maxlength="64" placeholder="Search">
-    <input type="hidden" name="site" value="https://kkua.github.io">
-    <button type="submit" class="submit icon-search"></button>
+        <form id="search" action='//www.bing.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://kkua.github.io">
+      <button type="submit" class="submit icon-search"></button>
 </form>
+
+
 <script>
     document.getElementById('search').onsubmit = function () {
         var url = this.action;
         var q = this.children['q'].value;
-        var site = this.children['site'].value;
+        var site = this.children['sitesearch'].value;
         var url = url + '?q=site:' + site + ' ' + q;
         window.open(url);
         return false;
     };
 </script>
+
     </section>
     
     <section class="widget">
@@ -214,14 +217,14 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
         </ul>
     </section>
 </div>
+            </div>
         </div>
     </div>
-</div>
-<footer id="footer">
+    <footer id="footer">
     <div class="container">
         &copy; 2019 <a href="https://kkua.github.io">KK&#39;s Blog By KK</a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
         
     </div>
 </footer>
@@ -229,7 +232,7 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
 
 
 <a id="rocket" href="#top"></a>
-<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
 
@@ -238,6 +241,6 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
 
 
 
-
 </body>
+
 </html>

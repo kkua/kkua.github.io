@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.56.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,10 +10,10 @@
     <meta property="og:title" content="一些Java实用代码片段 - KK&#39;s Blog">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-08-09T20:47:32&#43;08:00">
+    <meta property="article:published_time" content='2019-08-09T20:47:32&#43;08:00'>
         
         
-    <meta property="article:modified_time" content="2019-08-09T20:47:32&#43;08:00">
+    <meta property="article:modified_time" content='2019-08-09T20:47:32&#43;08:00'>
         
     <meta name="Keywords" content="">
     <meta name="description" content="一些Java实用代码片段">
@@ -23,11 +22,8 @@
     <meta property="og:url" content="https://kkua.github.io/post/java-util-code-snippet/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    
-        <link rel="stylesheet" href="/css/prism.css">
-    
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -37,8 +33,9 @@
     
 </head>
 
+
 <body>
-<header id="header" class="clearfix">
+    <header id="header" class="clearfix">
     <div class="container">
         <div class="col-group">
             <div class="site-name ">
@@ -61,401 +58,634 @@
     </div>
 </header>
 
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
 
-<div id="body">
-        
-        <div id="virtual_toc_list" style="display: none">
-            <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#分布式id生成-雪花算法">分布式id生成——雪花算法</a></li>
-<li><a href="#带权重随机值生成器">带权重随机值生成器</a></li>
-<li><a href="#计算两个时间点之间间隔的天数">计算两个时间点之间间隔的天数</a></li>
-<li><a href="#long和字节数组互转">long和字节数组互转</a></li>
-</ul></li>
-</ul></li>
-</ul>
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 260px;
+        margin-left: -270px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: none;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc-content a:hover,
+    .post-toc-content a:active {
+        color: #ba3925;
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;display: none;">
+    <h2 class="post-toc-title">文章目录</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#id">分布式id生成——雪花算法</a></li>
+        <li><a href="#heading">带权重随机值生成器</a></li>
+        <li><a href="#heading-1">计算两个时间点之间间隔的天数</a></li>
+        <li><a href="#long">long和字节数组互转</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if ($('#TableOfContents ul').length <= 0) {
+            postToc.remove();
+            return;
+        }
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 150) {
+                postToc.remove();
+                return;
+            }
+            postToc.show();
+            if (leftPos < 270) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (5 - leftPos) })
+            }
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">一些Java实用代码片段</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年8月9日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://kkua.github.io/categories/java'>Java</a></span>
+            
         </div>
-        <div id="float_toc_div">
-            <header style="background-color: #f3f3f3;color: black;border-bottom: 1px solid gray;padding: 10px 10px 10px 10px;">
-                <strong id="toc_btn_open" style="color: black;font-size: large;">目录</strong>
-                <strong id="toc_btn_close" style="color: black;font-size: large;float: right">╳</strong>
-            </header>
-            <div id="toc_list" class="float-toc-nav" style="background-color: #f3f3f3;color: black;padding: 10px;overflow-y: auto;min-width: 70px;">
-
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="clear" style="display: none">
+            <div class="toc-article">
+                <div class="toc-title">文章目录</div>
             </div>
         </div>
-        <style type="text/css">
-            #float_toc_div {
-                position: fixed;
-                display: none;
-                height: auto;
-                font-size: 13px;
-                margin: 10px;
-                border: 1px solid gray;
-                z-index:99999;
-            }
-
-            #toc_list a:hover,
-            #toc_list a:active {
-                color: #ba3925;
-            }
-        </style>
-        <script>
-            window.onload = function () {
-                let tocNavElem = document.getElementById("TableOfContents");
-                let floatTocDivElem = document.getElementById("float_toc_div");
-                let fixedTocElem = document.getElementsByClassName("toc-article")[0];
-                let floatTocListElem = floatTocDivElem.getElementsByTagName('div')[0];
-                let colGroupElem = document.getElementById("body").getElementsByClassName("col-group")[0]
-                let floatTocMaxWidth = (document.body.clientWidth - colGroupElem.offsetWidth) * 19 / 42;
-                if (floatTocMaxWidth >= 100) {
-                    floatTocListElem.appendChild(tocNavElem);
-                    floatTocDivElem.style.display = 'block';
-                    if (floatTocListElem.offsetWidth > floatTocMaxWidth) {
-                        floatTocDivElem.style.width = floatTocMaxWidth + 'px';
-                    }
-                    floatTocListElem.style.maxHeight = window.screen.availHeight * 55 / 100 + 'px';
-                    top();
-                    floatTocDivElem.style.left = '0px';
-                    fixedTocElem.parentElement.remove();
-
-                    function top() {
-                        if (document.getElementsByClassName('container')[0].offsetWidth <= 720) {
-                            floatTocDivElem.style.top = '0px';
-                        } else {
-                            floatTocDivElem.style.top = window.innerHeight / 9 + 'px';
-                        }
-                    }
-
-                    document.getElementById("toc_btn_open").addEventListener('click', function () {
-                        switch (floatTocListElem.style.display) {
-                            case "none":
-                                document.getElementById("toc_btn_close").style.display = "";
-                                floatTocListElem.style.display = "";
-                                floatTocDivElem.getElementsByTagName("header")[0].style.borderBottom = "1px solid gray";
-                                break;
-                            default:
-                                break;
-                        }
-                    }, false);
-
-                    document.getElementById("toc_btn_close").addEventListener('click', function () {
-                        switch (floatTocListElem.style.display) {
-                            case "":
-                                document.getElementById("toc_btn_close").style.display = "none";
-                                floatTocListElem.style.display = "none";
-                                floatTocDivElem.getElementsByTagName("header")[0].style.borderBottom = "";
-                                break;
-                            default:
-                                break;
-                        }
-                    }, false);
-                } else {
-                    fixedTocElem.appendChild(tocNavElem);
-                    fixedTocElem.parentElement.style.display = "";
-                    floatTocDivElem.remove();
-                }
-                document.getElementById("virtual_toc_list").remove();
-            };   
-        </script>
         
-    <div class="container">
-        <div class="col-group">
+        <div class="post-content">
+            <h3 id="id">分布式id生成——雪花算法</h3>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.concurrent.ThreadLocalRandom</span><span style="color:#666">;</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.concurrent.atomic.AtomicLong</span><span style="color:#666">;</span>
 
-            <div class="col-8" id="main">
-                <div class="res-cons">
-                    <article class="post">
-                        <header>
-                            <h1 class="post-title">一些Java实用代码片段</h1>
-                        </header>
-                        <date class="post-meta meta-date">
-                            2019年8月9日
-                        </date>
-                        
-                        <div class="post-meta">
-                            <span>|</span>
-                            
-                                <span class="meta-category"><a href="https://kkua.github.io/categories/java">Java</a></span>
-                            
-                        </div>
-                        
-                        
-                        <div class="post-meta">
-                            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span> 阅读</span></span>
-                        </div>
-                        
-                        
-                        <div class="clear" style="display: none">
-                            <div class="toc-article">
-                                <div class="toc-title">文章目录</div>
-                            </div>
-                        </div>
-                        
-                        <div class="post-content">
-                            
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">org.slf4j.Logger</span><span style="color:#666">;</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">org.slf4j.LoggerFactory</span><span style="color:#666">;</span>
 
-<h3 id="分布式id生成-雪花算法">分布式id生成——雪花算法</h3>
+<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">IdGenerator</span> <span style="color:#666">{</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#a2f;font-weight:bold">final</span> Logger log <span style="color:#666">=</span> LoggerFactory<span style="color:#666">.</span><span style="color:#b44">getLogger</span><span style="color:#666">(</span>IdGenerator<span style="color:#666">.</span><span style="color:#b44">class</span><span style="color:#666">)</span><span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">static</span> IdGenerator INSTANCE <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> IdGenerator<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> machineId<span style="color:#666">;</span>
 
-<pre><code class="language-java">import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicLong;
+	<span style="color:#a2f;font-weight:bold">private</span> AtomicLong lastId<span style="color:#666">;</span>
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class IdGenerator {
-	private static final Logger log = LoggerFactory.getLogger(IdGenerator.class);
-	private static IdGenerator INSTANCE = new IdGenerator();
-	private long machineId;
-
-	private AtomicLong lastId;
-
-	private long twepoch = 1561910400000L;   // 基准时间 2019-07-01 00:00:00
-
-	private long machineIdBits = 10L;
-	private long maxMachineId = -1L ^ (-1L &lt;&lt; machineIdBits);
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> twepoch <span style="color:#666">=</span> 1561910400000L<span style="color:#666">;</span>   <span style="color:#080;font-style:italic">// 基准时间 2019-07-01 00:00:00
+</span><span style="color:#080;font-style:italic"></span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> machineIdBits <span style="color:#666">=</span> 10L<span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> maxMachineId <span style="color:#666">=</span> <span style="color:#666">-</span>1L <span style="color:#666">^</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> machineIdBits<span style="color:#666">)</span><span style="color:#666">;</span>
 	
-	private long sequenceBits = 10L;
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> sequenceBits <span style="color:#666">=</span> 10L<span style="color:#666">;</span>
 
-	private long machineIdShift = sequenceBits;
-	private long timestampLeftShift = sequenceBits + machineIdBits;
-	private long maxSequence = (-1L ^ (-1L &lt;&lt; sequenceBits)) - 1L;// 序列号的最大值
-	private long sequenceMask = (-1L ^ (-1L &lt;&lt; sequenceBits));
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> machineIdShift <span style="color:#666">=</span> sequenceBits<span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> timestampLeftShift <span style="color:#666">=</span> sequenceBits <span style="color:#666">+</span> machineIdBits<span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> maxSequence <span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">^</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> sequenceBits<span style="color:#666">)</span><span style="color:#666">)</span> <span style="color:#666">-</span> 1L<span style="color:#666">;</span><span style="color:#080;font-style:italic">// 序列号的最大值
+</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> sequenceMask <span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">^</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> sequenceBits<span style="color:#666">)</span><span style="color:#666">)</span><span style="color:#666">;</span>
     
-    private IdGenerator() {
+    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#00a000">IdGenerator</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
 		
-	}
+	<span style="color:#666">}</span>
 	
-	public static IdGenerator getInstance() {
-		return INSTANCE;
-	}
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> IdGenerator <span style="color:#00a000">getInstance</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#a2f;font-weight:bold">return</span> INSTANCE<span style="color:#666">;</span>
+	<span style="color:#666">}</span>
 	
-	private void init(long machineId) {
-		// sanity check for workerId
-		if (machineId &gt; maxMachineId || machineId &lt; 0) {
-			throw new IllegalArgumentException(
-					String.format(&quot;machine Id can't be greater than %d or less than 0&quot;, maxMachineId));
-		}
-		log.info(&quot;ID generator starting. timestamp left shift &quot; + timestampLeftShift + &quot;, machine id bits &quot;
-				+ machineIdBits + &quot;, sequence bits &quot; + sequenceBits + &quot;, machineId &quot; + machineId);
-		this.machineId = machineId;
-		lastId = new AtomicLong((timeGen() - twepoch) &lt;&lt; timestampLeftShift | randStartSequence());
-	}
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">init</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span> machineId<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#080;font-style:italic">// sanity check for workerId
+</span><span style="color:#080;font-style:italic"></span>		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>machineId <span style="color:#666">&gt;</span> maxMachineId <span style="color:#666">|</span><span style="color:#666">|</span> machineId <span style="color:#666">&lt;</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#a2f;font-weight:bold">throw</span> <span style="color:#a2f;font-weight:bold">new</span> IllegalArgumentException<span style="color:#666">(</span>
+					String<span style="color:#666">.</span><span style="color:#b44">format</span><span style="color:#666">(</span><span style="color:#b44">&#34;machine Id can&#39;t be greater than %d or less than 0&#34;</span><span style="color:#666">,</span> maxMachineId<span style="color:#666">)</span><span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		log<span style="color:#666">.</span><span style="color:#b44">info</span><span style="color:#666">(</span><span style="color:#b44">&#34;ID generator starting. timestamp left shift &#34;</span> <span style="color:#666">+</span> timestampLeftShift <span style="color:#666">+</span> <span style="color:#b44">&#34;, machine id bits &#34;</span>
+				<span style="color:#666">+</span> machineIdBits <span style="color:#666">+</span> <span style="color:#b44">&#34;, sequence bits &#34;</span> <span style="color:#666">+</span> sequenceBits <span style="color:#666">+</span> <span style="color:#b44">&#34;, machineId &#34;</span> <span style="color:#666">+</span> machineId<span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">machineId</span> <span style="color:#666">=</span> machineId<span style="color:#666">;</span>
+		lastId <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> AtomicLong<span style="color:#666">(</span><span style="color:#666">(</span>timeGen<span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">-</span> twepoch<span style="color:#666">)</span> <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> timestampLeftShift <span style="color:#666">|</span> randStartSequence<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">)</span><span style="color:#666">;</span>
+	<span style="color:#666">}</span>
 	
-    private long randStartSequence() {
-    	return ThreadLocalRandom.current().nextInt(10);
-    }
+    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">randStartSequence</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+    	<span style="color:#a2f;font-weight:bold">return</span> ThreadLocalRandom<span style="color:#666">.</span><span style="color:#b44">current</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">.</span><span style="color:#b44">nextInt</span><span style="color:#666">(</span>10<span style="color:#666">)</span><span style="color:#666">;</span>
+    <span style="color:#666">}</span>
     
-    /**
-     * 最高位固定为0
-     * +------------------------+---------------------------+-----------------+
-     * | 43bits timestamp in ms | 10bits worker(machine) ID | 10bits sequence |
-     * +------------------------+---------------------------+-----------------+
-     * @return
-     */
-	public long generateId() {
-		while (true) {
-			long now = timeGen();
-			long oldId = lastId.get();
-			long lastTimeInterval = oldId &gt;&gt;&gt; timestampLeftShift;
-			long nowInterval = now - twepoch;
-			long sequence;
+    <span style="color:#080;font-style:italic">/**
+</span><span style="color:#080;font-style:italic">     * 最高位固定为0
+</span><span style="color:#080;font-style:italic">     * +------------------------+---------------------------+-----------------+
+</span><span style="color:#080;font-style:italic">     * | 43bits timestamp in ms | 10bits worker(machine) ID | 10bits sequence |
+</span><span style="color:#080;font-style:italic">     * +------------------------+---------------------------+-----------------+
+</span><span style="color:#080;font-style:italic">     * @return
+</span><span style="color:#080;font-style:italic">     */</span>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">generateId</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">true</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#0b0;font-weight:bold">long</span> now <span style="color:#666">=</span> timeGen<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+			<span style="color:#0b0;font-weight:bold">long</span> oldId <span style="color:#666">=</span> lastId<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+			<span style="color:#0b0;font-weight:bold">long</span> lastTimeInterval <span style="color:#666">=</span> oldId <span style="color:#666">&gt;</span><span style="color:#666">&gt;</span><span style="color:#666">&gt;</span> timestampLeftShift<span style="color:#666">;</span>
+			<span style="color:#0b0;font-weight:bold">long</span> nowInterval <span style="color:#666">=</span> now <span style="color:#666">-</span> twepoch<span style="color:#666">;</span>
+			<span style="color:#0b0;font-weight:bold">long</span> sequence<span style="color:#666">;</span>
 
-			if (nowInterval &lt; lastTimeInterval) {
-				Thread.yield();
-				continue;
-			} else if (nowInterval == lastTimeInterval) {
-				sequence = oldId &amp; sequenceMask;
-				if (sequence &gt;= maxSequence) {
-					now = tillNextMillis(now);
-					nowInterval = now - twepoch;
-					sequence = randStartSequence();
-				} else {
-					sequence = sequence + 1;
-				}
-			} else {
-				sequence = randStartSequence();
-			}
-			long newId = (nowInterval &lt;&lt; timestampLeftShift) | (machineId &lt;&lt; machineIdShift) | sequence;
-			if (!lastId.compareAndSet(oldId, newId)) {
-				Thread.yield();
-				continue;
-			}
-			return newId;
-		}
-	}
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nowInterval <span style="color:#666">&lt;</span> lastTimeInterval<span style="color:#666">)</span> <span style="color:#666">{</span>
+				Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+				<span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
+			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nowInterval <span style="color:#666">=</span><span style="color:#666">=</span> lastTimeInterval<span style="color:#666">)</span> <span style="color:#666">{</span>
+				sequence <span style="color:#666">=</span> oldId <span style="color:#666">&amp;</span> sequenceMask<span style="color:#666">;</span>
+				<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>sequence <span style="color:#666">&gt;</span><span style="color:#666">=</span> maxSequence<span style="color:#666">)</span> <span style="color:#666">{</span>
+					now <span style="color:#666">=</span> tillNextMillis<span style="color:#666">(</span>now<span style="color:#666">)</span><span style="color:#666">;</span>
+					nowInterval <span style="color:#666">=</span> now <span style="color:#666">-</span> twepoch<span style="color:#666">;</span>
+					sequence <span style="color:#666">=</span> randStartSequence<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+				<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
+					sequence <span style="color:#666">=</span> sequence <span style="color:#666">+</span> 1<span style="color:#666">;</span>
+				<span style="color:#666">}</span>
+			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
+				sequence <span style="color:#666">=</span> randStartSequence<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+			<span style="color:#666">}</span>
+			<span style="color:#0b0;font-weight:bold">long</span> newId <span style="color:#666">=</span> <span style="color:#666">(</span>nowInterval <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> timestampLeftShift<span style="color:#666">)</span> <span style="color:#666">|</span> <span style="color:#666">(</span>machineId <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> machineIdShift<span style="color:#666">)</span> <span style="color:#666">|</span> sequence<span style="color:#666">;</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span><span style="color:#666">!</span>lastId<span style="color:#666">.</span><span style="color:#b44">compareAndSet</span><span style="color:#666">(</span>oldId<span style="color:#666">,</span> newId<span style="color:#666">)</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+				Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+				<span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
+			<span style="color:#666">}</span>
+			<span style="color:#a2f;font-weight:bold">return</span> newId<span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+	<span style="color:#666">}</span>
 	
-	private long tillNextMillis(long lastTimestamp) {
-		long timestamp = timeGen();
-		while (timestamp &lt;= lastTimestamp) {
-			Thread.yield();
-			timestamp = timeGen();
-		}
-		return timestamp;
-	}
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">tillNextMillis</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span> lastTimestamp<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#0b0;font-weight:bold">long</span> timestamp <span style="color:#666">=</span> timeGen<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>timestamp <span style="color:#666">&lt;</span><span style="color:#666">=</span> lastTimestamp<span style="color:#666">)</span> <span style="color:#666">{</span>
+			Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+			timestamp <span style="color:#666">=</span> timeGen<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		<span style="color:#a2f;font-weight:bold">return</span> timestamp<span style="color:#666">;</span>
+	<span style="color:#666">}</span>
 
-    private long timeGen(){
-        return System.currentTimeMillis();
-    }
-}
-</code></pre>
+    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">timeGen</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">{</span>
+        <span style="color:#a2f;font-weight:bold">return</span> System<span style="color:#666">.</span><span style="color:#b44">currentTimeMillis</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+    <span style="color:#666">}</span>
+<span style="color:#666">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="heading">带权重随机值生成器</h3>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.ArrayList</span><span style="color:#666">;</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.List</span><span style="color:#666">;</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.concurrent.ThreadLocalRandom</span><span style="color:#666">;</span>
 
-<h3 id="带权重随机值生成器">带权重随机值生成器</h3>
-
-<pre><code class="language-java">import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-
-public class RandomValueGenerator {
-	// [0][] value [1][] weight
-	int[][] randomValueWeight;
-	int randomWeightSum;
+<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">RandomValueGenerator</span> <span style="color:#666">{</span>
+	<span style="color:#080;font-style:italic">// [0][] value [1][] weight
+</span><span style="color:#080;font-style:italic"></span>	<span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span><span style="color:#666">[</span><span style="color:#666">]</span> randomValueWeight<span style="color:#666">;</span>
+	<span style="color:#0b0;font-weight:bold">int</span> randomWeightSum<span style="color:#666">;</span>
 	
 	
-	/**
-	 * 注意权重为0时
-	 * @param randomValueWeight [0][]---value   [1][]---weight
-	 * @return
-	 */
-	public boolean init(int[][] randomValueWeight) {
-		if (randomValueWeight[0].length &lt;= 0) {
-			return false;
-		}
-		randomWeightSum = 0;
-		List&lt;int[]&gt; randomValueWeightList = new ArrayList&lt;&gt;();
-		for (int i = 0; i &lt; randomValueWeight[0].length; ++i) {
-			int randomWeight = randomValueWeight[1][i];
-			if (randomWeight &lt;= 0) {
-				continue;
-			}
-			int randomValue = randomValueWeight[0][i];
-			randomWeightSum += randomWeight;
-			randomValueWeightList.add(new int[] {randomValue, randomWeightSum});
-		}
-		if (randomWeightSum == 0) {
-			return false;
-		}
-		this.randomValueWeight = new int[2][randomValueWeightList.size()];
-		for (int i = 0; i &lt; randomValueWeightList.size(); i++) {
-			int[] valueWeight = randomValueWeightList.get(i);
-			this.randomValueWeight[0][i] = valueWeight[0];
-			this.randomValueWeight[1][i] = valueWeight[1];
-		}
-		return true;
-	}
+	<span style="color:#080;font-style:italic">/**
+</span><span style="color:#080;font-style:italic">	 * 注意权重为0时
+</span><span style="color:#080;font-style:italic">	 * @param randomValueWeight [0][]---value   [1][]---weight
+</span><span style="color:#080;font-style:italic">	 * @return
+</span><span style="color:#080;font-style:italic">	 */</span>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">boolean</span> <span style="color:#00a000">init</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span><span style="color:#666">[</span><span style="color:#666">]</span> randomValueWeight<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">&lt;</span><span style="color:#666">=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		randomWeightSum <span style="color:#666">=</span> 0<span style="color:#666">;</span>
+		List<span style="color:#666">&lt;</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span><span style="color:#666">&gt;</span> randomValueWeightList <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;</span><span style="color:#666">&gt;</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">+</span><span style="color:#666">+</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#0b0;font-weight:bold">int</span> randomWeight <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>i<span style="color:#666">]</span><span style="color:#666">;</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomWeight <span style="color:#666">&lt;</span><span style="color:#666">=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+				<span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
+			<span style="color:#666">}</span>
+			<span style="color:#0b0;font-weight:bold">int</span> randomValue <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>i<span style="color:#666">]</span><span style="color:#666">;</span>
+			randomWeightSum <span style="color:#666">+</span><span style="color:#666">=</span> randomWeight<span style="color:#666">;</span>
+			randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span> <span style="color:#666">{</span>randomValue<span style="color:#666">,</span> randomWeightSum<span style="color:#666">}</span><span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomWeightSum <span style="color:#666">=</span><span style="color:#666">=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span> <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span>2<span style="color:#666">]</span><span style="color:#666">[</span>randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">]</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span> i<span style="color:#666">+</span><span style="color:#666">+</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span> valueWeight <span style="color:#666">=</span> randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>i<span style="color:#666">)</span><span style="color:#666">;</span>
+			<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span><span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> valueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">;</span>
+			<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span><span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> valueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#a2f;font-weight:bold">true</span><span style="color:#666">;</span>
+	<span style="color:#666">}</span>
 	
-	public int rollDice() {
-		if (randomValueWeight[0].length == 1) {
-			return randomValueWeight[0][0];
-		}
-		int dice = ThreadLocalRandom.current().nextInt(randomWeightSum);
-		return search(dice);
-	}
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">drawOnce</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">=</span><span style="color:#666">=</span> 1<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		<span style="color:#0b0;font-weight:bold">int</span> dice <span style="color:#666">=</span> ThreadLocalRandom<span style="color:#666">.</span><span style="color:#b44">current</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">.</span><span style="color:#b44">nextInt</span><span style="color:#666">(</span>randomWeightSum<span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">return</span> search<span style="color:#666">(</span>dice<span style="color:#666">)</span><span style="color:#666">;</span>
+	<span style="color:#666">}</span>
 	
-	/**
-	 * 二分查找
-	 */
-	private int search(int dice) {
-		int low = 0;
-		int high = randomValueWeight[0].length - 1;
-		while (low &lt;= high) {
-			int mid = (low + high) / 2;
-			if (dice == randomValueWeight[1][mid]) {
-				return randomValueWeight[0][mid + 1];
-			}
-			if (dice &lt; randomValueWeight[1][mid] &amp;&amp; (mid == 0 || (mid &gt; 0 &amp;&amp; dice &gt; randomValueWeight[1][mid - 1]))) {
-				return randomValueWeight[0][mid];
-			}
-			if (dice &lt; randomValueWeight[1][mid]) {
-				high = mid - 1;
-			}
-			if (dice &gt; randomValueWeight[1][mid]) {
-				low = mid + 1;
-			}
-		}
-		return -1;
-	}
-}
-</code></pre>
+	<span style="color:#080;font-style:italic">/**
+</span><span style="color:#080;font-style:italic">	 * 二分查找
+</span><span style="color:#080;font-style:italic">	 */</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">search</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> dice<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#0b0;font-weight:bold">int</span> low <span style="color:#666">=</span> 0<span style="color:#666">;</span>
+		<span style="color:#0b0;font-weight:bold">int</span> high <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">-</span> 1<span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>low <span style="color:#666">&lt;</span><span style="color:#666">=</span> high<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#0b0;font-weight:bold">int</span> mid <span style="color:#666">=</span> <span style="color:#666">(</span>low <span style="color:#666">+</span> high<span style="color:#666">)</span> <span style="color:#666">/</span> 2<span style="color:#666">;</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">=</span><span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+				<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>mid <span style="color:#666">+</span> 1<span style="color:#666">]</span><span style="color:#666">;</span>
+			<span style="color:#666">}</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span> <span style="color:#666">&amp;</span><span style="color:#666">&amp;</span> <span style="color:#666">(</span>mid <span style="color:#666">=</span><span style="color:#666">=</span> 0 <span style="color:#666">|</span><span style="color:#666">|</span> <span style="color:#666">(</span>mid <span style="color:#666">&gt;</span> 0 <span style="color:#666">&amp;</span><span style="color:#666">&amp;</span> dice <span style="color:#666">&gt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid <span style="color:#666">-</span> 1<span style="color:#666">]</span><span style="color:#666">)</span><span style="color:#666">)</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+				<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span><span style="color:#666">;</span>
+			<span style="color:#666">}</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+				high <span style="color:#666">=</span> mid <span style="color:#666">-</span> 1<span style="color:#666">;</span>
+			<span style="color:#666">}</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&gt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+				low <span style="color:#666">=</span> mid <span style="color:#666">+</span> 1<span style="color:#666">;</span>
+			<span style="color:#666">}</span>
+		<span style="color:#666">}</span>
+		<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">-</span>1<span style="color:#666">;</span>
+	<span style="color:#666">}</span>
+<span style="color:#666">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="heading-1">计算两个时间点之间间隔的天数</h3>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#080;font-style:italic">/**
+</span><span style="color:#080;font-style:italic">	 * 计算两个时间点之间间隔的天数
+</span><span style="color:#080;font-style:italic">	 * @param timemillis1
+</span><span style="color:#080;font-style:italic">	 * @param timemillis2
+</span><span style="color:#080;font-style:italic">	 * @return
+</span><span style="color:#080;font-style:italic">	 */</span>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">calcDayDuration</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span> timemillis1<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">long</span> timemillis2<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>timemillis1 <span style="color:#666">&gt;</span> timemillis2<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#0b0;font-weight:bold">long</span> tmp <span style="color:#666">=</span> timemillis1<span style="color:#666">;</span>
+			timemillis1 <span style="color:#666">=</span> timemillis2<span style="color:#666">;</span>
+			timemillis2 <span style="color:#666">=</span> tmp<span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		Calendar calendar1 <span style="color:#666">=</span> Calendar<span style="color:#666">.</span><span style="color:#b44">getInstance</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">setTimeInMillis</span><span style="color:#666">(</span>timemillis1<span style="color:#666">)</span><span style="color:#666">;</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">HOUR_OF_DAY</span><span style="color:#666">,</span> 0<span style="color:#666">)</span><span style="color:#666">;</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">MINUTE</span><span style="color:#666">,</span> 0<span style="color:#666">)</span><span style="color:#666">;</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">SECOND</span><span style="color:#666">,</span> 0<span style="color:#666">)</span><span style="color:#666">;</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">MILLISECOND</span><span style="color:#666">,</span> 0<span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">(</span>timemillis2 <span style="color:#666">-</span> calendar1<span style="color:#666">.</span><span style="color:#b44">getTimeInMillis</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">)</span> <span style="color:#666">/</span> <span style="color:#666">(</span>24L <span style="color:#666">*</span> 3600L <span style="color:#666">*</span> 1000L<span style="color:#666">)</span> <span style="color:#666">+</span> 1<span style="color:#666">;</span>
+	<span style="color:#666">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="long">long和字节数组互转</h3>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span><span style="color:#666">]</span> <span style="color:#00a000">longToByteArray</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span> num<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span><span style="color:#666">]</span> ret <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span>8<span style="color:#666">]</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> ret<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> i<span style="color:#666">+</span><span style="color:#666">+</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+			ret<span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">)</span> <span style="color:#666">(</span>num <span style="color:#666">&amp;</span> 0xff<span style="color:#666">)</span><span style="color:#666">;</span><span style="color:#080;font-style:italic">// 将最低位保存在最低位
+</span><span style="color:#080;font-style:italic"></span>			num <span style="color:#666">=</span> num <span style="color:#666">&gt;</span><span style="color:#666">&gt;</span> 8<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 向右移8位
+</span><span style="color:#080;font-style:italic"></span>		<span style="color:#666">}</span>
+		<span style="color:#a2f;font-weight:bold">return</span> ret<span style="color:#666">;</span>
+	<span style="color:#666">}</span>
 
-<h3 id="计算两个时间点之间间隔的天数">计算两个时间点之间间隔的天数</h3>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">byteArrayToLong</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span><span style="color:#666">]</span> byteArray<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#0b0;font-weight:bold">long</span> ret <span style="color:#666">=</span> 0<span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> byteArray<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">+</span><span style="color:#666">+</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
+			ret <span style="color:#666">|</span><span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span><span style="color:#666">)</span> byteArray<span style="color:#666">[</span>i<span style="color:#666">]</span><span style="color:#666">)</span> <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> <span style="color:#666">(</span>8 <span style="color:#666">*</span> i<span style="color:#666">)</span> <span style="color:#666">&amp;</span> 0xffl <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> <span style="color:#666">(</span>8 <span style="color:#666">*</span> i<span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#666">}</span>
+		<span style="color:#a2f;font-weight:bold">return</span> ret<span style="color:#666">;</span>
+	<span style="color:#666">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+        </div>
 
-<pre><code class="language-java">	/**
-	 * 计算两个时间点之间间隔的天数
-	 * @param timemillis1
-	 * @param timemillis2
-	 * @return
-	 */
-	public static long calcDayDuration(long timemillis1, long timemillis2) {
-		if (timemillis1 &gt; timemillis2) {
-			long tmp = timemillis1;
-			timemillis1 = timemillis2;
-			timemillis2 = tmp;
-		}
-		Calendar calendar1 = Calendar.getInstance();
-		calendar1.setTimeInMillis(timemillis1);
-		calendar1.set(Calendar.HOUR_OF_DAY, 0);
-		calendar1.set(Calendar.MINUTE, 0);
-		calendar1.set(Calendar.SECOND, 0);
-		calendar1.set(Calendar.MILLISECOND, 0);
-		return (timemillis2 - calendar1.getTimeInMillis()) / (24L * 3600L * 1000L) + 1;
-	}
-</code></pre>
-
-<h3 id="long和字节数组互转">long和字节数组互转</h3>
-
-<pre><code class="language-java">	public static byte[] longToByteArray(long num) {
-		byte[] ret = new byte[8];
-		for (int i = 0; i &lt; ret.length; i++) {
-			ret[i] = (byte) (num &amp; 0xff);// 将最低位保存在最低位
-			num = num &gt;&gt; 8; // 向右移8位
-		}
-		return ret;
-	}
-
-	public static long byteArrayToLong(byte[] byteArray) {
-		long ret = 0;
-		for (int i = 0; i &lt; byteArray.length; ++i) {
-			ret |= ((long) byteArray[i]) &lt;&lt; (8 * i) &amp; 0xffl &lt;&lt; (8 * i);
-		}
-		return ret;
-	}
-</code></pre>
-
-                        </div>
-
-                        
+        
 <div class="post-archive">
     <ul class="post-copyright">
         <li><strong>原文作者：</strong><a rel="author" href="https://kkua.github.io">KK</a></li>
         <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://kkua.github.io/post/java-util-code-snippet/">https://kkua.github.io/post/java-util-code-snippet/</a></li>
-        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享 署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享 署名-非商业性使用-禁止演绎(CC BY-NC-ND) 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
     </ul>
 </div>
 <br/>
 
 
 
-                        
+        
 
 
-                        <div class="post-meta meta-tags">
-                            
-                            <ul class="clearfix">
-                                
-                                <li><a href="https://kkua.github.io/tags/java">Java</a></li>
-                                
-                                <li><a href="https://kkua.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8Fid">分布式id</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    </article>
-                    
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://kkua.github.io/tags/java'>Java</a></li>
+                
+                <li><a href='https://kkua.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8Fid'>分布式id</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
     
 
     
@@ -470,25 +700,31 @@ public class RandomValueGenerator {
       </script>
     </div>
     
+</div>
+
                 </div>
-            </div>
-            <div id="secondary">
+
+                <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.bing.com/search">
-    <input type="text" name="q" maxlength="64" placeholder="Search">
-    <input type="hidden" name="site" value="https://kkua.github.io">
-    <button type="submit" class="submit icon-search"></button>
+        <form id="search" action='//www.bing.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://kkua.github.io">
+      <button type="submit" class="submit icon-search"></button>
 </form>
+
+
 <script>
     document.getElementById('search').onsubmit = function () {
         var url = this.action;
         var q = this.children['q'].value;
-        var site = this.children['site'].value;
+        var site = this.children['sitesearch'].value;
         var url = url + '?q=site:' + site + ' ' + q;
         window.open(url);
         return false;
     };
 </script>
+
     </section>
     
     <section class="widget">
@@ -555,14 +791,14 @@ public class RandomValueGenerator {
         </ul>
     </section>
 </div>
+            </div>
         </div>
     </div>
-</div>
-<footer id="footer">
+    <footer id="footer">
     <div class="container">
         &copy; 2019 <a href="https://kkua.github.io">KK&#39;s Blog By KK</a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
         
     </div>
 </footer>
@@ -570,11 +806,6 @@ public class RandomValueGenerator {
 
     
     <script type="text/javascript">
-        
-        (function () {
-            $("pre code").parent().addClass("line-numbers")
-        }());
-
         window.MathJax = {
             tex2jax: {
                 inlineMath: [['$', '$']],
@@ -582,12 +813,11 @@ public class RandomValueGenerator {
                 }
             };
     </script>
-    <script type="text/javascript" src="/js/prism.js" async="true"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 
 <a id="rocket" href="#top"></a>
-<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
 
@@ -597,4 +827,5 @@ public class RandomValueGenerator {
 
 
 </body>
+
 </html>

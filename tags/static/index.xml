@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>static on KK&#39;s Blog</title>
@@ -18,8 +18,7 @@
       
       <guid>https://kkua.github.io/post/static-keyword-in-c-language/</guid>
       <description>static修饰局部变量 首先来看一段程序，思考一下该程序调用foo、bar函数后输出a的值分别会是多少呢？
-#include &amp;lt;stdio.h&amp;gt; int main(){ foo(); bar(); foo(); bar(); return 0; } void foo() { static int a = 0x12345678; ++a; printf(&amp;quot;a in foo(), location: 0x%x, current value: 0x%x\n&amp;quot;, &amp;amp;a, a); } void bar() { static int a = 0x87654321; ++a; printf(&amp;quot;a in bar(), location: 0x%x, current value: 0x%x\n&amp;quot;, &amp;amp;a, a); }  使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.exe获得各个段的信息。可以看到.data段将被加载到0000000000403000处，它和打印出来的变量a的存储地址很接近。猜测变量a可能就在.data段。
-Test.exe: file format pei-x86-64 Sections: Idx Name Size VMA LMA File off Algn 0 .</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  #include &amp;lt;stdio.h&amp;gt;int main(){foo();bar();foo();bar();return 0;}void foo() {static int a = 0x12345678;++a;printf(&amp;#34;a in foo(), location: 0x%x, current value: 0x%x\n&amp;#34;, &amp;amp;a, a);}void bar() {static int a = 0x87654321;++a;printf(&amp;#34;a in bar(), location: 0x%x, current value: 0x%x\n&amp;#34;, &amp;amp;a, a);}  使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.</description>
     </item>
     
   </channel>

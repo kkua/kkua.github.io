@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on KK&#39;s Blog</title>
@@ -18,8 +18,7 @@
       
       <guid>https://kkua.github.io/post/static-keyword-in-c-language/</guid>
       <description>static修饰局部变量 首先来看一段程序，思考一下该程序调用foo、bar函数后输出a的值分别会是多少呢？
-#include &amp;lt;stdio.h&amp;gt; int main(){ foo(); bar(); foo(); bar(); return 0; } void foo() { static int a = 0x12345678; ++a; printf(&amp;quot;a in foo(), location: 0x%x, current value: 0x%x\n&amp;quot;, &amp;amp;a, a); } void bar() { static int a = 0x87654321; ++a; printf(&amp;quot;a in bar(), location: 0x%x, current value: 0x%x\n&amp;quot;, &amp;amp;a, a); }  使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.exe获得各个段的信息。可以看到.data段将被加载到0000000000403000处，它和打印出来的变量a的存储地址很接近。猜测变量a可能就在.data段。
-Test.exe: file format pei-x86-64 Sections: Idx Name Size VMA LMA File off Algn 0 .</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  #include &amp;lt;stdio.h&amp;gt;int main(){foo();bar();foo();bar();return 0;}void foo() {static int a = 0x12345678;++a;printf(&amp;#34;a in foo(), location: 0x%x, current value: 0x%x\n&amp;#34;, &amp;amp;a, a);}void bar() {static int a = 0x87654321;++a;printf(&amp;#34;a in bar(), location: 0x%x, current value: 0x%x\n&amp;#34;, &amp;amp;a, a);}  使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.</description>
     </item>
     
     <item>
@@ -29,20 +28,16 @@ Test.exe: file format pei-x86-64 Sections: Idx Name Size VMA LMA File off Algn 0
       
       <guid>https://kkua.github.io/post/cross-compile-rust-to-aarch64/</guid>
       <description>不同ARM交叉编译工具链区别 “arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
- 免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是Codesourcery，第三是Linora。
+ 免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是****Codesourcery，第三是Linora。
 收费版有ARM原厂提供的armcc、IAR提供的编译器等等，因为这些价格都比较昂贵，不适合学习用户使用，所以不做讲述。
 arm-none-linux-gnueabi-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
 arm-linux-gnueabihf-gcc：是由 Linaro 公司基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
 aarch64-linux-gnu-gcc：是由 Linaro 公司基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARMv8 64位目标中的裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
 arm-none-elf-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM MCU（32位）芯片，如ARM7、ARM9、Cortex-M/R芯片程序。
 arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉编译ARM MCU（32位）芯片，如ARM7、ARM9、Cortex-M/R芯片程序。
- 安装交叉编译工具链  访问Linaro官网下载最新的适合我们机器的交叉工具链版本，由于我使用的是Windows所以选择下载mingw32版本
- 解压交叉编译工具链到合适的位置
- 设置环境变量。把工具链bin目录的路径加入path环境变量
-  配置Rust环境  运行命令rustup target add aarch64-unknown-linux-gnu，添加aarch64-unknown-linux-gnu rust toolchain到系统 修改cargo的config文件，配置新的目标架构
-[target.aarch64-unknown-linux-gnu] linker = &amp;quot;aarch64-linux-gnu-gcc&amp;quot;  最后cargo build时需要添加参数--target aarch64-unknown-linux-gnu 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标
-[build] target = &amp;quot;aarch64-unknown-linux-gnu&amp;quot;  另外，也可以给build --target aarch64-unknown-linux-gnu 命令设置别名从而缩短构建命令。比如按下面的方式修改config文件后，就可以使用cargo build_aarch64来构建程序了
-[alias] build_aarch64 = &amp;quot;build --target aarch64-unknown-linux-gnu&amp;quot;   至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件</description>
+ 安装交叉编译工具链   访问Linaro官网下载最新的适合我们机器的交叉工具链版本，由于我使用的是Windows所以选择下载mingw32版本  解压交叉编译工具链到合适的位置
+  设置环境变量。把工具链bin目录的路径加入path环境变量
+  配置Rust环境  运行命令rustup target add aarch64-unknown-linux-gnu，添加aarch64-unknown-linux-gnu rust toolchain到系统 修改cargo的config文件，配置新的目标架构  1 2  [target.aarch64-unknown-linux-gnu] linker = &amp;#34;aarch64-linux-gnu-gcc&amp;#34;   最后cargo build时需要添加参数--target aarch64-unknown-linux-gnu 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标  1 2  [build] target = &amp;#34;aarch64-unknown-linux-gnu&amp;#34;   另外，也可以给build --target aarch64-unknown-linux-gnu 命令设置别名从而缩短构建命令。比如按下面的方式修改config文件后，就可以使用cargo build_aarch64来构建程序了  1 2  [alias] build_aarch64 = &amp;#34;build --target aarch64-unknown-linux-gnu&amp;#34;   至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件</description>
     </item>
     
     <item>
@@ -53,7 +48,7 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
       <guid>https://kkua.github.io/post/sensitive-word-check/</guid>
       <description>使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
 我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &amp;quot;rawtypes&amp;quot;, &amp;quot;unchecked&amp;quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
-import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.util.Map; import java.util.Set; /** * 敏感词检测 &amp;lt;br&amp;gt; * 修改自 https://blog.csdn.net/chenssy/article/details/26961957 */ public enum SensitiveWordUtil { INSTANCE; private Map&amp;lt;Character, WordCharMapNode&amp;gt; sensitiveWordMap; public static int minMatchType = 1; // 最小匹配规则 public static int maxMatchType = 2; // 最大匹配规则 private int matchType = 2; public static SensitiveWordUtil getInstance() { return INSTANCE; } public void init(String[] words) { sensitiveWordMap = new HashMap&amp;lt;&amp;gt;(words.length); // 初始化敏感词容器，减少扩容操作 for (String keyword : words) { keyword = keyword.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231  import java.</description>
     </item>
     
     <item>
@@ -62,7 +57,7 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
       <pubDate>Fri, 09 Aug 2019 20:47:32 +0800</pubDate>
       
       <guid>https://kkua.github.io/post/java-util-code-snippet/</guid>
-      <description>分布式id生成——雪花算法 import java.util.concurrent.ThreadLocalRandom; import java.util.concurrent.atomic.AtomicLong; import org.slf4j.Logger; import org.slf4j.LoggerFactory; public class IdGenerator { private static final Logger log = LoggerFactory.getLogger(IdGenerator.class); private static IdGenerator INSTANCE = new IdGenerator(); private long machineId; private AtomicLong lastId; private long twepoch = 1561910400000L; // 基准时间 2019-07-01 00:00:00 private long machineIdBits = 10L; private long maxMachineId = -1L ^ (-1L &amp;lt;&amp;lt; machineIdBits); private long sequenceBits = 10L; private long machineIdShift = sequenceBits; private long timestampLeftShift = sequenceBits + machineIdBits; private long maxSequence = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)) - 1L;// 序列号的最大值 private long sequenceMask = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)); private IdGenerator() { } public static IdGenerator getInstance() { return INSTANCE; } private void init(long machineId) { // sanity check for workerId if (machineId &amp;gt; maxMachineId || machineId &amp;lt; 0) { throw new IllegalArgumentException( String.</description>
+      <description>分布式id生成——雪花算法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101  import java.</description>
     </item>
     
   </channel>

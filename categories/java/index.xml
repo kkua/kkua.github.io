@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on KK&#39;s Blog</title>
@@ -19,7 +19,7 @@
       <guid>https://kkua.github.io/post/sensitive-word-check/</guid>
       <description>使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自此处。
 我在原始代码的基础上加了一些自己的修改，主要是去掉了@SuppressWarnings({ &amp;quot;rawtypes&amp;quot;, &amp;quot;unchecked&amp;quot; })警告和修改最大匹配检测方式的实现。以下是完整代码
-import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; import java.util.Map; import java.util.Set; /** * 敏感词检测 &amp;lt;br&amp;gt; * 修改自 https://blog.csdn.net/chenssy/article/details/26961957 */ public enum SensitiveWordUtil { INSTANCE; private Map&amp;lt;Character, WordCharMapNode&amp;gt; sensitiveWordMap; public static int minMatchType = 1; // 最小匹配规则 public static int maxMatchType = 2; // 最大匹配规则 private int matchType = 2; public static SensitiveWordUtil getInstance() { return INSTANCE; } public void init(String[] words) { sensitiveWordMap = new HashMap&amp;lt;&amp;gt;(words.length); // 初始化敏感词容器，减少扩容操作 for (String keyword : words) { keyword = keyword.</description>
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 149 150 151 152 153 154 155 156 157 158 159 160 161 162 163 164 165 166 167 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 183 184 185 186 187 188 189 190 191 192 193 194 195 196 197 198 199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231  import java.</description>
     </item>
     
     <item>
@@ -28,7 +28,7 @@ import java.util.HashMap; import java.util.HashSet; import java.util.Iterator; i
       <pubDate>Fri, 09 Aug 2019 20:47:32 +0800</pubDate>
       
       <guid>https://kkua.github.io/post/java-util-code-snippet/</guid>
-      <description>分布式id生成——雪花算法 import java.util.concurrent.ThreadLocalRandom; import java.util.concurrent.atomic.AtomicLong; import org.slf4j.Logger; import org.slf4j.LoggerFactory; public class IdGenerator { private static final Logger log = LoggerFactory.getLogger(IdGenerator.class); private static IdGenerator INSTANCE = new IdGenerator(); private long machineId; private AtomicLong lastId; private long twepoch = 1561910400000L; // 基准时间 2019-07-01 00:00:00 private long machineIdBits = 10L; private long maxMachineId = -1L ^ (-1L &amp;lt;&amp;lt; machineIdBits); private long sequenceBits = 10L; private long machineIdShift = sequenceBits; private long timestampLeftShift = sequenceBits + machineIdBits; private long maxSequence = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)) - 1L;// 序列号的最大值 private long sequenceMask = (-1L ^ (-1L &amp;lt;&amp;lt; sequenceBits)); private IdGenerator() { } public static IdGenerator getInstance() { return INSTANCE; } private void init(long machineId) { // sanity check for workerId if (machineId &amp;gt; maxMachineId || machineId &amp;lt; 0) { throw new IllegalArgumentException( String.</description>
+      <description>分布式id生成——雪花算法 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101  import java.</description>
     </item>
     
   </channel>

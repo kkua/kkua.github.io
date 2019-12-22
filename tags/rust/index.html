@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.56.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -19,9 +18,8 @@
     <meta property="og:url" content="https://kkua.github.io/tags/rust/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
     <link rel="alternate" type="application/rss+xml+xml" href="https://kkua.github.io/tags/rust/index.xml" title="KK's Blog" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -34,7 +32,7 @@
 
 
 <body>
-<header id="header" class="clearfix">
+    <header id="header" class="clearfix">
     <div class="container">
         <div class="col-group">
             <div class="site-name ">
@@ -57,86 +55,87 @@
     </div>
 </header>
 
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
 
-<div id="body">
-    <div class="container">
-        <div class="col-group">
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <h3 class="archive-title">
+        包含标签
+        <span class="keyword">Rust</span>
+        的文章
+    </h3>
+    
 
-            <div class="col-8" id="main">
-                <div class="res-cons">
-                    
-                    <h3 class="archive-title">
-                        包含标签
-                        <span class="keyword">Rust</span>
-                        的文章
-                    </h3>
-                    
-
-                    
-                        <article class="post">
-                            <header>
-                                <h1 class="post-title">
-                                    <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">Rust程序交叉编译到aarch64目标</a>
-                                </h1>
-                            </header>
-                            <date class="post-meta meta-date">
-                                2019年8月11日
-                            </date>
-                            
-                            <div class="post-meta meta-category">
-                                |
-                                
-                                    <a href="https://kkua.github.io/categories/rust">Rust</a>
-                                
-                            </div>
-                            
-                            <div class="post-content">
-                                不同ARM交叉编译工具链区别 “arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
- 免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是Codesourcery，第三是Linora。
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">Rust程序交叉编译到aarch64目标</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年8月11日
+        </date>
+        
+        <div class="post-meta meta-category">
+            |
+            
+            <a href='https://kkua.github.io/categories/rust'>Rust</a>
+            
+        </div>
+        
+        <div class="post-content">
+            不同ARM交叉编译工具链区别 “arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
+ 免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是****Codesourcery，第三是Linora。
 收费版有ARM原厂提供的armcc、IAR提供的编译器等等，因为这些价格都比较昂贵，不适合学习用户使用，所以不做讲述。
 arm-none-linux-gnueabi-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
 arm-linux-gnueabihf-gcc：是由 Linaro 公司基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
 aarch64-linux-gnu-gcc：是由 Linaro 公司基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARMv8 64位目标中的裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
 arm-none-elf-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM MCU（32位）芯片，如ARM7、ARM9、Cortex-M/R芯片程序。
 arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉编译ARM MCU（32位）芯片，如ARM7、ARM9、Cortex-M/R芯片程序。
- 安装交叉编译工具链  访问Linaro官网下载最新的适合我们机器的交叉工具链版本，由于我使用的是Windows所以选择下载mingw32版本
- 解压交叉编译工具链到合适的位置
- 设置环境变量。把工具链bin目录的路径加入path环境变量
-  配置Rust环境  运行命令rustup target add aarch64-unknown-linux-gnu，添加aarch64-unknown-linux-gnu rust toolchain到系统 修改cargo的config文件，配置新的目标架构
-[target.aarch64-unknown-linux-gnu] linker = &quot;aarch64-linux-gnu-gcc&quot;  最后cargo build时需要添加参数--target aarch64-unknown-linux-gnu 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标
-[build] target = &quot;aarch64-unknown-linux-gnu&quot;  另外，也可以给build --target aarch64-unknown-linux-gnu 命令设置别名从而缩短构建命令。比如按下面的方式修改config文件后，就可以使用cargo build_aarch64来构建程序了
-[alias] build_aarch64 = &quot;build --target aarch64-unknown-linux-gnu&quot;   至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件……
-                                <p class="readmore"><a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">阅读全文</a></p>
-                            </div>
-                        </article>
-                    
+ 安装交叉编译工具链   访问Linaro官网下载最新的适合我们机器的交叉工具链版本，由于我使用的是Windows所以选择下载mingw32版本  解压交叉编译工具链到合适的位置
+  设置环境变量。把工具链bin目录的路径加入path环境变量
+  配置Rust环境  运行命令rustup target add aarch64-unknown-linux-gnu，添加aarch64-unknown-linux-gnu rust toolchain到系统 修改cargo的config文件，配置新的目标架构  1 2  [target.aarch64-unknown-linux-gnu] linker = &#34;aarch64-linux-gnu-gcc&#34;   最后cargo build时需要添加参数--target aarch64-unknown-linux-gnu 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标  1 2  [build] target = &#34;aarch64-unknown-linux-gnu&#34;   另外，也可以给build --target aarch64-unknown-linux-gnu 命令设置别名从而缩短构建命令。比如按下面的方式修改config文件后，就可以使用cargo build_aarch64来构建程序了  1 2  [alias] build_aarch64 = &#34;build --target aarch64-unknown-linux-gnu&#34;   至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件……
+            <p class="readmore"><a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">阅读全文</a></p>
+        </div>
+    </article>
+    
 
-                    
+    
 
 
 
 
+
+</div>
 
                 </div>
-            </div>
 
-            <div id="secondary">
+                <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.bing.com/search">
-    <input type="text" name="q" maxlength="64" placeholder="Search">
-    <input type="hidden" name="site" value="https://kkua.github.io">
-    <button type="submit" class="submit icon-search"></button>
+        <form id="search" action='//www.bing.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://kkua.github.io">
+      <button type="submit" class="submit icon-search"></button>
 </form>
+
+
 <script>
     document.getElementById('search').onsubmit = function () {
         var url = this.action;
         var q = this.children['q'].value;
-        var site = this.children['site'].value;
+        var site = this.children['sitesearch'].value;
         var url = url + '?q=site:' + site + ' ' + q;
         window.open(url);
         return false;
     };
 </script>
+
     </section>
     
     <section class="widget">
@@ -203,14 +202,14 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
         </ul>
     </section>
 </div>
+            </div>
         </div>
     </div>
-</div>
-<footer id="footer">
+    <footer id="footer">
     <div class="container">
         &copy; 2019 <a href="https://kkua.github.io">KK&#39;s Blog By KK</a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
         
     </div>
 </footer>
@@ -218,7 +217,7 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
 
 
 <a id="rocket" href="#top"></a>
-<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
 
@@ -227,6 +226,6 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
 
 
 
-
 </body>
+
 </html>
