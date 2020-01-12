@@ -175,10 +175,10 @@
     <div class="post-toc-content">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#static">static修饰局部变量</a></li>
-    <li><a href="#static-1">static修饰函数</a></li>
-    <li><a href="#static-2">static修饰全局变量</a></li>
-    <li><a href="#heading">总结</a></li>
+    <li><a href="#static修饰局部变量">static修饰局部变量</a></li>
+    <li><a href="#static修饰函数">static修饰函数</a></li>
+    <li><a href="#static修饰全局变量">static修饰全局变量</a></li>
+    <li><a href="#总结">总结</a></li>
   </ul>
 </nav>
     </div>
@@ -247,7 +247,7 @@
         </div>
         
         <div class="post-content">
-            <h2 id="static">static修饰局部变量</h2>
+            <h2 id="static修饰局部变量">static修饰局部变量</h2>
 <p>首先来看一段程序，思考一下该程序调用foo、bar函数后输出a的值分别会是多少呢？</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -345,7 +345,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
 <img src="data-seg-dump.png" alt=".data段内容"></p>
 <p>果然在403010这一行看到了foo和bar两个函数里的a的两个初始值，说明<strong>本例</strong>中的static局部变量存储在<code>.data</code>段。</p>
 <p>至此我们可以看出，当static修饰局部变量时，这个变量将会存储于<strong>静态数据区</strong>。且这个变量的作用域没有发生变化，仍然限于函数（模块）内部。</p>
-<h2 id="static-1">static修饰函数</h2>
+<h2 id="static修饰函数">static修饰函数</h2>
 <p>测试代码mod1.c和mod2.c如下</p>
 <p>mod1.c</p>
 <div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
@@ -418,9 +418,9 @@ Idx Name          Size      VMA               LMA               File off  Algn
 </div>
 </div><p>再次编译链接，没有出现错误。运行程序，控制台输出了2；也就是说mod2.c中调用的foo()位于mod2.c而非mod1.c。</p>
 <p>以上现象表明，在C语言中，函数默认是全局的，static修饰函数时会使该函数的作用域被限制在了定义该变量的源文件内。</p>
-<h2 id="static-2">static修饰全局变量</h2>
+<h2 id="static修饰全局变量">static修饰全局变量</h2>
 <p>其效果和修饰函数时相同，不再赘述。</p>
-<h2 id="heading">总结</h2>
+<h2 id="总结">总结</h2>
 <ol>
 <li>static修饰<strong>局部变量</strong>会使该变量存储于<strong>静态数据区</strong>。</li>
 <li>没有使用static修饰的全局变量或函数在<strong>所有模块都可见</strong>，而使用static修饰的全局变量或函数<strong>只在当前模块可见</strong>（只在定义该变量或函数的源文件内有效）。static改变了全局变量或函数默认的作用域。</li>

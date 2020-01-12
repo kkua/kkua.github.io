@@ -135,7 +135,7 @@
         
         
         <div class="post-content">
-            <h2 id="arm">不同ARM交叉编译工具链区别</h2>
+            <h2 id="不同arm交叉编译工具链区别">不同ARM交叉编译工具链区别</h2>
 <p><!-- raw HTML omitted -->“arm生态发展与交叉编译工具链选择”<!-- raw HTML omitted -->一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文</p>
 <blockquote>
 <p><strong>免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是****Codesourcery，第三是Linora。</strong></p>
@@ -146,7 +146,7 @@
 <p>arm-none-elf-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM MCU（32位）芯片，如ARM7、ARM9、Cortex-M/R芯片程序。</p>
 <p>arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉编译ARM MCU（32位）芯片，如ARM7、ARM9、Cortex-M/R芯片程序。</p>
 </blockquote>
-<h2 id="heading">安装交叉编译工具链</h2>
+<h2 id="安装交叉编译工具链">安装交叉编译工具链</h2>
 <ol>
 <li>
 <p>访问<!-- raw HTML omitted -->Linaro官网<!-- raw HTML omitted -->下载最新的适合我们机器的交叉工具链版本，由于我使用的是Windows所以选择下载<!-- raw HTML omitted -->mingw32版本<!-- raw HTML omitted --></p>
@@ -158,7 +158,7 @@
 <p>设置环境变量。把工具链bin目录的路径加入path环境变量</p>
 </li>
 </ol>
-<h2 id="rust">配置Rust环境</h2>
+<h2 id="配置rust环境">配置Rust环境</h2>
 <ol>
 <li>运行命令<code>rustup target add aarch64-unknown-linux-gnu</code>，添加<code>aarch64-unknown-linux-gnu</code> rust toolchain到系统</li>
 <li>修改cargo的<code>config</code>文件，配置新的目标架构</li>
