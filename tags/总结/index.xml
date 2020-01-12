@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>总结 on KK&#39;s Blog</title>
+    <link>https://kkua.github.io/tags/%E6%80%BB%E7%BB%93/</link>
+    <description>Recent content in 总结 on KK&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 12 Jan 2020 10:36:11 +0800</lastBuildDate>
+    
+	<atom:link href="https://kkua.github.io/tags/%E6%80%BB%E7%BB%93/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>2019年总结</title>
+      <link>https://kkua.github.io/post/2019-summary/</link>
+      <pubDate>Sun, 12 Jan 2020 10:36:11 +0800</pubDate>
+      
+      <guid>https://kkua.github.io/post/2019-summary/</guid>
+      <description>2019年已经结束了，是时候回头审视一下这一年的成果了。
+决心改变，订立目标 2019年之前的3年，我处于一种除了完成工作不知道应该干些什么的迷惘状态，没有明确的目标，注意力完全被各种纷繁的事情吸引过去了，总是浑浑噩噩地把时间混过去了。幸好在今年年初对2018年做了总结，先看看2018年的总结
+  初步学习Rust 买了几本书还没看完 初步养成了记笔记的习惯   从总结中发现自己对过去的一年的自己比较失望，察觉到不能再这样继续下去了，于是订立了一些目标和前进的方向。下面是年初订立的计划清单
+  将GitHub用起来，学会使用Git 学会并熟练使用Rust 算法 玩玩STM32和树莓派 学习/复习数学，数学分析、线性代数、随机过程等 设计模式和系统架构方面知识 练字 搭个博客，写点文章和日记   完成情况    方向 完成情况     将GitHub用起来，学会使用Git 完成   学会并熟练使用Rust 买了并看完《Rust编程之道》；Rust基本入门，一些复杂的特性还不会；熟练还谈不上   算法 买了《算法》第4版 看了前两章   玩玩STM32和树莓派 STM32能仅能写个点灯程序。树莓派当作自己的服务器在用   学习/复习数学，数学分析、线性代数、随机过程等 学线性代数把MIT 吉尔伯特的公开课过了一遍，很有收获。《离散数学及其应用》看了1/3，还在继续。数学仍然是我的短板   设计模式和系统架构方面知识 看完了《Head First设计模式》，还不能灵活运用   练字 临摹字帖中   搭个博客，写点文章和日记 完成    2019年总结 这一年相比之前几年有了明显的改变，生活变得更加充实了，自己也更加积极向上了。做的不好的地方是执行力和行动力还有所欠缺，仍需改善。</description>
+    </item>
+    
+  </channel>
+</rss>

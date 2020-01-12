@@ -6,21 +6,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Rust | KK&#39;s Blog</title>
-    <meta property="og:title" content="Rust - KK&#39;s Blog">
+    <title>年终总结 | KK&#39;s Blog</title>
+    <meta property="og:title" content="年终总结 - KK&#39;s Blog">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="">
-    <meta name="description" content="Rust">
+    <meta name="description" content="年终总结">
         
     <meta name="author" content="KK">
-    <meta property="og:url" content="https://kkua.github.io/tags/rust/">
+    <meta property="og:url" content="https://kkua.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml+xml" href="https://kkua.github.io/tags/rust/index.xml" title="KK's Blog" />
+    <link rel="alternate" type="application/rss+xml+xml" href="https://kkua.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/index.xml" title="KK's Blog" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -110,9 +110,9 @@
 <div class="res-cons">
     
     <h3 class="archive-title">
-        包含标签
-        <span class="keyword">Rust</span>
-        的文章
+        分类
+        <span class="keyword">年终总结</span>
+        中的文章
     </h3>
     
 
@@ -120,33 +120,26 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">Rust程序交叉编译到aarch64目标</a>
+                <a href="https://kkua.github.io/post/2019-summary/">2019年总结</a>
             </h1>
         </header>
         <date class="post-meta meta-date">
-            2019年8月11日
+            2020年1月12日
         </date>
         
         <div class="post-meta meta-category">
             |
             
-            <a href='https://kkua.github.io/categories/rust'>Rust</a>
+            <a href='https://kkua.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93'>年终总结</a>
             
         </div>
         
         <div class="post-content">
-            不同ARM交叉编译工具链区别 “arm生态发展与交叉编译工具链选择”一文对ARM交叉编译工具链介绍得比较详细，以下引用该文章“交叉编译链选择”部分内容，更多详细介绍请查看原文
- 免费版目前有三大主流工具商提供，第一是GNU（提供源码，自行编译制作），第二是****Codesourcery，第三是Linora。
-收费版有ARM原厂提供的armcc、IAR提供的编译器等等，因为这些价格都比较昂贵，不适合学习用户使用，所以不做讲述。
-arm-none-linux-gnueabi-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
-arm-linux-gnueabihf-gcc：是由 Linaro 公司基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM（32位）系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
-aarch64-linux-gnu-gcc：是由 Linaro 公司基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARMv8 64位目标中的裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
-arm-none-elf-gcc：是 Codesourcery 公司（目前已经被Mentor收购）基于GCC推出的的ARM交叉编译工具。可用于交叉编译ARM MCU（32位）芯片，如ARM7、ARM9、Cortex-M/R芯片程序。
-arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉编译ARM MCU（32位）芯片，如ARM7、ARM9、Cortex-M/R芯片程序。
- 安装交叉编译工具链   访问Linaro官网下载最新的适合我们机器的交叉工具链版本，由于我使用的是Windows所以选择下载mingw32版本  解压交叉编译工具链到合适的位置
-  设置环境变量。把工具链bin目录的路径加入path环境变量
-  配置Rust环境  运行命令rustup target add aarch64-unknown-linux-gnu，添加aarch64-unknown-linux-gnu rust toolchain到系统 修改cargo的config文件，配置新的目标架构  1 2  [target.aarch64-unknown-linux-gnu] linker = &#34;aarch64-linux-gnu-gcc&#34;   最后cargo build时需要添加参数--target aarch64-unknown-linux-gnu 。若是想要省略该参数则需要对config作如下的修改，以改变默认的构建目标  1 2  [build] target = &#34;aarch64-unknown-linux-gnu&#34;   另外，也可以给build --target aarch64-unknown-linux-gnu 命令设置别名从而缩短构建命令。比如按下面的方式修改config文件后，就可以使用cargo build_aarch64来构建程序了  1 2  [alias] build_aarch64 = &#34;build --target aarch64-unknown-linux-gnu&#34;   至此，我们就得到了适用于aarch64-unknown-linux环境的二进制可执行目标文件……
-            <p class="readmore"><a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/">阅读全文</a></p>
+            2019年已经结束了，是时候回头审视一下这一年的成果了。
+决心改变，订立目标 2019年之前的3年，我处于一种除了完成工作不知道应该干些什么的迷惘状态，没有明确的目标，注意力完全被各种纷繁的事情吸引过去了，总是浑浑噩噩地把时间混过去了。幸好在今年年初对2018年做了总结，先看看2018年的总结
+  初步学习Rust 买了几本书还没看完 初步养成了记笔记的习惯   从总结中发现自己对过去的一年的自己比较失望，察觉到不能再这样继续下去了，于是订立了一些目标和前进的方向。下面是年初订立的计划清单
+  将GitHub用起来，学会使用Git 学会并熟练使用Rust 算法 玩玩STM32和树莓派 学习/复习数学，数学分析、线性代数、随机过程等 设计模式和系统架构方面知识 练字 搭个博客，写点文章和日记   完成情况    方向 完成情况     将GitHub用起来，学会使用Git 完成   学会并熟练使用Rust 买了并看完《Rust编程之道》；Rust基本入门，一些复杂的特性还不会；熟练还谈不上   算法 买了《算法》第4版 看了前两章   玩玩STM32和树莓派 STM32能仅能写个点灯程序。树莓派当作自己的服务器在用   学习/复习数学，数学分析、线性代数、随机过程等 学线性代数把MIT 吉尔伯特的公开课过了一遍，很有收获。《离散数学及其应用》看了1/3，还在继续。数学仍然是我的短板   设计模式和系统架构方面知识 看完了《Head First设计模式》，还不能灵活运用   练字 临摹字帖中   搭个博客，写点文章和日记 完成    2019年总结 这一年相比之前几年有了明显的改变，生活变得更加充实了，自己也更加积极向上了。做的不好的地方是执行力和行动力还有所欠缺，仍需改善。……
+            <p class="readmore"><a href="https://kkua.github.io/post/2019-summary/">阅读全文</a></p>
         </div>
     </article>
     
