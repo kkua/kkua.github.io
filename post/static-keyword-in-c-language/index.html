@@ -274,7 +274,7 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#</span><span style="color:#080">include</span> <span style="color:#080">&lt;stdio.h&gt;</span><span style="color:#080">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&lt;stdio.h&gt;</span><span style="color:#080">
 </span><span style="color:#080"></span>
 <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">main</span>(){
     foo();
@@ -286,14 +286,14 @@
 
 <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">foo</span>() {
     <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">int</span> a <span style="color:#666">=</span> <span style="color:#666">0x12345678</span>;
-    <span style="color:#666">+</span><span style="color:#666">+</span>a;
-    printf(<span style="color:#b44"></span><span style="color:#b44">&#34;</span><span style="color:#b44">a in foo(), location: 0x%x, current value: 0x%x</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#b44">&#34;</span>, <span style="color:#666">&amp;</span>a, a);
+    <span style="color:#666">++</span>a;
+    printf(<span style="color:#b44">&#34;a in foo(), location: 0x%x, current value: 0x%x</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#b44">&#34;</span>, <span style="color:#666">&amp;</span>a, a);
 }
 
 <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">bar</span>() {
     <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">int</span> a <span style="color:#666">=</span> <span style="color:#666">0x87654321</span>;
-    <span style="color:#666">+</span><span style="color:#666">+</span>a;
-    printf(<span style="color:#b44"></span><span style="color:#b44">&#34;</span><span style="color:#b44">a in bar(), location: 0x%x, current value: 0x%x</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#b44">&#34;</span>, <span style="color:#666">&amp;</span>a, a);
+    <span style="color:#666">++</span>a;
+    printf(<span style="color:#b44">&#34;a in bar(), location: 0x%x, current value: 0x%x</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#b44">&#34;</span>, <span style="color:#666">&amp;</span>a, a);
 }
 </code></pre></td></tr></table>
 </div>
@@ -373,7 +373,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#</span><span style="color:#080">include</span> <span style="color:#080">&lt;stdio.h&gt;</span><span style="color:#080">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&lt;stdio.h&gt;</span><span style="color:#080">
 </span><span style="color:#080"></span>
 <span style="color:#a2f;font-weight:bold">extern</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">foo</span>();
 
@@ -404,7 +404,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#</span><span style="color:#080">include</span> <span style="color:#080">&lt;stdio.h&gt;</span><span style="color:#080">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&lt;stdio.h&gt;</span><span style="color:#080">
 </span><span style="color:#080"></span>
 <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">foo</span>() {
     <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">2</span>;
@@ -500,6 +500,10 @@ Idx Name          Size      VMA               LMA               File off  Algn
 <ul class="widget-list">
     
     <li>
+        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
+    </li>
+    
+    <li>
         <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结">2019年总结</a>
     </li>
     
@@ -530,7 +534,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
     
     <li><a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80/">C语言 (1)</a></li>
     
-    <li><a href="https://kkua.github.io/categories/java/">Java (2)</a></li>
+    <li><a href="https://kkua.github.io/categories/java/">Java (3)</a></li>
     
     <li><a href="https://kkua.github.io/categories/rust/">Rust (1)</a></li>
     
@@ -550,6 +554,12 @@ Idx Name          Size      VMA               LMA               File off  Algn
     <a href="https://kkua.github.io/tags/rust/">Rust</a>
     
     <a href="https://kkua.github.io/tags/static/">static</a>
+    
+    <a href="https://kkua.github.io/tags/unicode/">Unicode</a>
+    
+    <a href="https://kkua.github.io/tags/utf-16/">UTF-16</a>
+    
+    <a href="https://kkua.github.io/tags/utf-8/">UTF-8</a>
     
     <a href="https://kkua.github.io/tags/%E4%B9%A6%E5%8D%95/">书单</a>
     
@@ -588,10 +598,12 @@ Idx Name          Size      VMA               LMA               File off  Algn
     <script type="text/javascript">
         window.MathJax = {
             tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
+                processEscapes: true,
+                inlineMath: [["$", "$"], ["\\(", "\\)"]], 
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]], 
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"] 
+            },
+        };
     </script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 

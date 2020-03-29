@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Java的char类型和Unicode | KK&#39;s Blog</title>
+    <meta property="og:title" content="Java的char类型和Unicode - KK&#39;s Blog">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2020-03-28T19:49:48&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2020-03-28T19:49:48&#43;08:00'>
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="Java的char类型和Unicode">
+        
+    <meta name="author" content="KK">
+    <meta property="og:url" content="https://kkua.github.io/post/java-char-type-and-unicode/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    
+<a href="https://github.com/kkua" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80"
+        viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;"
+        aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path
+            d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+            fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path
+            d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+            fill="currentColor" class="octo-body"></path>
+    </svg></a>
+<style>
+    .github-corner:hover .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+
+    @keyframes octocat-wave {
+
+        0%,
+        100% {
+            transform: rotate(0)
+        }
+
+        20%,
+        60% {
+            transform: rotate(-25deg)
+        }
+
+        40%,
+        80% {
+            transform: rotate(10deg)
+        }
+    }
+
+    @media (max-width:500px) {
+        .github-corner:hover .octo-arm {
+            animation: none
+        }
+
+        .github-corner .octo-arm {
+            animation: octocat-wave 560ms ease-in-out
+        }
+    }
+</style>
+
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://kkua.github.io">
+                        KK&#39;s Blog
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://kkua.github.io">首页</a>
+                    
+                    <a  href="https://kkua.github.io/archives/" title="归档">归档</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">Java的char类型和Unicode</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2020年3月28日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://kkua.github.io/categories/java'>Java</a></span>
+            
+        </div>
+        
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
+        </div>
+        
+        
+        <div class="post-content">
+            <p>最近注意到 Java 中<code>char</code>类型占用2个字节（16位长），而 Unicode 的编码范围是<code>U+000000</code>-<code>U+10FFFF</code>（21位长），两者之间有怎样的关系呢？</p>
+<h2 id="unicode简介">Unicode简介</h2>
+<p><strong>Unicode</strong>是一个字符集，它对世界上大部分的<a href="https://zh.wikipedia.org/wiki/%E6%96%87%E5%AD%97%E7%B3%BB%E7%B5%B1">文字系统</a>进行了整理、编码，为每一个字符而非字形定义唯一的整数，这个整数称为<strong>码点</strong>（Code Point）。</p>
+<p>20世纪80年代，为了给全世界所有的文字字符统一编码，出现了两个标准化组织：</p>
+<ul>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/International_Organization_for_Standardization">国际标准化组织（ISO）</a>，是于1984年创建ISO/IEC JTC1/SC2/WG2工作组。试图制定一份“通用字符集”（Universal Character Set，简称UCS），并最终制定了<a href="https://en.wikipedia.org/wiki/Universal_Coded_Character_Set">ISO 10646</a>标准。</p>
+</li>
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Unicode_Consortium">统一码联盟（Unicode Consortium）</a>，由Xerox、Apple等软件制造商于1988年组成，并且制定了Unicode 标准。</p>
+</li>
+</ul>
+<p>后来他们发现对方的存在，大家为着相同的目的工作。于是在 1991 年，他们开始合并双方的工作成果，并为创立一个单一编码表而协同工作。虽然实际上两者的字集编码相同，但实质上两者确实为两个不同的标准。Unicode 1.1 对应于 ISO 10646-1:1993，Unicode 3.0 对应于 ISO 10646-1:2000，Unicode 3.2 对应于 ISO 10646-2:2001，Unicode 4.0 对应于 ISO 10646:2003，Unicode 5.0 对应于 ISO 10646:2003 及附录 1–3。</p>
+<h3 id="unicode-平面">Unicode 平面</h3>
+<p>当前的 Unicode 字符分为17组编排，每组称为一个<strong>平面</strong>（Plane），而每一个平面拥有65536（即$2^{16}$）个代码点。然而当前只用了少数平面。在表示一个 Unicode 的字符时，通常会用“U+”然后紧接着一组十六进制的数字来表示这一个字符。</p>
+<table>
+<thead>
+<tr>
+<th align="center">平面</th>
+<th align="center">始末字符值</th>
+<th align="center">中文名称</th>
+<th align="center">英文名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0号平面</td>
+<td align="center"><code>U+0000</code> - <code>U+FFFF</code></td>
+<td align="center"><strong>基本多文种平面</strong></td>
+<td align="center">Basic Multilingual Plane，简称<strong>BMP</strong></td>
+</tr>
+<tr>
+<td align="center">1号平面</td>
+<td align="center"><code>U+10000</code> - <code>U+1FFFF</code></td>
+<td align="center"><strong>多文种补充平面</strong></td>
+<td align="center">Supplementary Multilingual Plane，简称<strong>SMP</strong></td>
+</tr>
+<tr>
+<td align="center">2号平面</td>
+<td align="center"><code>U+20000</code> - <code>U+2FFFF</code></td>
+<td align="center"><strong>表意文字补充平面</strong></td>
+<td align="center">Supplementary Ideographic Plane，简称<strong>SIP</strong></td>
+</tr>
+<tr>
+<td align="center">3号平面</td>
+<td align="center"><code>U+30000</code> - <code>U+3FFFF</code></td>
+<td align="center"><strong>表意文字第三平面</strong></td>
+<td align="center">Tertiary Ideographic Plane，简称<strong>TIP</strong></td>
+</tr>
+<tr>
+<td align="center">4号平面 至 13号平面</td>
+<td align="center"><code>U+40000</code> - <code>U+DFFFF</code></td>
+<td align="center">（尚未使用）</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">14号平面</td>
+<td align="center"><code>U+E0000</code> - <code>U+EFFFF</code></td>
+<td align="center"><strong>特别用途补充平面</strong></td>
+<td align="center">Supplementary Special-purpose Plane，简称<strong>SSP</strong></td>
+</tr>
+<tr>
+<td align="center">15号平面</td>
+<td align="center"><code>U+F0000</code> - <code>U+FFFFF</code></td>
+<td align="center">保留作为<strong>私人使用区（A区）</strong></td>
+<td align="center">Private Use Area-A，简称<strong>PUA-A</strong></td>
+</tr>
+<tr>
+<td align="center">16号平面</td>
+<td align="center"><code>U+100000</code> - <code>U+10FFFF</code></td>
+<td align="center">保留作为<strong>私人使用区（B区）</strong></td>
+<td align="center">Private Use Area-B，简称<strong>PUA-B</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="utf">UTF</h2>
+<p>UTF是 Unicode/UCS Transformation Format 的缩写，是将 Unicode 码点映射到唯一字节序列的算法，根据映射方法的的不同，有 UTF-8、UTF-16 和 UTF-32 等具体的编码格式。</p>
+<h3 id="utf-16">UTF-16</h3>
+<p>UTF-16把 Unicode 码点映射为16位长的整数（即 Code Unit，<strong>码元</strong>）的序列。UTF-16使用单个16位码元对最常见的63K字符进行编码，并使用一对16位码元（称为代理）对 Unicode 中不常用的1M字符进行编码。</p>
+<p>Unicode 的第一个平面称为<strong>基本多语言平面</strong>（Basic Multilingual Plane, <strong>BMP</strong>），或称第零平面（Plane 0），其他平面称为<strong>辅助平面</strong>（Supplementary Planes）。基本平面内，从<code>U+D800</code>到<code>U+DFFF</code>之间的码点区段是永久保留不映射到Unicode字符。UTF-16就利用保留下来的<code>0xD800</code>-<code>0xDFFF区</code>块的码点来对辅助平面的字符的码点进行编码。</p>
+<table>
+<thead>
+<tr>
+<th>Unicode 编码范围</th>
+<th>UTF-16 编码形式（二进制）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>U+000000</code> - <code>U+00FFFF</code></td>
+<td><code>xxxx xxxx</code> <code>xxxx xxxx</code></td>
+</tr>
+<tr>
+<td><code>U+010000</code> - <code>U+10FFFF</code></td>
+<td><code>1101 10yy</code> <code>yyyy yyyy</code>  <code>1101 11xx</code> <code>xxxx xxxx</code></td>
+</tr>
+</tbody>
+</table>
+<p>可以看到，UTF-16 用二个字节来表示基本平面，用四个字节来表示辅助平面。</p>
+<p>基本平面中的码点，UTF-16编码为16位的单个码元，数值等价于对应的码点。</p>
+<p>辅助平面中的码点，在UTF-16中被编码为<strong>一对</strong>16位长的码元（即32位，4字节），称作<em>代理对</em>（Surrogate Pair），具体方法是：</p>
+<ol>
+<li>Unicode 码点减去 <code>0x10000</code>，得到的值的范围为20位长的 <code>0...0xFFFFF</code></li>
+<li>将高位的10位的值（值的范围为 <code>0...0x3FF</code>）加上 <code>0xD800</code>（<code>11011000 00000000</code>） 得到第一个码元或称作高位代理（high surrogate），值的范围是 <code>0xD800...0xDBFF</code>。由于高位代理比低位代理的值要小，所以为了避免混淆使用，Unicode标准现在称高位代理为<strong>前导代理</strong>（lead surrogates）。</li>
+<li>将低位的10位的值（值的范围也是 <code>0...0x3FF</code>）加上 <code>0xDC00</code> （<code>11011100 00000000</code>） 得到第二个码元或称作低位代理（low surrogate），现在值的范围是 <code>0xDC00...0xDFFF</code>。由于低位代理比高位代理的值要大，所以为了避免混淆使用，Unicode标准现在称低位代理为<strong>后尾代理</strong>（trail surrogates）。</li>
+</ol>
+<p>由于前导代理、后尾代理、BMP中的有效字符的码点，三者互不重叠，搜索是简单的：一个字符编码的一部分不可能与另一个字符编码的不同部分相重叠。这意味着UTF-16是自同步（self-synchronizing）的：可以通过仅检查一个码元来判定给定字符的下一个字符的起始码元。</p>
+<h3 id="utf-8">UTF-8</h3>
+<p><strong>UTF-8</strong>是一种可变长度字符编码格式，它的码元是8位的，即 UTF-8 把 Unicode 码点映射为字节序列。其编码形式如下表</p>
+<table>
+<thead>
+<tr>
+<th align="center">码点的位数</th>
+<th align="center">码点范围</th>
+<th align="center">字节序列</th>
+<th align="center">Byte 1</th>
+<th align="center">Byte 2</th>
+<th align="center">Byte 3</th>
+<th align="center">Byte 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">7</td>
+<td align="center"><code>U+0000</code> - <code>U+007F</code></td>
+<td align="center">1</td>
+<td align="center"><code>0xxxxxxx</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">11</td>
+<td align="center"><code>U+0080</code> - <code>U+07FF</code></td>
+<td align="center">2</td>
+<td align="center"><code>110xxxxx</code></td>
+<td align="center"><code>10xxxxxx</code></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">16</td>
+<td align="center"><code>U+0800</code> - <code>U+FFFF</code></td>
+<td align="center">3</td>
+<td align="center"><code>1110xxxx</code></td>
+<td align="center"><code>10xxxxxx</code></td>
+<td align="center"><code>10xxxxxx</code></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">21</td>
+<td align="center"><code>U+10000</code> - <code>U+10FFFF</code></td>
+<td align="center">4</td>
+<td align="center"><code>11110xxx</code></td>
+<td align="center"><code>10xxxxxx</code></td>
+<td align="center"><code>10xxxxxx</code></td>
+<td align="center"><code>10xxxxxx</code></td>
+</tr>
+</tbody>
+</table>
+<p>每个使用 UTF-8 存储的字符，除了第一个字节外，其余字节的最高两位都是以&quot;10&quot;开始。</p>
+<p>在ASCII码的范围，用一个字节表示，超出 ASCII 码的范围就用多个字节表示，这就形成了我们上面看到的UTF-8的表示方法。这样的好处是当文本文件中只有 ASCII 字符（ASCII 编码与其在 Unicode 中的编码相同）时，存储的文件每个字符都为一个字节，与旧的普通 ASCII 文件无异，读取的时候也是如此，所以能与以前的 ASCII 文件兼容。</p>
+<p>大于 ASCII 码的，就会由第一字节的前几位表示该字符编码字节序列的长度，比如110xxxxx前三位的二进制表示告诉我们这是个2字节长的序列；1110xxxx是个3字节长的的序列，依此类推；xxx的位置由字符编码的二进制表示的位填入。越靠右的x具有越少的特殊意义。只用最短的那个足够表达一个字符编码数的多字节串。在多字节串中，第一个字节的开头&quot;1&quot;的数目就是该字符编码字节的数目。</p>
+<h2 id="java中的char类型">Java中的char类型</h2>
+<p>Java 中的 <code>char</code> 类型的长度为2字节，其存放的是 Unicode 码点，范围为<code>U+0000</code> - <code>U+FFFF</code> ，即 Java 中的 <code>char</code> 类型只能表示 Unicode 标准中的基本平面（<strong>BMP</strong>）的字符。由于早期的 Unicode 标准（1991年到1995年，Unicode 2.0以前）使用了固定16位长的编码形式，<code>char</code>类型长度设计为16位也就不难理解了。</p>
+<p>另外 Java 中的字符串使用了UTF-16 的编码（The Java programming language represents text in sequences of 16-bit code units, using the UTF-16 encoding.），此处指的是 Java 语言的<strong>内码</strong>是UTF-16 编码。所谓内码，指的是程序内部使用的字符编码，特别是某种语言的字符和字符串在内存里用的编码；相对地，<strong>外码</strong>是程序与外部交互时外部使用的字符编码。</p>
+<h2 id="参考资料">参考资料</h2>
+<p><a href="https://zh.wikipedia.org/wiki/Unicode">https://zh.wikipedia.org/wiki/Unicode</a></p>
+<p><a href="https://home.unicode.org/">https://home.unicode.org/</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/UTF-16">https://zh.wikipedia.org/wiki/UTF-16</a></p>
+<p><a href="https://zh.wikipedia.org/wiki/UTF-8">https://zh.wikipedia.org/wiki/UTF-8</a></p>
+<p><a href="https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html">https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html</a></p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://kkua.github.io">KK</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://kkua.github.io/post/java-char-type-and-unicode/">https://kkua.github.io/post/java-char-type-and-unicode/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享 署名-非商业性使用-禁止演绎(CC BY-NC-ND) 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/sensitive-word-check/">敏感词检测</a></li>
+        
+        <li><a href="/post/java-util-code-snippet/">一些Java实用代码片段</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://kkua.github.io/tags/java'>Java</a></li>
+                
+                <li><a href='https://kkua.github.io/tags/unicode'>Unicode</a></li>
+                
+                <li><a href='https://kkua.github.io/tags/utf-8'>UTF-8</a></li>
+                
+                <li><a href='https://kkua.github.io/tags/utf-16'>UTF-16</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kkua/kkua.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.bing.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://kkua.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+
+
+<script>
+    document.getElementById('search').onsubmit = function () {
+        var url = this.action;
+        var q = this.children['q'].value;
+        var site = this.children['sitesearch'].value;
+        var url = url + '?q=site:' + site + ' ' + q;
+        window.open(url);
+        return false;
+    };
+</script>
+
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
+    </li>
+    
+    <li>
+        <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结">2019年总结</a>
+    </li>
+    
+    <li>
+        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用">C语言中static关键字的作用</a>
+    </li>
+    
+    <li>
+        <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标">Rust程序交叉编译到aarch64目标</a>
+    </li>
+    
+    <li>
+        <a href="https://kkua.github.io/post/sensitive-word-check/" title="敏感词检测">敏感词检测</a>
+    </li>
+    
+    <li>
+        <a href="https://kkua.github.io/post/java-util-code-snippet/" title="一些Java实用代码片段">一些Java实用代码片段</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80/">C语言 (1)</a></li>
+    
+    <li><a href="https://kkua.github.io/categories/java/">Java (3)</a></li>
+    
+    <li><a href="https://kkua.github.io/categories/rust/">Rust (1)</a></li>
+    
+    <li><a href="https://kkua.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">年终总结 (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://kkua.github.io/tags/2019/">2019</a>
+    
+    <a href="https://kkua.github.io/tags/java/">Java</a>
+    
+    <a href="https://kkua.github.io/tags/rust/">Rust</a>
+    
+    <a href="https://kkua.github.io/tags/static/">static</a>
+    
+    <a href="https://kkua.github.io/tags/unicode/">Unicode</a>
+    
+    <a href="https://kkua.github.io/tags/utf-16/">UTF-16</a>
+    
+    <a href="https://kkua.github.io/tags/utf-8/">UTF-8</a>
+    
+    <a href="https://kkua.github.io/tags/%E4%B9%A6%E5%8D%95/">书单</a>
+    
+    <a href="https://kkua.github.io/tags/%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91/">交叉编译</a>
+    
+    <a href="https://kkua.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8Fid/">分布式id</a>
+    
+    <a href="https://kkua.github.io/tags/%E6%80%BB%E7%BB%93/">总结</a>
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://kkua.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://kkua.github.io">KK&#39;s Blog By KK</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                processEscapes: true,
+                inlineMath: [["$", "$"], ["\\(", "\\)"]], 
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]], 
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"] 
+            },
+        };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+</body>
+
+</html>

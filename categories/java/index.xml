@@ -6,10 +6,26 @@
     <description>Recent content in Java on KK&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 09 Aug 2019 21:35:35 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 28 Mar 2020 19:49:48 +0800</lastBuildDate>
     
 	<atom:link href="https://kkua.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java的char类型和Unicode</title>
+      <link>https://kkua.github.io/post/java-char-type-and-unicode/</link>
+      <pubDate>Sat, 28 Mar 2020 19:49:48 +0800</pubDate>
+      
+      <guid>https://kkua.github.io/post/java-char-type-and-unicode/</guid>
+      <description>最近注意到 Java 中char类型占用2个字节（16位长），而 Unicode 的编码范围是U+000000-U+10FFFF（21位长），两者之间有怎样的关系呢？
+Unicode简介 Unicode是一个字符集，它对世界上大部分的文字系统进行了整理、编码，为每一个字符而非字形定义唯一的整数，这个整数称为码点（Code Point）。
+20世纪80年代，为了给全世界所有的文字字符统一编码，出现了两个标准化组织：
+  国际标准化组织（ISO），是于1984年创建ISO/IEC JTC1/SC2/WG2工作组。试图制定一份“通用字符集”（Universal Character Set，简称UCS），并最终制定了ISO 10646标准。
+  统一码联盟（Unicode Consortium），由Xerox、Apple等软件制造商于1988年组成，并且制定了Unicode 标准。
+  后来他们发现对方的存在，大家为着相同的目的工作。于是在 1991 年，他们开始合并双方的工作成果，并为创立一个单一编码表而协同工作。虽然实际上两者的字集编码相同，但实质上两者确实为两个不同的标准。Unicode 1.1 对应于 ISO 10646-1:1993，Unicode 3.0 对应于 ISO 10646-1:2000，Unicode 3.2 对应于 ISO 10646-2:2001，Unicode 4.0 对应于 ISO 10646:2003，Unicode 5.0 对应于 ISO 10646:2003 及附录 1–3。
+Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平面（Plane），而每一个平面拥有65536（即$2^{16}$）个代码点。然而当前只用了少数平面。在表示一个 Unicode 的字符时，通常会用“U+”然后紧接着一组十六进制的数字来表示这一个字符。
+   平面 始末字符值 中文名称 英文名称     0号平面 U+0000 - U+FFFF 基本多文种平面 Basic Multilingual Plane，简称BMP   1号平面 U+10000 - U+1FFFF 多文种补充平面 Supplementary Multilingual Plane，简称SMP   2号平面 U+20000 - U+2FFFF 表意文字补充平面 Supplementary Ideographic Plane，简称SIP   3号平面 U+30000 - U+3FFFF 表意文字第三平面 Tertiary Ideographic Plane，简称TIP   4号平面 至 13号平面 U+40000 - U+DFFFF （尚未使用）    14号平面 U+E0000 - U+EFFFF 特别用途补充平面 Supplementary Special-purpose Plane，简称SSP   15号平面 U+F0000 - U+FFFFF 保留作为私人使用区（A区） Private Use Area-A，简称PUA-A   16号平面 U+100000 - U+10FFFF 保留作为私人使用区（B区） Private Use Area-B，简称PUA-B    UTF UTF是 Unicode/UCS Transformation Format 的缩写，是将 Unicode 码点映射到唯一字节序列的算法，根据映射方法的的不同，有 UTF-8、UTF-16 和 UTF-32 等具体的编码格式。</description>
+    </item>
     
     <item>
       <title>敏感词检测</title>

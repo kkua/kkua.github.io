@@ -364,8 +364,8 @@
 <span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">org.slf4j.LoggerFactory</span><span style="color:#666">;</span>
 
 <span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">IdGenerator</span> <span style="color:#666">{</span>
-	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#a2f;font-weight:bold">final</span> Logger log <span style="color:#666">=</span> LoggerFactory<span style="color:#666">.</span><span style="color:#b44">getLogger</span><span style="color:#666">(</span>IdGenerator<span style="color:#666">.</span><span style="color:#b44">class</span><span style="color:#666">)</span><span style="color:#666">;</span>
-	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">static</span> IdGenerator INSTANCE <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> IdGenerator<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#a2f;font-weight:bold">final</span> Logger log <span style="color:#666">=</span> LoggerFactory<span style="color:#666">.</span><span style="color:#b44">getLogger</span><span style="color:#666">(</span>IdGenerator<span style="color:#666">.</span><span style="color:#b44">class</span><span style="color:#666">);</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">static</span> IdGenerator INSTANCE <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> IdGenerator<span style="color:#666">();</span>
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> machineId<span style="color:#666">;</span>
 
 	<span style="color:#a2f;font-weight:bold">private</span> AtomicLong lastId<span style="color:#666">;</span>
@@ -373,37 +373,37 @@
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> twepoch <span style="color:#666">=</span> 1561910400000L<span style="color:#666">;</span>   <span style="color:#080;font-style:italic">// 基准时间 2019-07-01 00:00:00
 </span><span style="color:#080;font-style:italic"></span>
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> machineIdBits <span style="color:#666">=</span> 10L<span style="color:#666">;</span>
-	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> maxMachineId <span style="color:#666">=</span> <span style="color:#666">-</span>1L <span style="color:#666">^</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> machineIdBits<span style="color:#666">)</span><span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> maxMachineId <span style="color:#666">=</span> <span style="color:#666">-</span>1L <span style="color:#666">^</span> <span style="color:#666">(-</span>1L <span style="color:#666">&lt;&lt;</span> machineIdBits<span style="color:#666">);</span>
 	
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> sequenceBits <span style="color:#666">=</span> 10L<span style="color:#666">;</span>
 
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> machineIdShift <span style="color:#666">=</span> sequenceBits<span style="color:#666">;</span>
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> timestampLeftShift <span style="color:#666">=</span> sequenceBits <span style="color:#666">+</span> machineIdBits<span style="color:#666">;</span>
-	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> maxSequence <span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">^</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> sequenceBits<span style="color:#666">)</span><span style="color:#666">)</span> <span style="color:#666">-</span> 1L<span style="color:#666">;</span><span style="color:#080;font-style:italic">// 序列号的最大值
-</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> sequenceMask <span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">^</span> <span style="color:#666">(</span><span style="color:#666">-</span>1L <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> sequenceBits<span style="color:#666">)</span><span style="color:#666">)</span><span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> maxSequence <span style="color:#666">=</span> <span style="color:#666">(-</span>1L <span style="color:#666">^</span> <span style="color:#666">(-</span>1L <span style="color:#666">&lt;&lt;</span> sequenceBits<span style="color:#666">))</span> <span style="color:#666">-</span> 1L<span style="color:#666">;</span><span style="color:#080;font-style:italic">// 序列号的最大值
+</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> sequenceMask <span style="color:#666">=</span> <span style="color:#666">(-</span>1L <span style="color:#666">^</span> <span style="color:#666">(-</span>1L <span style="color:#666">&lt;&lt;</span> sequenceBits<span style="color:#666">));</span>
     
-    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#00a000">IdGenerator</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#00a000">IdGenerator</span><span style="color:#666">()</span> <span style="color:#666">{</span>
 		
 	<span style="color:#666">}</span>
 	
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> IdGenerator <span style="color:#00a000">getInstance</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> IdGenerator <span style="color:#00a000">getInstance</span><span style="color:#666">()</span> <span style="color:#666">{</span>
 		<span style="color:#a2f;font-weight:bold">return</span> INSTANCE<span style="color:#666">;</span>
 	<span style="color:#666">}</span>
 	
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">init</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span> machineId<span style="color:#666">)</span> <span style="color:#666">{</span>
 		<span style="color:#080;font-style:italic">// sanity check for workerId
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>machineId <span style="color:#666">&gt;</span> maxMachineId <span style="color:#666">|</span><span style="color:#666">|</span> machineId <span style="color:#666">&lt;</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+</span><span style="color:#080;font-style:italic"></span>		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>machineId <span style="color:#666">&gt;</span> maxMachineId <span style="color:#666">||</span> machineId <span style="color:#666">&lt;</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
 			<span style="color:#a2f;font-weight:bold">throw</span> <span style="color:#a2f;font-weight:bold">new</span> IllegalArgumentException<span style="color:#666">(</span>
-					String<span style="color:#666">.</span><span style="color:#b44">format</span><span style="color:#666">(</span><span style="color:#b44">&#34;machine Id can&#39;t be greater than %d or less than 0&#34;</span><span style="color:#666">,</span> maxMachineId<span style="color:#666">)</span><span style="color:#666">)</span><span style="color:#666">;</span>
+					String<span style="color:#666">.</span><span style="color:#b44">format</span><span style="color:#666">(</span><span style="color:#b44">&#34;machine Id can&#39;t be greater than %d or less than 0&#34;</span><span style="color:#666">,</span> maxMachineId<span style="color:#666">));</span>
 		<span style="color:#666">}</span>
 		log<span style="color:#666">.</span><span style="color:#b44">info</span><span style="color:#666">(</span><span style="color:#b44">&#34;ID generator starting. timestamp left shift &#34;</span> <span style="color:#666">+</span> timestampLeftShift <span style="color:#666">+</span> <span style="color:#b44">&#34;, machine id bits &#34;</span>
-				<span style="color:#666">+</span> machineIdBits <span style="color:#666">+</span> <span style="color:#b44">&#34;, sequence bits &#34;</span> <span style="color:#666">+</span> sequenceBits <span style="color:#666">+</span> <span style="color:#b44">&#34;, machineId &#34;</span> <span style="color:#666">+</span> machineId<span style="color:#666">)</span><span style="color:#666">;</span>
+				<span style="color:#666">+</span> machineIdBits <span style="color:#666">+</span> <span style="color:#b44">&#34;, sequence bits &#34;</span> <span style="color:#666">+</span> sequenceBits <span style="color:#666">+</span> <span style="color:#b44">&#34;, machineId &#34;</span> <span style="color:#666">+</span> machineId<span style="color:#666">);</span>
 		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">machineId</span> <span style="color:#666">=</span> machineId<span style="color:#666">;</span>
-		lastId <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> AtomicLong<span style="color:#666">(</span><span style="color:#666">(</span>timeGen<span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">-</span> twepoch<span style="color:#666">)</span> <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> timestampLeftShift <span style="color:#666">|</span> randStartSequence<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">)</span><span style="color:#666">;</span>
+		lastId <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> AtomicLong<span style="color:#666">((</span>timeGen<span style="color:#666">()</span> <span style="color:#666">-</span> twepoch<span style="color:#666">)</span> <span style="color:#666">&lt;&lt;</span> timestampLeftShift <span style="color:#666">|</span> randStartSequence<span style="color:#666">());</span>
 	<span style="color:#666">}</span>
 	
-    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">randStartSequence</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-    	<span style="color:#a2f;font-weight:bold">return</span> ThreadLocalRandom<span style="color:#666">.</span><span style="color:#b44">current</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">.</span><span style="color:#b44">nextInt</span><span style="color:#666">(</span>10<span style="color:#666">)</span><span style="color:#666">;</span>
+    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">randStartSequence</span><span style="color:#666">()</span> <span style="color:#666">{</span>
+    	<span style="color:#a2f;font-weight:bold">return</span> ThreadLocalRandom<span style="color:#666">.</span><span style="color:#b44">current</span><span style="color:#666">().</span><span style="color:#b44">nextInt</span><span style="color:#666">(</span>10<span style="color:#666">);</span>
     <span style="color:#666">}</span>
     
     <span style="color:#080;font-style:italic">/**
@@ -413,32 +413,32 @@
 </span><span style="color:#080;font-style:italic">     * +------------------------+---------------------------+-----------------+
 </span><span style="color:#080;font-style:italic">     * @return
 </span><span style="color:#080;font-style:italic">     */</span>
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">generateId</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">generateId</span><span style="color:#666">()</span> <span style="color:#666">{</span>
 		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">true</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-			<span style="color:#0b0;font-weight:bold">long</span> now <span style="color:#666">=</span> timeGen<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
-			<span style="color:#0b0;font-weight:bold">long</span> oldId <span style="color:#666">=</span> lastId<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
-			<span style="color:#0b0;font-weight:bold">long</span> lastTimeInterval <span style="color:#666">=</span> oldId <span style="color:#666">&gt;</span><span style="color:#666">&gt;</span><span style="color:#666">&gt;</span> timestampLeftShift<span style="color:#666">;</span>
+			<span style="color:#0b0;font-weight:bold">long</span> now <span style="color:#666">=</span> timeGen<span style="color:#666">();</span>
+			<span style="color:#0b0;font-weight:bold">long</span> oldId <span style="color:#666">=</span> lastId<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">();</span>
+			<span style="color:#0b0;font-weight:bold">long</span> lastTimeInterval <span style="color:#666">=</span> oldId <span style="color:#666">&gt;&gt;&gt;</span> timestampLeftShift<span style="color:#666">;</span>
 			<span style="color:#0b0;font-weight:bold">long</span> nowInterval <span style="color:#666">=</span> now <span style="color:#666">-</span> twepoch<span style="color:#666">;</span>
 			<span style="color:#0b0;font-weight:bold">long</span> sequence<span style="color:#666">;</span>
 
 			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nowInterval <span style="color:#666">&lt;</span> lastTimeInterval<span style="color:#666">)</span> <span style="color:#666">{</span>
-				Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+				Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">();</span>
 				<span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
-			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nowInterval <span style="color:#666">=</span><span style="color:#666">=</span> lastTimeInterval<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nowInterval <span style="color:#666">==</span> lastTimeInterval<span style="color:#666">)</span> <span style="color:#666">{</span>
 				sequence <span style="color:#666">=</span> oldId <span style="color:#666">&amp;</span> sequenceMask<span style="color:#666">;</span>
-				<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>sequence <span style="color:#666">&gt;</span><span style="color:#666">=</span> maxSequence<span style="color:#666">)</span> <span style="color:#666">{</span>
-					now <span style="color:#666">=</span> tillNextMillis<span style="color:#666">(</span>now<span style="color:#666">)</span><span style="color:#666">;</span>
+				<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>sequence <span style="color:#666">&gt;=</span> maxSequence<span style="color:#666">)</span> <span style="color:#666">{</span>
+					now <span style="color:#666">=</span> tillNextMillis<span style="color:#666">(</span>now<span style="color:#666">);</span>
 					nowInterval <span style="color:#666">=</span> now <span style="color:#666">-</span> twepoch<span style="color:#666">;</span>
-					sequence <span style="color:#666">=</span> randStartSequence<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+					sequence <span style="color:#666">=</span> randStartSequence<span style="color:#666">();</span>
 				<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
 					sequence <span style="color:#666">=</span> sequence <span style="color:#666">+</span> 1<span style="color:#666">;</span>
 				<span style="color:#666">}</span>
 			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-				sequence <span style="color:#666">=</span> randStartSequence<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+				sequence <span style="color:#666">=</span> randStartSequence<span style="color:#666">();</span>
 			<span style="color:#666">}</span>
-			<span style="color:#0b0;font-weight:bold">long</span> newId <span style="color:#666">=</span> <span style="color:#666">(</span>nowInterval <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> timestampLeftShift<span style="color:#666">)</span> <span style="color:#666">|</span> <span style="color:#666">(</span>machineId <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> machineIdShift<span style="color:#666">)</span> <span style="color:#666">|</span> sequence<span style="color:#666">;</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span><span style="color:#666">!</span>lastId<span style="color:#666">.</span><span style="color:#b44">compareAndSet</span><span style="color:#666">(</span>oldId<span style="color:#666">,</span> newId<span style="color:#666">)</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-				Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+			<span style="color:#0b0;font-weight:bold">long</span> newId <span style="color:#666">=</span> <span style="color:#666">(</span>nowInterval <span style="color:#666">&lt;&lt;</span> timestampLeftShift<span style="color:#666">)</span> <span style="color:#666">|</span> <span style="color:#666">(</span>machineId <span style="color:#666">&lt;&lt;</span> machineIdShift<span style="color:#666">)</span> <span style="color:#666">|</span> sequence<span style="color:#666">;</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(!</span>lastId<span style="color:#666">.</span><span style="color:#b44">compareAndSet</span><span style="color:#666">(</span>oldId<span style="color:#666">,</span> newId<span style="color:#666">))</span> <span style="color:#666">{</span>
+				Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">();</span>
 				<span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
 			<span style="color:#666">}</span>
 			<span style="color:#a2f;font-weight:bold">return</span> newId<span style="color:#666">;</span>
@@ -446,16 +446,16 @@
 	<span style="color:#666">}</span>
 	
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">tillNextMillis</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span> lastTimestamp<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#0b0;font-weight:bold">long</span> timestamp <span style="color:#666">=</span> timeGen<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>timestamp <span style="color:#666">&lt;</span><span style="color:#666">=</span> lastTimestamp<span style="color:#666">)</span> <span style="color:#666">{</span>
-			Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
-			timestamp <span style="color:#666">=</span> timeGen<span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#0b0;font-weight:bold">long</span> timestamp <span style="color:#666">=</span> timeGen<span style="color:#666">();</span>
+		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>timestamp <span style="color:#666">&lt;=</span> lastTimestamp<span style="color:#666">)</span> <span style="color:#666">{</span>
+			Thread<span style="color:#666">.</span><span style="color:#b44">yield</span><span style="color:#666">();</span>
+			timestamp <span style="color:#666">=</span> timeGen<span style="color:#666">();</span>
 		<span style="color:#666">}</span>
 		<span style="color:#a2f;font-weight:bold">return</span> timestamp<span style="color:#666">;</span>
 	<span style="color:#666">}</span>
 
-    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">timeGen</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">{</span>
-        <span style="color:#a2f;font-weight:bold">return</span> System<span style="color:#666">.</span><span style="color:#b44">currentTimeMillis</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
+    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">timeGen</span><span style="color:#666">(){</span>
+        <span style="color:#a2f;font-weight:bold">return</span> System<span style="color:#666">.</span><span style="color:#b44">currentTimeMillis</span><span style="color:#666">();</span>
     <span style="color:#666">}</span>
 <span style="color:#666">}</span>
 </code></pre></td></tr></table>
@@ -545,7 +545,7 @@
 
 <span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">RandomValueGenerator</span> <span style="color:#666">{</span>
 	<span style="color:#080;font-style:italic">// [0][] value [1][] weight
-</span><span style="color:#080;font-style:italic"></span>	<span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span><span style="color:#666">[</span><span style="color:#666">]</span> randomValueWeight<span style="color:#666">;</span>
+</span><span style="color:#080;font-style:italic"></span>	<span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[][]</span> randomValueWeight<span style="color:#666">;</span>
 	<span style="color:#0b0;font-weight:bold">int</span> randomWeightSum<span style="color:#666">;</span>
 	
 	
@@ -554,39 +554,39 @@
 </span><span style="color:#080;font-style:italic">	 * @param randomValueWeight [0][]---value   [1][]---weight
 </span><span style="color:#080;font-style:italic">	 * @return
 </span><span style="color:#080;font-style:italic">	 */</span>
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">boolean</span> <span style="color:#00a000">init</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span><span style="color:#666">[</span><span style="color:#666">]</span> randomValueWeight<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">&lt;</span><span style="color:#666">=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">boolean</span> <span style="color:#00a000">init</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[][]</span> randomValueWeight<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">].</span><span style="color:#b44">length</span> <span style="color:#666">&lt;=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
 			<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">;</span>
 		<span style="color:#666">}</span>
 		randomWeightSum <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-		List<span style="color:#666">&lt;</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span><span style="color:#666">&gt;</span> randomValueWeightList <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;</span><span style="color:#666">&gt;</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">+</span><span style="color:#666">+</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
-			<span style="color:#0b0;font-weight:bold">int</span> randomWeight <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>i<span style="color:#666">]</span><span style="color:#666">;</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomWeight <span style="color:#666">&lt;</span><span style="color:#666">=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+		List<span style="color:#666">&lt;</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[]&gt;</span> randomValueWeightList <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;&gt;();</span>
+		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">].</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">++</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#0b0;font-weight:bold">int</span> randomWeight <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">][</span>i<span style="color:#666">];</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomWeight <span style="color:#666">&lt;=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
 				<span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
 			<span style="color:#666">}</span>
-			<span style="color:#0b0;font-weight:bold">int</span> randomValue <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>i<span style="color:#666">]</span><span style="color:#666">;</span>
-			randomWeightSum <span style="color:#666">+</span><span style="color:#666">=</span> randomWeight<span style="color:#666">;</span>
-			randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span> <span style="color:#666">{</span>randomValue<span style="color:#666">,</span> randomWeightSum<span style="color:#666">}</span><span style="color:#666">)</span><span style="color:#666">;</span>
+			<span style="color:#0b0;font-weight:bold">int</span> randomValue <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">][</span>i<span style="color:#666">];</span>
+			randomWeightSum <span style="color:#666">+=</span> randomWeight<span style="color:#666">;</span>
+			randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[]</span> <span style="color:#666">{</span>randomValue<span style="color:#666">,</span> randomWeightSum<span style="color:#666">});</span>
 		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomWeightSum <span style="color:#666">=</span><span style="color:#666">=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomWeightSum <span style="color:#666">==</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
 			<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">;</span>
 		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span> <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span>2<span style="color:#666">]</span><span style="color:#666">[</span>randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">]</span><span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span> i<span style="color:#666">+</span><span style="color:#666">+</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-			<span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span><span style="color:#666">]</span> valueWeight <span style="color:#666">=</span> randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>i<span style="color:#666">)</span><span style="color:#666">;</span>
-			<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span><span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> valueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">;</span>
-			<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span><span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> valueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span> <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[</span>2<span style="color:#666">][</span>randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">()];</span>
+		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">();</span> i<span style="color:#666">++)</span> <span style="color:#666">{</span>
+			<span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[]</span> valueWeight <span style="color:#666">=</span> randomValueWeightList<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>i<span style="color:#666">);</span>
+			<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span><span style="color:#666">[</span>0<span style="color:#666">][</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> valueWeight<span style="color:#666">[</span>0<span style="color:#666">];</span>
+			<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">randomValueWeight</span><span style="color:#666">[</span>1<span style="color:#666">][</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> valueWeight<span style="color:#666">[</span>1<span style="color:#666">];</span>
 		<span style="color:#666">}</span>
 		<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#a2f;font-weight:bold">true</span><span style="color:#666">;</span>
 	<span style="color:#666">}</span>
 	
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">drawOnce</span><span style="color:#666">(</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">=</span><span style="color:#666">=</span> 1<span style="color:#666">)</span> <span style="color:#666">{</span>
-			<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">;</span>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">drawOnce</span><span style="color:#666">()</span> <span style="color:#666">{</span>
+		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">].</span><span style="color:#b44">length</span> <span style="color:#666">==</span> 1<span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">][</span>0<span style="color:#666">];</span>
 		<span style="color:#666">}</span>
-		<span style="color:#0b0;font-weight:bold">int</span> dice <span style="color:#666">=</span> ThreadLocalRandom<span style="color:#666">.</span><span style="color:#b44">current</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">.</span><span style="color:#b44">nextInt</span><span style="color:#666">(</span>randomWeightSum<span style="color:#666">)</span><span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">return</span> search<span style="color:#666">(</span>dice<span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#0b0;font-weight:bold">int</span> dice <span style="color:#666">=</span> ThreadLocalRandom<span style="color:#666">.</span><span style="color:#b44">current</span><span style="color:#666">().</span><span style="color:#b44">nextInt</span><span style="color:#666">(</span>randomWeightSum<span style="color:#666">);</span>
+		<span style="color:#a2f;font-weight:bold">return</span> search<span style="color:#666">(</span>dice<span style="color:#666">);</span>
 	<span style="color:#666">}</span>
 	
 	<span style="color:#080;font-style:italic">/**
@@ -594,19 +594,19 @@
 </span><span style="color:#080;font-style:italic">	 */</span>
 	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">search</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> dice<span style="color:#666">)</span> <span style="color:#666">{</span>
 		<span style="color:#0b0;font-weight:bold">int</span> low <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-		<span style="color:#0b0;font-weight:bold">int</span> high <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">-</span> 1<span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>low <span style="color:#666">&lt;</span><span style="color:#666">=</span> high<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#0b0;font-weight:bold">int</span> high <span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">].</span><span style="color:#b44">length</span> <span style="color:#666">-</span> 1<span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>low <span style="color:#666">&lt;=</span> high<span style="color:#666">)</span> <span style="color:#666">{</span>
 			<span style="color:#0b0;font-weight:bold">int</span> mid <span style="color:#666">=</span> <span style="color:#666">(</span>low <span style="color:#666">+</span> high<span style="color:#666">)</span> <span style="color:#666">/</span> 2<span style="color:#666">;</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">=</span><span style="color:#666">=</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-				<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>mid <span style="color:#666">+</span> 1<span style="color:#666">]</span><span style="color:#666">;</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">==</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">][</span>mid<span style="color:#666">])</span> <span style="color:#666">{</span>
+				<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">][</span>mid <span style="color:#666">+</span> 1<span style="color:#666">];</span>
 			<span style="color:#666">}</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span> <span style="color:#666">&amp;</span><span style="color:#666">&amp;</span> <span style="color:#666">(</span>mid <span style="color:#666">=</span><span style="color:#666">=</span> 0 <span style="color:#666">|</span><span style="color:#666">|</span> <span style="color:#666">(</span>mid <span style="color:#666">&gt;</span> 0 <span style="color:#666">&amp;</span><span style="color:#666">&amp;</span> dice <span style="color:#666">&gt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid <span style="color:#666">-</span> 1<span style="color:#666">]</span><span style="color:#666">)</span><span style="color:#666">)</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-				<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span><span style="color:#666">;</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">][</span>mid<span style="color:#666">]</span> <span style="color:#666">&amp;&amp;</span> <span style="color:#666">(</span>mid <span style="color:#666">==</span> 0 <span style="color:#666">||</span> <span style="color:#666">(</span>mid <span style="color:#666">&gt;</span> 0 <span style="color:#666">&amp;&amp;</span> dice <span style="color:#666">&gt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">][</span>mid <span style="color:#666">-</span> 1<span style="color:#666">])))</span> <span style="color:#666">{</span>
+				<span style="color:#a2f;font-weight:bold">return</span> randomValueWeight<span style="color:#666">[</span>0<span style="color:#666">][</span>mid<span style="color:#666">];</span>
 			<span style="color:#666">}</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&lt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">][</span>mid<span style="color:#666">])</span> <span style="color:#666">{</span>
 				high <span style="color:#666">=</span> mid <span style="color:#666">-</span> 1<span style="color:#666">;</span>
 			<span style="color:#666">}</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&gt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">]</span><span style="color:#666">[</span>mid<span style="color:#666">]</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>dice <span style="color:#666">&gt;</span> randomValueWeight<span style="color:#666">[</span>1<span style="color:#666">][</span>mid<span style="color:#666">])</span> <span style="color:#666">{</span>
 				low <span style="color:#666">=</span> mid <span style="color:#666">+</span> 1<span style="color:#666">;</span>
 			<span style="color:#666">}</span>
 		<span style="color:#666">}</span>
@@ -652,13 +652,13 @@
 			timemillis1 <span style="color:#666">=</span> timemillis2<span style="color:#666">;</span>
 			timemillis2 <span style="color:#666">=</span> tmp<span style="color:#666">;</span>
 		<span style="color:#666">}</span>
-		Calendar calendar1 <span style="color:#666">=</span> Calendar<span style="color:#666">.</span><span style="color:#b44">getInstance</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">;</span>
-		calendar1<span style="color:#666">.</span><span style="color:#b44">setTimeInMillis</span><span style="color:#666">(</span>timemillis1<span style="color:#666">)</span><span style="color:#666">;</span>
-		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">HOUR_OF_DAY</span><span style="color:#666">,</span> 0<span style="color:#666">)</span><span style="color:#666">;</span>
-		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">MINUTE</span><span style="color:#666">,</span> 0<span style="color:#666">)</span><span style="color:#666">;</span>
-		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">SECOND</span><span style="color:#666">,</span> 0<span style="color:#666">)</span><span style="color:#666">;</span>
-		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">MILLISECOND</span><span style="color:#666">,</span> 0<span style="color:#666">)</span><span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">(</span>timemillis2 <span style="color:#666">-</span> calendar1<span style="color:#666">.</span><span style="color:#b44">getTimeInMillis</span><span style="color:#666">(</span><span style="color:#666">)</span><span style="color:#666">)</span> <span style="color:#666">/</span> <span style="color:#666">(</span>24L <span style="color:#666">*</span> 3600L <span style="color:#666">*</span> 1000L<span style="color:#666">)</span> <span style="color:#666">+</span> 1<span style="color:#666">;</span>
+		Calendar calendar1 <span style="color:#666">=</span> Calendar<span style="color:#666">.</span><span style="color:#b44">getInstance</span><span style="color:#666">();</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">setTimeInMillis</span><span style="color:#666">(</span>timemillis1<span style="color:#666">);</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">HOUR_OF_DAY</span><span style="color:#666">,</span> 0<span style="color:#666">);</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">MINUTE</span><span style="color:#666">,</span> 0<span style="color:#666">);</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">SECOND</span><span style="color:#666">,</span> 0<span style="color:#666">);</span>
+		calendar1<span style="color:#666">.</span><span style="color:#b44">set</span><span style="color:#666">(</span>Calendar<span style="color:#666">.</span><span style="color:#b44">MILLISECOND</span><span style="color:#666">,</span> 0<span style="color:#666">);</span>
+		<span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">(</span>timemillis2 <span style="color:#666">-</span> calendar1<span style="color:#666">.</span><span style="color:#b44">getTimeInMillis</span><span style="color:#666">())</span> <span style="color:#666">/</span> <span style="color:#666">(</span>24L <span style="color:#666">*</span> 3600L <span style="color:#666">*</span> 1000L<span style="color:#666">)</span> <span style="color:#666">+</span> 1<span style="color:#666">;</span>
 	<span style="color:#666">}</span>
 </code></pre></td></tr></table>
 </div>
@@ -683,19 +683,19 @@
 </span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span><span style="color:#666">]</span> <span style="color:#00a000">longToByteArray</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span> num<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span><span style="color:#666">]</span> ret <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span>8<span style="color:#666">]</span><span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> ret<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> i<span style="color:#666">+</span><span style="color:#666">+</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-			ret<span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">)</span> <span style="color:#666">(</span>num <span style="color:#666">&amp;</span> 0xff<span style="color:#666">)</span><span style="color:#666">;</span><span style="color:#080;font-style:italic">// 将最低位保存在最低位
-</span><span style="color:#080;font-style:italic"></span>			num <span style="color:#666">=</span> num <span style="color:#666">&gt;</span><span style="color:#666">&gt;</span> 8<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 向右移8位
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[]</span> <span style="color:#00a000">longToByteArray</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span> num<span style="color:#666">)</span> <span style="color:#666">{</span>
+		<span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[]</span> ret <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span>8<span style="color:#666">];</span>
+		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> ret<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> i<span style="color:#666">++)</span> <span style="color:#666">{</span>
+			ret<span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">)</span> <span style="color:#666">(</span>num <span style="color:#666">&amp;</span> 0xff<span style="color:#666">);</span><span style="color:#080;font-style:italic">// 将最低位保存在最低位
+</span><span style="color:#080;font-style:italic"></span>			num <span style="color:#666">=</span> num <span style="color:#666">&gt;&gt;</span> 8<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 向右移8位
 </span><span style="color:#080;font-style:italic"></span>		<span style="color:#666">}</span>
 		<span style="color:#a2f;font-weight:bold">return</span> ret<span style="color:#666">;</span>
 	<span style="color:#666">}</span>
 
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">byteArrayToLong</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[</span><span style="color:#666">]</span> byteArray<span style="color:#666">)</span> <span style="color:#666">{</span>
+	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">long</span> <span style="color:#00a000">byteArrayToLong</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">byte</span><span style="color:#666">[]</span> byteArray<span style="color:#666">)</span> <span style="color:#666">{</span>
 		<span style="color:#0b0;font-weight:bold">long</span> ret <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> byteArray<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">+</span><span style="color:#666">+</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
-			ret <span style="color:#666">|</span><span style="color:#666">=</span> <span style="color:#666">(</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">long</span><span style="color:#666">)</span> byteArray<span style="color:#666">[</span>i<span style="color:#666">]</span><span style="color:#666">)</span> <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> <span style="color:#666">(</span>8 <span style="color:#666">*</span> i<span style="color:#666">)</span> <span style="color:#666">&amp;</span> 0xffl <span style="color:#666">&lt;</span><span style="color:#666">&lt;</span> <span style="color:#666">(</span>8 <span style="color:#666">*</span> i<span style="color:#666">)</span><span style="color:#666">;</span>
+		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> byteArray<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">++</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
+			ret <span style="color:#666">|=</span> <span style="color:#666">((</span><span style="color:#0b0;font-weight:bold">long</span><span style="color:#666">)</span> byteArray<span style="color:#666">[</span>i<span style="color:#666">])</span> <span style="color:#666">&lt;&lt;</span> <span style="color:#666">(</span>8 <span style="color:#666">*</span> i<span style="color:#666">)</span> <span style="color:#666">&amp;</span> 0xffl <span style="color:#666">&lt;&lt;</span> <span style="color:#666">(</span>8 <span style="color:#666">*</span> i<span style="color:#666">);</span>
 		<span style="color:#666">}</span>
 		<span style="color:#a2f;font-weight:bold">return</span> ret<span style="color:#666">;</span>
 	<span style="color:#666">}</span>
@@ -778,6 +778,10 @@
 <ul class="widget-list">
     
     <li>
+        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
+    </li>
+    
+    <li>
         <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结">2019年总结</a>
     </li>
     
@@ -808,7 +812,7 @@
     
     <li><a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80/">C语言 (1)</a></li>
     
-    <li><a href="https://kkua.github.io/categories/java/">Java (2)</a></li>
+    <li><a href="https://kkua.github.io/categories/java/">Java (3)</a></li>
     
     <li><a href="https://kkua.github.io/categories/rust/">Rust (1)</a></li>
     
@@ -828,6 +832,12 @@
     <a href="https://kkua.github.io/tags/rust/">Rust</a>
     
     <a href="https://kkua.github.io/tags/static/">static</a>
+    
+    <a href="https://kkua.github.io/tags/unicode/">Unicode</a>
+    
+    <a href="https://kkua.github.io/tags/utf-16/">UTF-16</a>
+    
+    <a href="https://kkua.github.io/tags/utf-8/">UTF-8</a>
     
     <a href="https://kkua.github.io/tags/%E4%B9%A6%E5%8D%95/">书单</a>
     
@@ -866,10 +876,12 @@
     <script type="text/javascript">
         window.MathJax = {
             tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
+                processEscapes: true,
+                inlineMath: [["$", "$"], ["\\(", "\\)"]], 
+                displayMath: [["$$", "$$"], ["\\[", "\\]"]], 
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"] 
+            },
+        };
     </script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
