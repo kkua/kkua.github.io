@@ -113,6 +113,29 @@
     <article class="post">
         <header>
             <h1 class="post-title">
+                <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数">化减法为加法——补数</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2020年5月10日
+        </date>
+        
+        <div class="post-content">
+            为了表示负数，世界上大部分的计算机系统都采用了补码来表示整数。补码对应的英文原文是two’s complement，其中的单词 two 有什么含义呢？本文就来探讨一下补码的原理。
+补数 我们都知道CPU内部使用加法器来实现整数加法。那减法运算呢，也有一个专门用作减法运算的减法器吗？其实不然，在模算数系统下减法可以转换为加法。
+在数学和计算中，补数法是一种对正整数和负整数的对称范围进行编码的技术，使它们可以在整个范围内使用相同的算法（硬件）进行加法运算。对于给定的位数，可能表示的数的一半编码正数，另一半表示它们各自的的加法逆元。这对互为加法逆元的数称为补数。
+CPU的加法器是有限域加法，例如，int + int 的结果仍然是int，是一种模算数系统。
+在有限正整数域 \(M = \{x|0 \leq x &lt; m, x \in N\}\) 中，若 \(a + b = M\) 其中 \(a \in M, b \in M\) ，则 \(m \bmod m = 0 = a + b\) ，而且 \(b \equiv -a \pmod m\)。也就是说在数域 \(M\) 中 \(b\) 可以用来表示 \(-a\) ，因此 \(x - a = (x + b) \bmod m\)，这样减法就转换成了加法，也得到了负数的表示方法。
+对于 \(n\) 位 \(r\) 进制数，规定……
+        </div>
+        <p class="readmore"><a href="https://kkua.github.io/post/method-of-complements/">阅读全文</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
                 <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
             </h1>
         </header>
@@ -134,7 +157,7 @@ Unicode简介 Unicode是一个字符集，它对世界上大部分的文字系�
   国际标准化组织（ISO），是于1984年创建ISO/IEC JTC1/SC2/WG2工作组。试图制定一份“通用字符集”（Universal Character Set，简称UCS），并最终制定了ISO 10646标准。
   统一码联盟（Unicode Consortium），由Xerox、Apple等软件制造商于1988年组成，并且制定了Unicode 标准。
   后来他们发现对方的存在，大家为着相同的目的工作。于是在 1991 年，他们开始合并双方的工作成果，并为创立一个单一编码表而协同工作。虽然实际上两者的字集编码相同，但实质上两者确实为两个不同的标准。Unicode 1.1 对应于 ISO 10646-1:1993，Unicode 3.0 对应于 ISO 10646-1:2000，Unicode 3.2 对应于 ISO 10646-2:2001，Unicode 4.0 对应于 ISO 10646:2003，Unicode 5.0 对应于 ISO 10646:2003 及附录 1–3。
-Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平面（Plane），而每一个平面拥有65536（即$2^{16}$）个代码点。然而当前只用了少数平面。在表示一个 Unicode 的字符时，通常会用“U+”然后紧接着一组十六进制的数字来表示这一个字符。
+Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平面（Plane），而每一个平面拥有65536（即$2^{16}$）个码点。然而当前只用了少数平面。在表示一个 Unicode 的字符时，通常会用“U+”然后紧接着一组十六进制的数字来表示这一个字符。
    平面 始末字符值 中文名称 英文名称     0号平面 U+0000 - U+FFFF 基本多文种平面 Basic Multilingual Plane，简称BMP   1号平面 U+10000 - U+1FFFF 多文种补充平面 Supplementary Multilingual Plane，简称SMP   2号平面 U+20000 - U+2FFFF 表意文字补充平面 Supplementary Ideographic Plane，简称SIP   3号平面 U+30000 - U+3FFFF 表意文字第三平面 Tertiary Ideographic Plane，简称TIP   4号平面 至 13号平面 U+40000 - U+DFFFF （尚未使用）    14号平面 U+E0000 - U+EFFFF 特别用途补充平面 Supplementary Special-purpose Plane，简称SSP   15号平面 U+F0000 - U+FFFFF 保留作为私人使用区（A区） Private Use Area-A，简称PUA-A   16号平面 U+100000 - U+10FFFF 保留作为私人使用区（B区） Private Use Area-B，简称PUA-B    UTF UTF是 Unicode/UCS Transformation Format 的缩写，是将 Unicode 码点映射到唯一字节序列的算法，根据映射方法的的不同，有 UTF-8、UTF-16 和 UTF-32 等具体的编码格式。……
         </div>
         <p class="readmore"><a href="https://kkua.github.io/post/java-char-type-and-unicode/">阅读全文</a></p>
@@ -189,7 +212,7 @@ Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平
         
         <div class="post-content">
             static修饰局部变量 首先来看一段程序，思考一下该程序调用foo、bar函数后输出a的值分别会是多少呢？
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  #include &lt;stdio.h&gt;int main(){foo();bar();foo();bar();return 0;}void foo() {static int a = 0x12345678;++a;printf(&#34;a in foo(), location: 0x%x, current value: 0x%x\n&#34;, &amp;a, a);}void bar() {static int a = 0x87654321;++a;printf(&#34;a in bar(), location: 0x%x, current value: 0x%x\n&#34;, &amp;a, a);}  使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.……
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  #include &lt;stdio.h&gt; int main(){ foo(); bar(); foo(); bar(); return 0; } void foo() { static int a = 0x12345678; ++a; printf(&#34;a in foo(), location: 0x%x, current value: 0x%x\n&#34;, &amp;a, a); } void bar() { static int a = 0x87654321; ++a; printf(&#34;a in bar(), location: 0x%x, current value: 0x%x\n&#34;, &amp;a, a); }   使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.……
         </div>
         <p class="readmore"><a href="https://kkua.github.io/post/static-keyword-in-c-language/">阅读全文</a></p>
     </article>
@@ -320,6 +343,10 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
 <ul class="widget-list">
     
     <li>
+        <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数">化减法为加法——补数</a>
+    </li>
+    
+    <li>
         <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
     </li>
     
@@ -388,6 +415,8 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
     <a href="https://kkua.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8Fid/">分布式id</a>
     
     <a href="https://kkua.github.io/tags/%E6%80%BB%E7%BB%93/">总结</a>
+    
+    <a href="https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/">编码</a>
     
 </div>
     </section>

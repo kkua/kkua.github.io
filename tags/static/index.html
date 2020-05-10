@@ -136,7 +136,7 @@
         
         <div class="post-content">
             static修饰局部变量 首先来看一段程序，思考一下该程序调用foo、bar函数后输出a的值分别会是多少呢？
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  #include &lt;stdio.h&gt;int main(){foo();bar();foo();bar();return 0;}void foo() {static int a = 0x12345678;++a;printf(&#34;a in foo(), location: 0x%x, current value: 0x%x\n&#34;, &amp;a, a);}void bar() {static int a = 0x87654321;++a;printf(&#34;a in bar(), location: 0x%x, current value: 0x%x\n&#34;, &amp;a, a);}  使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.……
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21  #include &lt;stdio.h&gt; int main(){ foo(); bar(); foo(); bar(); return 0; } void foo() { static int a = 0x12345678; ++a; printf(&#34;a in foo(), location: 0x%x, current value: 0x%x\n&#34;, &amp;a, a); } void bar() { static int a = 0x87654321; ++a; printf(&#34;a in bar(), location: 0x%x, current value: 0x%x\n&#34;, &amp;a, a); }   使用gcc编译上面的程序，运行程序，控制台输出如下图 从程序的输出我们可以看到foo和bar中的a的存储地址不同，而且每次调用foo和bar，它们自己的变量a的值都增加了1。再来看一下它们的反汇编代码 可以看到a并不在栈上。使用objdump -h Test.……
             <p class="readmore"><a href="https://kkua.github.io/post/static-keyword-in-c-language/">阅读全文</a></p>
         </div>
     </article>
@@ -178,6 +178,10 @@
     <section class="widget">
         <h3 class="widget-title">最近文章</h3>
 <ul class="widget-list">
+    
+    <li>
+        <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数">化减法为加法——补数</a>
+    </li>
     
     <li>
         <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
@@ -248,6 +252,8 @@
     <a href="https://kkua.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8Fid/">分布式id</a>
     
     <a href="https://kkua.github.io/tags/%E6%80%BB%E7%BB%93/">总结</a>
+    
+    <a href="https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/">编码</a>
     
 </div>
     </section>
