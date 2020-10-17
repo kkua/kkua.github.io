@@ -5,9 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
 
-    <title>C语言中static关键字的作用 | KK&#39;s Blog</title>
-    <meta property="og:title" content="C语言中static关键字的作用 - KK&#39;s Blog">
+    <title>C语言中static关键字的作用 | 一点沉吟</title>
+    <meta property="og:title" content="C语言中static关键字的作用 - 一点沉吟">
     <meta property="og:type" content="article">
         
     <meta property="article:published_time" content='2019-09-24T22:14:20&#43;08:00'>
@@ -20,7 +23,7 @@
         
     <meta name="author" content="KK">
     <meta property="og:url" content="https://kkua.github.io/post/static-keyword-in-c-language/">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
@@ -87,7 +90,7 @@
             <div class="site-name ">
                 
                     <a id="logo" href="https://kkua.github.io">
-                        KK&#39;s Blog
+                        一点沉吟
                     </a>
                 
                 
@@ -229,7 +232,7 @@
         <div class="post-meta">
             <span>|</span>
             
-            <span class="meta-category"><a href='https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80'>C语言</a></span>
+            <span class="meta-category"><a href='/categories/c%E8%AF%AD%E8%A8%80'>C语言</a></span>
             
         </div>
         
@@ -385,7 +388,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
 </div>
 </div><p>输入<code>gcc mod1.c mod2.c</code> 命令，控制台输出如下：</p>
 <blockquote>
-<p>mod2.c:(.text+0xe): undefined reference to `foo&rsquo;</p>
+<p>mod2.c:(.text+0xe): undefined reference to `foo'</p>
 <p>collect2.exe: error: ld returned 1 exit status</p>
 </blockquote>
 <p>这表明gcc在链接的时候找不到符号foo，因为mod1.c中的foo函数在mod2.c中不可见。</p>
@@ -447,7 +450,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
             
             <ul class="clearfix">
                 
-                <li><a href='https://kkua.github.io/tags/static'>static</a></li>
+                <li><a href='/tags/static'>static</a></li>
                 
             </ul>
             
@@ -533,7 +536,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
     
 
     <section class="widget">
-        <h3 class="widget-title">分类</h3>
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
     <li><a href="https://kkua.github.io/categories/c%E8%AF%AD%E8%A8%80/">C语言 (1)</a></li>
@@ -545,10 +548,11 @@ Idx Name          Size      VMA               LMA               File off  Algn
     <li><a href="https://kkua.github.io/categories/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/">年终总结 (1)</a></li>
     
 </ul>
+
     </section>
 
     <section class="widget">
-        <h3 class="widget-title">标签</h3>
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
     
     <a href="https://kkua.github.io/tags/2019/">2019</a>
@@ -576,6 +580,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
     <a href="https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/">编码</a>
     
 </div>
+
     </section>
 
     
@@ -592,7 +597,7 @@ Idx Name          Size      VMA               LMA               File off  Algn
     </div>
     <footer id="footer">
     <div class="container">
-        &copy; 2020 <a href="https://kkua.github.io">KK&#39;s Blog By KK</a>.
+        &copy; 2020 <a href="https://kkua.github.io">一点沉吟 By KK</a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
         
@@ -604,12 +609,10 @@ Idx Name          Size      VMA               LMA               File off  Algn
     <script type="text/javascript">
         window.MathJax = {
             tex2jax: {
-                processEscapes: true,
-                inlineMath: [["$", "$"], ["\\(", "\\)"]], 
-                displayMath: [["$$", "$$"], ["\\[", "\\]"]], 
-                skipTags: ["script", "noscript", "style", "textarea", "pre", "code", "a"] 
-            },
-        };
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true
+                }
+            };
     </script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
