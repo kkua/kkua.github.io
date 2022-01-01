@@ -6,10 +6,37 @@
     <description>Recent content in Tags on 一点沉吟</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 10 May 2020 09:53:48 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 01 Jan 2022 12:55:19 +0800</lastBuildDate>
     
 	<atom:link href="https://kkua.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PowerShell</title>
+      <link>https://kkua.github.io/tags/powershell/</link>
+      <pubDate>Sat, 01 Jan 2022 12:55:19 +0800</pubDate>
+      
+      <guid>https://kkua.github.io/tags/powershell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>批处理</title>
+      <link>https://kkua.github.io/tags/%E6%89%B9%E5%A4%84%E7%90%86/</link>
+      <pubDate>Sat, 01 Jan 2022 12:55:19 +0800</pubDate>
+      
+      <guid>https://kkua.github.io/tags/%E6%89%B9%E5%A4%84%E7%90%86/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>环境变量</title>
+      <link>https://kkua.github.io/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/</link>
+      <pubDate>Sat, 01 Jan 2022 12:55:19 +0800</pubDate>
+      
+      <guid>https://kkua.github.io/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>编码</title>

@@ -3,18 +3,48 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://kkua.github.io/categories/</loc>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://kkua.github.io/post/</loc>
-    <lastmod>2020-05-10T09:53:48+08:00</lastmod>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kkua.github.io/tags/powershell/</loc>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://kkua.github.io/tags/</loc>
-    <lastmod>2020-05-10T09:53:48+08:00</lastmod>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://kkua.github.io/</loc>
-    <lastmod>2020-05-10T09:53:48+08:00</lastmod>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kkua.github.io/post/onekey-set-windows-environment-variables/</loc>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kkua.github.io/tags/%E6%89%B9%E5%A4%84%E7%90%86/</loc>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kkua.github.io/tags/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F/</loc>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://kkua.github.io/categories/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/</loc>
+    <lastmod>2022-01-01T12:55:19+08:00</lastmod>
   </url>
   
   <url>
@@ -25,11 +55,6 @@
   <url>
     <loc>https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/</loc>
     <lastmod>2020-05-10T09:53:48+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://kkua.github.io/categories/</loc>
-    <lastmod>2020-03-28T19:49:48+08:00</lastmod>
   </url>
   
   <url>
