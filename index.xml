@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>一点沉吟</title>
+    <title>一点沉吟 | Kaay&#39;s Blog</title>
     <link>https://kkua.github.io/</link>
-    <description>Recent content on 一点沉吟</description>
+    <description>Recent content on 一点沉吟 | Kaay&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 01 Jan 2022 12:55:19 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 02 Apr 2023 16:53:34 +0800</lastBuildDate>
     
 	<atom:link href="https://kkua.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>PVE7版本下AMD R5-4650GE核显直通</title>
+      <link>https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/</link>
+      <pubDate>Sun, 02 Apr 2023 16:53:34 +0800</pubDate>
+      
+      <guid>https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/</guid>
+      <description>本文记录了将AMD R5-4650GE直通给PVE内Linux虚拟机的操作过程
+启用IOMMU直通，ACS分组
+vim /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT=&amp;quot;quiet iommu=pt pcie_acs_override=downstream,multifunction textonly&amp;quot; update-grub
+屏蔽驱动，避免被宿主机占用
+vim /etc/modprobe.d/pve-blacklist.conf
+blacklist nvidiafb # AMD # blacklist amdgpu blacklist radeon # Intel UHD blacklist snd_hda_codec_hdmi blacklist snd_hda_intel blacklist snd_hda_codec blacklist snd_hda_core vim /etc/modprobe.d/vfio.conf
+vfio vfio_iommu_type1 vfio_pci vfio_virqfd update-initramfs -u -k all
+提取vBIOS固件
+1 2 3 4 5  cd /sys/bus/pci/devices/0000\:07\:00.0/ echo 1&amp;gt; rom cp rom &amp;gt; /usr/share/kvm/4650ge-vbios.bin echo 0&amp;gt; rom chmod +r /usr/share/kvm/4650ge-vbios.bin   直通显卡给虚拟机 使用命令行设置
+qm set VMID -hostpci0 0000:07:00.</description>
+    </item>
     
     <item>
       <title>使用批处理一键设置Windows环境变量</title>

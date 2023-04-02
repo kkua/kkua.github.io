@@ -10,8 +10,8 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>一点沉吟 | </title>
-    <meta property="og:title" content="一点沉吟 | ">
+    <title>一点沉吟 | Kaay&#39;s Blog | </title>
+    <meta property="og:title" content="一点沉吟 | Kaay&#39;s Blog | ">
     <meta property="og:type" content="website">
     <meta name="Keywords" content="">
     <meta name="description" content="">
@@ -20,7 +20,7 @@
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://kkua.github.io/index.xml" title="一点沉吟" />
+    <link rel="alternate" type="application/rss+xml" href="https://kkua.github.io/index.xml" title="一点沉吟 | Kaay's Blog" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -85,7 +85,7 @@
                 
                     <h1>
                         <a id="logo" href="https://kkua.github.io">
-                            一点沉吟
+                            一点沉吟 | Kaay&#39;s Blog
                         </a>
                     </h1>
                 
@@ -110,6 +110,32 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" title="PVE7版本下AMD R5-4650GE核显直通">PVE7版本下AMD R5-4650GE核显直通</a>
+            </h1>
+        </header>
+        <date class="post-meta meta-date">
+            2023年4月2日
+        </date>
+        
+        <div class="post-content">
+            本文记录了将AMD R5-4650GE直通给PVE内Linux虚拟机的操作过程
+启用IOMMU直通，ACS分组
+vim /etc/default/grub
+GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet iommu=pt pcie_acs_override=downstream,multifunction textonly&quot; update-grub
+屏蔽驱动，避免被宿主机占用
+vim /etc/modprobe.d/pve-blacklist.conf
+blacklist nvidiafb # AMD # blacklist amdgpu blacklist radeon # Intel UHD blacklist snd_hda_codec_hdmi blacklist snd_hda_intel blacklist snd_hda_codec blacklist snd_hda_core vim /etc/modprobe.d/vfio.conf
+vfio vfio_iommu_type1 vfio_pci vfio_virqfd update-initramfs -u -k all
+提取vBIOS固件
+1 2 3 4 5  cd /sys/bus/pci/devices/0000\:07\:00.0/ echo 1&gt; rom cp rom &gt; /usr/share/kvm/4650ge-vbios.bin echo 0&gt; rom chmod +r /usr/share/kvm/4650ge-vbios.bin   直通显卡给虚拟机 使用命令行设置
+qm set VMID -hostpci0 0000:07:00.……
+        </div>
+        <p class="readmore"><a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/">阅读全文</a></p>
+    </article>
     
     <article class="post">
         <header>
@@ -356,6 +382,10 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
 <ul class="widget-list">
     
     <li>
+        <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" title="PVE7版本下AMD R5-4650GE核显直通">PVE7版本下AMD R5-4650GE核显直通</a>
+    </li>
+    
+    <li>
         <a href="https://kkua.github.io/post/onekey-set-windows-environment-variables/" title="使用批处理一键设置Windows环境变量">使用批处理一键设置Windows环境变量</a>
     </li>
     
@@ -420,6 +450,8 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
     
     <a href="https://kkua.github.io/tags/powershell/">PowerShell</a>
     
+    <a href="https://kkua.github.io/tags/pve/">PVE</a>
+    
     <a href="https://kkua.github.io/tags/rust/">Rust</a>
     
     <a href="https://kkua.github.io/tags/static/">static</a>
@@ -462,7 +494,7 @@ arm-none-eabi-gcc：是 GNU 推出的的ARM交叉编译工具。可用于交叉�
     </div>
     <footer id="footer">
     <div class="container">
-        &copy; 2022 <a href="https://kkua.github.io">一点沉吟 By KK</a>.
+        &copy; 2023 <a href="https://kkua.github.io">一点沉吟 | Kaay&#39;s Blog By Kaay</a>.
         Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
         Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
         

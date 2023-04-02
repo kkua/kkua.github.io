@@ -9,21 +9,24 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>UTF-8 | 一点沉吟 | Kaay&#39;s Blog</title>
-    <meta property="og:title" content="UTF-8 - 一点沉吟 | Kaay&#39;s Blog">
+    <title>PVE7版本下AMD R5-4650GE核显直通 | 一点沉吟 | Kaay&#39;s Blog</title>
+    <meta property="og:title" content="PVE7版本下AMD R5-4650GE核显直通 - 一点沉吟 | Kaay&#39;s Blog">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content='2023-04-02T16:53:34&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-04-02T16:53:34&#43;08:00'>
         
     <meta name="Keywords" content="">
-    <meta name="description" content="UTF-8">
+    <meta name="description" content="PVE7版本下AMD R5-4650GE核显直通">
         
     <meta name="author" content="Kaay">
-    <meta property="og:url" content="https://kkua.github.io/tags/utf-8/">
+    <meta property="og:url" content="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://kkua.github.io/tags/utf-8/index.xml" title="一点沉吟 | Kaay's Blog" />
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -94,7 +97,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://kkua.github.io">首页</a>
+                    <a class="current" href="https://kkua.github.io">首页</a>
                     
                     <a  href="https://kkua.github.io/archives/" title="归档">归档</a>
                     
@@ -112,51 +115,152 @@
                     
 <div class="res-cons">
     
-    <h3 class="archive-title">
-        包含标签
-        <span class="keyword">UTF-8</span>
-        的文章
-    </h3>
-    
-
-    
     <article class="post">
         <header>
-            <h1 class="post-title">
-                <a href="https://kkua.github.io/post/java-char-type-and-unicode/">Java的char类型和Unicode</a>
-            </h1>
+            <h1 class="post-title">PVE7版本下AMD R5-4650GE核显直通</h1>
         </header>
         <date class="post-meta meta-date">
-            2020年3月28日
+            2023年4月2日
         </date>
         
-        <div class="post-meta meta-category">
-            |
-            
-            <a href='/categories/java'>Java</a>
-            
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
+                    阅读</span></span>
         </div>
         
+        
         <div class="post-content">
-            最近注意到 Java 中char类型占用2个字节（16位长），而 Unicode 的编码范围是U+000000-U+10FFFF（21位长），两者之间有怎样的关系呢？
-Unicode简介 Unicode是一个字符集，它对世界上大部分的文字系统进行了整理、编码，为每一个字符而非字形定义唯一的整数，这个整数称为码点（Code Point）。
-20世纪80年代，为了给全世界所有的文字字符统一编码，出现了两个标准化组织：
-  国际标准化组织（ISO），是于1984年创建ISO/IEC JTC1/SC2/WG2工作组。试图制定一份“通用字符集”（Universal Character Set，简称UCS），并最终制定了ISO 10646标准。
-  统一码联盟（Unicode Consortium），由Xerox、Apple等软件制造商于1988年组成，并且制定了Unicode 标准。
-  后来他们发现对方的存在，大家为着相同的目的工作。于是在 1991 年，他们开始合并双方的工作成果，并为创立一个单一编码表而协同工作。虽然实际上两者的字集编码相同，但实质上两者确实为两个不同的标准。Unicode 1.1 对应于 ISO 10646-1:1993，Unicode 3.0 对应于 ISO 10646-1:2000，Unicode 3.2 对应于 ISO 10646-2:2001，Unicode 4.0 对应于 ISO 10646:2003，Unicode 5.0 对应于 ISO 10646:2003 及附录 1–3。
-Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平面（Plane），而每一个平面拥有65536（即$2^{16}$）个码点。然而当前只用了少数平面。在表示一个 Unicode 的字符时，通常会用“U+”然后紧接着一组十六进制的数字来表示这一个字符。
-   平面 始末字符值 中文名称 英文名称     0号平面 U+0000 - U+FFFF 基本多文种平面 Basic Multilingual Plane，简称BMP   1号平面 U+10000 - U+1FFFF 多文种补充平面 Supplementary Multilingual Plane，简称SMP   2号平面 U+20000 - U+2FFFF 表意文字补充平面 Supplementary Ideographic Plane，简称SIP   3号平面 U+30000 - U+3FFFF 表意文字第三平面 Tertiary Ideographic Plane，简称TIP   4号平面 至 13号平面 U+40000 - U+DFFFF （尚未使用）    14号平面 U+E0000 - U+EFFFF 特别用途补充平面 Supplementary Special-purpose Plane，简称SSP   15号平面 U+F0000 - U+FFFFF 保留作为私人使用区（A区） Private Use Area-A，简称PUA-A   16号平面 U+100000 - U+10FFFF 保留作为私人使用区（B区） Private Use Area-B，简称PUA-B    UTF UTF是 Unicode/UCS Transformation Format 的缩写，是将 Unicode 码点映射到唯一字节序列的算法，根据映射方法的的不同，有 UTF-8、UTF-16 和 UTF-32 等具体的编码格式。……
-            <p class="readmore"><a href="https://kkua.github.io/post/java-char-type-and-unicode/">阅读全文</a></p>
+            <p>本文记录了将AMD R5-4650GE直通给PVE内Linux虚拟机的操作过程</p>
+<p>启用IOMMU直通，ACS分组</p>
+<p><code>vim /etc/default/grub</code></p>
+<pre><code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet iommu=pt pcie_acs_override=downstream,multifunction textonly&quot;
+</code></pre><p><code>update-grub</code></p>
+<p>屏蔽驱动，避免被宿主机占用</p>
+<p><code>vim /etc/modprobe.d/pve-blacklist.conf</code></p>
+<pre><code>blacklist nvidiafb
+
+# AMD
+# blacklist amdgpu
+blacklist radeon
+
+# Intel UHD
+blacklist snd_hda_codec_hdmi
+blacklist snd_hda_intel
+blacklist snd_hda_codec
+blacklist snd_hda_core
+</code></pre><p><code>vim /etc/modprobe.d/vfio.conf</code></p>
+<pre><code>vfio
+vfio_iommu_type1
+vfio_pci
+vfio_virqfd
+</code></pre><p><code>update-initramfs -u -k all</code></p>
+<p>提取vBIOS固件</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#a2f">cd</span> /sys/bus/pci/devices/0000<span style="color:#b62;font-weight:bold">\:</span>07<span style="color:#b62;font-weight:bold">\:</span>00.0/
+<span style="color:#a2f">echo</span> 1&gt; rom
+cp rom &gt; /usr/share/kvm/4650ge-vbios.bin
+<span style="color:#a2f">echo</span> 0&gt; rom
+chmod  +r /usr/share/kvm/4650ge-vbios.bin
+</code></pre></td></tr></table>
+</div>
+</div><p>直通显卡给虚拟机
+使用命令行设置</p>
+<p><code>qm set VMID -hostpci0 0000:07:00.0,pcie=1,rombar=1,romfile=4650ge-vbios.bin</code></p>
+<p>或者编辑配置文件</p>
+<p><code>vim /etc/pve/qemu-server/100.conf</code></p>
+<pre><code>hostpci0: 0000:07:00.0,pcie=1,rombar=1,romfile=4650ge-vbios.bin
+</code></pre><p><img src="Pasted%20image%2020230304210425.png" alt="虚拟机完整配置">
+启动虚拟机前执行</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#a2f">echo</span> <span style="color:#666">1</span> &gt; /sys/bus/pci/devices/0000<span style="color:#b62;font-weight:bold">\:</span>06<span style="color:#b62;font-weight:bold">\:</span>00.0/remove  
+<span style="color:#a2f">echo</span> <span style="color:#666">1</span> &gt; /sys/bus/pci/rescan
+</code></pre></td></tr></table>
+</div>
+</div><p>下面在虚拟机内操作</p>
+<p><code>apt install firmware-linux firmware-amd-graphics</code></p>
+<p>进入虚拟机验证</p>
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">dmesg | grep amdgpu
+lspci -nnk
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>01:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Renoir [1002:1636] (rev dc)
+        Subsystem: ASUSTeK Computer Inc. Renoir [1043:87e1]
+        Kernel driver in use: amdgpu
+        Kernel modules: amdgpu
+</code></pre><p><code>ls -al /dev/dri</code></p>
+<pre><code>drwxr-xr-x  3 root root        120 Mar  4 11:21 .
+drwxr-xr-x 18 root root       3240 Mar  4 11:21 ..
+drwxr-xr-x  2 root root        100 Mar  4 11:21 by-path
+crw-rw----  1 root video  226,   0 Mar  4 11:21 card0
+crw-rw----  1 root video  226,   1 Mar  4 11:21 card1
+crw-rw----  1 root render 226, 128 Mar  4 11:21 renderD128
+</code></pre><p>出现renderD128说明直通成功</p>
+<h3 id="参考资料">参考资料</h3>
+<p><a href="https://pve.proxmox.com/wiki/Pci_passthrough">https://pve.proxmox.com/wiki/Pci_passthrough</a></p>
+<p><a href="https://forum.proxmox.com/threads/amd-ryzen-7-renoir-4750g-apu-and-igpu-pass-thru-to-windows-10-guest.84849/page-4">AMD Ryzen 7 &ldquo;Renoir&rdquo; 4750G APU and iGPU pass-thru (to Windows 10 guest)? | Page 4 | Proxmox Support Forum</a></p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://kkua.github.io">Kaay</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/">https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享 署名-非商业性使用-禁止演绎(CC BY-NC-ND) 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/pve'>PVE</a></li>
+                
+            </ul>
+            
         </div>
     </article>
     
-
     
 
-
-
-
-
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "kkua/kkua.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
 </div>
 
                 </div>
@@ -308,6 +412,16 @@ Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平
     </div>
 </footer>
 
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
 
 
 <a id="rocket" href="#top"></a>
