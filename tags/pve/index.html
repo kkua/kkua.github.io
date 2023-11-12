@@ -137,7 +137,7 @@ vim /etc/default/grub
 GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet iommu=pt pcie_acs_override=downstream,multifunction textonly&quot; update-grub
 屏蔽驱动，避免被宿主机占用
 vim /etc/modprobe.d/pve-blacklist.conf
-blacklist nvidiafb # AMD # blacklist amdgpu blacklist radeon # Intel UHD blacklist snd_hda_codec_hdmi blacklist snd_hda_intel blacklist snd_hda_codec blacklist snd_hda_core vim /etc/modprobe.d/vfio.conf
+blacklist nvidiafb # AMD # blacklist amdgpu blacklist radeon # Intel UHD blacklist snd_hda_codec_hdmi blacklist snd_hda_intel blacklist snd_hda_codec blacklist snd_hda_core vim /etc/modules
 vfio vfio_iommu_type1 vfio_pci vfio_virqfd update-initramfs -u -k all
 提取vBIOS固件
 1 2 3 4 5  cd /sys/bus/pci/devices/0000\:07\:00.0/ echo 1&gt; rom cp rom &gt; /usr/share/kvm/4650ge-vbios.bin echo 0&gt; rom chmod +r /usr/share/kvm/4650ge-vbios.bin   直通显卡给虚拟机 使用命令行设置
