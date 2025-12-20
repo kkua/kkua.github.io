@@ -147,7 +147,7 @@
 <li>$r^{n}-1-a$ 是“ $r$ 进制数 $a$ 的关于<strong>减基数的补数</strong>（$r - 1$ 的补数，简称<strong>减补数</strong>、<strong>侪补数</strong>）”</li>
 </ul>
 <p>$ r^n $ 使用 <strong>位置记法（positional notation）</strong>
-记作 $ 1\underbrace{0000\cdots0}_{n-1位} $；显然有$ r^n - 1$ 使用<strong>位置记法</strong>记作 $ \underbrace{(r-1)|(r-1)|(r-1)|\cdots|(r-1)}_{n-1位(r-1)} $。 故 $ r^n -1 = \sum_{i=0}^{n-1}(r-1)^{i} $，两边同时加$1$，可得 $ r^n = \sum_{i=0}^{n-1}(r-1)^{i} + 1 $。</p>
+记作 $ 1\underbrace{0000\cdots0}_{n位} $；显然有$ r^n - 1$ 使用<strong>位置记法</strong>记作 $ \underbrace{(r-1)|(r-1)|(r-1)|\cdots|(r-1)}_{n位(r-1)} $。 故 $ r^n -1 = \sum_{i=0}^{n-1}(r-1)r^{i} $，两边同时加$1$，可得 $ r^n = \sum_{i=0}^{n-1}(r-1)r^{i} + 1 $。</p>
 <p>有了上面知识，我们来讨论如何使用补数法将减法运算转换为加法运算。</p>
 <h2 id="基数的补数radix-complement">基数的补数(radix complement)</h2>
 <p>数 $a$ 是 $r$ 进制数（即基数为r），位数为 $n$，将 $a$ 按其各个数位展开有</p>
@@ -157,8 +157,8 @@ $$
 \begin{align}
 a + b &= r^{n} \\
 \sum_{i=0}^{n-1}a_ir^{i} + b &= r^{n} \\
-&= \sum_{i=0}^{n-1}(r-1)^{i} + 1 \\
-b &= \sum_{i=0}^{n-1}(r-1)^{i} - \sum_{i=0}^{n-1}a_ir^{i} + 1 \\
+&= \sum_{i=0}^{n-1}(r-1)r^{i} + 1 \\
+b &= \sum_{i=0}^{n-1}(r-1)r^{i} - \sum_{i=0}^{n-1}a_ir^{i} + 1 \\
 &= \sum_{i=0}^{n-1}(r - 1 - a_i)r^i + 1
 \end{align}
 $$
@@ -179,8 +179,8 @@ $$
 \begin{align}
 a + b &= r^{n} - 1 \\
 \sum_{i=0}^{n-1}a_ir^{i} + b &= r^{n} - 1 \\ 
-&= \sum_{i=0}^{n-1}(r-1)^{i} + 1 - 1 \\
-b &= \sum_{i=0}^{n-1}(r-1)^{i} - \sum_{i=0}^{n-1}a_ir^{i} \\
+&= \sum_{i=0}^{n-1}(r-1)r^{i} + 1 - 1 \\
+b &= \sum_{i=0}^{n-1}(r-1)r^{i} - \sum_{i=0}^{n-1}a_ir^{i} \\
 &= \sum_{i=0}^{n-1}(r - 1 - a_i)r^i
 \end{align}
 $$
