@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-Hans">
 <head>
 
     <meta charset="utf-8">
@@ -27,15 +27,15 @@
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
-
-
+    
+    
+    
     
     
 </head>
-
 
 <body>
     
@@ -89,7 +89,7 @@
         <div class="col-group">
             <div class="site-name ">
                 
-                    <a id="logo" href="https://kkua.github.io">
+                    <a id="logo" href="https://kkua.github.io/">
                         一点沉吟 | Kaay&#39;s Blog
                     </a>
                 
@@ -97,7 +97,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="current" href="https://kkua.github.io">首页</a>
+                    <a class="current" href="https://kkua.github.io/">首页</a>
                     
                     <a  href="https://kkua.github.io/archives/" title="归档">归档</a>
                     
@@ -119,494 +119,498 @@
         <header>
             <h1 class="post-title">敏感词检测</h1>
         </header>
-        <date class="post-meta meta-date">
-            2019年8月9日
-        </date>
+        
+  <time datetime="2019-08-09T13:35:35Z" class="post-meta meta-date dt-published">
+    2019年8月9日
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/java' target="_blank">Java</a>
+  
+</div>
+
+
         
         <div class="post-meta">
-            <span>|</span>
-            
-            <span class="meta-category"><a href='/categories/java'>Java</a></span>
-            
-        </div>
-        
-        
-        <div class="post-meta">
-            <span id="busuanzi_container_page_pv">|<span id="busuanzi_value_page_pv"></span><span>
-                    阅读</span></span>
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>阅读</span>
+            </span>
         </div>
         
         
         <div class="post-content">
             <p>使用前缀树匹配的方法实现的敏感词检测工具类。原始的代码出自<a href="https://blog.csdn.net/chenssy/article/details/26961957" target="_blank">此处</a>。</p>
 <p>我在原始代码的基础上加了一些自己的修改，主要是去掉了<code>@SuppressWarnings({ &quot;rawtypes&quot;, &quot;unchecked&quot; })</code>警告和修改最大匹配检测方式的实现。以下是完整代码</p>
-<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
-<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">133
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">134
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">135
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">136
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">137
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">138
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">139
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">140
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">141
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">142
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">143
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">144
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">145
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">146
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">147
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">148
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">149
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">150
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">151
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">152
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">153
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">154
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">155
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">156
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">157
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">158
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">159
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">160
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">161
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">162
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">163
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">164
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">165
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">166
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">167
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">168
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">169
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">170
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">171
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">172
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">173
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">174
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">175
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">176
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">177
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">178
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">179
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">180
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">181
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">182
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">183
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">184
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">185
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">186
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">187
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">188
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">189
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">190
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">191
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">192
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">193
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">194
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">195
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">196
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">197
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">198
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">199
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">200
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">201
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">202
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">203
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">204
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">205
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">206
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">207
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">208
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">209
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">210
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">211
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">212
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">213
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">214
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">215
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">216
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">217
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">218
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">219
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">220
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">221
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">222
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">223
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">224
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">225
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">226
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">227
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">228
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">229
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">230
-</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">231
+<div class="highlight"><div style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">133
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">134
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">135
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">136
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">137
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">138
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">139
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">140
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">141
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">142
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">143
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">144
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">145
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">146
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">147
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">148
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">149
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">150
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">151
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">152
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">153
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">154
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">155
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">156
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">157
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">158
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">159
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">160
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">161
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">162
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">163
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">164
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">165
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">166
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">167
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">168
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">169
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">170
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">171
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">172
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">173
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">174
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">175
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">176
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">177
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">178
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">179
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">180
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">181
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">182
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">183
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">184
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">185
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">186
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">187
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">188
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">189
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">190
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">191
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">192
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">193
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">194
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">195
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">196
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">197
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">198
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">199
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">200
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">201
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">202
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">203
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">204
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">205
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">206
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">207
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">208
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">209
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">210
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">211
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">212
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">213
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">214
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">215
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">216
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">217
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">218
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">219
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">220
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">221
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">222
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">223
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">224
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">225
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">226
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">227
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">228
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">229
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">230
+</span><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">231
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.HashMap</span><span style="color:#666">;</span>
-<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.HashSet</span><span style="color:#666">;</span>
-<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.Iterator</span><span style="color:#666">;</span>
-<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.Map</span><span style="color:#666">;</span>
-<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.Set</span><span style="color:#666">;</span>
-
-<span style="color:#080;font-style:italic">/**
-</span><span style="color:#080;font-style:italic"> * 敏感词检测 &lt;br&gt;
-</span><span style="color:#080;font-style:italic"> * 修改自 https://blog.csdn.net/chenssy/article/details/26961957
-</span><span style="color:#080;font-style:italic"> */</span>
-<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">enum</span> SensitiveWordUtil <span style="color:#666">{</span>
-	INSTANCE<span style="color:#666">;</span>
-	<span style="color:#a2f;font-weight:bold">private</span> Map<span style="color:#666">&lt;</span>Character<span style="color:#666">,</span> WordCharMapNode<span style="color:#666">&gt;</span> sensitiveWordMap<span style="color:#666">;</span>
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">int</span> minMatchType <span style="color:#666">=</span> 1<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 最小匹配规则
-</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> <span style="color:#0b0;font-weight:bold">int</span> maxMatchType <span style="color:#666">=</span> 2<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 最大匹配规则
-</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">int</span> matchType <span style="color:#666">=</span> 2<span style="color:#666">;</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> SensitiveWordUtil <span style="color:#00a000">getInstance</span><span style="color:#666">()</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">return</span> INSTANCE<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">init</span><span style="color:#666">(</span>String<span style="color:#666">[]</span> words<span style="color:#666">)</span> <span style="color:#666">{</span>
-		sensitiveWordMap <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> HashMap<span style="color:#666">&lt;&gt;(</span>words<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">);</span> <span style="color:#080;font-style:italic">// 初始化敏感词容器，减少扩容操作
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span>String keyword <span style="color:#666">:</span> words<span style="color:#666">)</span> <span style="color:#666">{</span>
-            keyword <span style="color:#666">=</span> keyword<span style="color:#666">.</span><span style="color:#b44">trim</span><span style="color:#666">();</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>keyword<span style="color:#666">.</span><span style="color:#b44">isEmpty</span><span style="color:#666">())</span> <span style="color:#666">{</span>
-				<span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
-			<span style="color:#666">}</span>
-			addSensitiveWord<span style="color:#666">(</span>keyword<span style="color:#666">);</span>
-		<span style="color:#666">}</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">setMatchType</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> matchType<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">matchType</span> <span style="color:#666">=</span> matchType<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">getMatchType</span><span style="color:#666">()</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">return</span> matchType<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">resetMatchType</span><span style="color:#666">()</span> <span style="color:#666">{</span>
-		matchType <span style="color:#666">=</span> 2<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">addSensitiveWord</span><span style="color:#666">(</span>String keyword<span style="color:#666">)</span> <span style="color:#666">{</span>
-		Map<span style="color:#666">&lt;</span>Character<span style="color:#666">,</span> WordCharMapNode<span style="color:#666">&gt;</span> nowMap <span style="color:#666">=</span> sensitiveWordMap<span style="color:#666">;</span>
-		<span style="color:#0b0;font-weight:bold">int</span> wordLength <span style="color:#666">=</span> keyword<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">();</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> wordLength<span style="color:#666">;</span> i<span style="color:#666">++)</span> <span style="color:#666">{</span>
-			<span style="color:#0b0;font-weight:bold">char</span> keyChar <span style="color:#666">=</span> keyword<span style="color:#666">.</span><span style="color:#b44">charAt</span><span style="color:#666">(</span>i<span style="color:#666">);</span> <span style="color:#080;font-style:italic">// 转换成char型
-</span><span style="color:#080;font-style:italic"></span>			WordCharMapNode nextNode <span style="color:#666">=</span> nowMap<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>keyChar<span style="color:#666">);</span> <span style="color:#080;font-style:italic">// 获取
-</span><span style="color:#080;font-style:italic"></span>			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nextNode <span style="color:#666">==</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-				nextNode <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> WordCharMapNode<span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">,</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">);</span>
-				nowMap<span style="color:#666">.</span><span style="color:#b44">put</span><span style="color:#666">(</span>keyChar<span style="color:#666">,</span> nextNode<span style="color:#666">);</span>
-			<span style="color:#666">}</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>i <span style="color:#666">==</span> wordLength <span style="color:#666">-</span> 1<span style="color:#666">)</span> <span style="color:#666">{</span>
-				nextNode<span style="color:#666">.</span><span style="color:#b44">setEnd</span><span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">true</span><span style="color:#666">);</span>
-			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nextNode<span style="color:#666">.</span><span style="color:#b44">getNextNodeMap</span><span style="color:#666">()</span> <span style="color:#666">==</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-				nextNode<span style="color:#666">.</span><span style="color:#b44">setNextNodeMap</span><span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">new</span> HashMap<span style="color:#666">&lt;&gt;());</span>
-				nowMap <span style="color:#666">=</span> nextNode<span style="color:#666">.</span><span style="color:#b44">getNextNodeMap</span><span style="color:#666">();</span>
-			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-				nowMap <span style="color:#666">=</span> nextNode<span style="color:#666">.</span><span style="color:#b44">getNextNodeMap</span><span style="color:#666">();</span>
-			<span style="color:#666">}</span>
-		<span style="color:#666">}</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">boolean</span> <span style="color:#00a000">isContainSensitiveWord</span><span style="color:#666">(</span>String text<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">return</span> isContainSensitiveWord<span style="color:#666">(</span>text<span style="color:#666">,</span> matchType<span style="color:#666">);</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">boolean</span> <span style="color:#00a000">isContainSensitiveWord</span><span style="color:#666">(</span>String text<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> matchType<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#0b0;font-weight:bold">boolean</span> flag <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> text<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">();</span> i<span style="color:#666">++)</span> <span style="color:#666">{</span>
-			<span style="color:#0b0;font-weight:bold">int</span> matchFlag <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">checkSensitiveWord</span><span style="color:#666">(</span>text<span style="color:#666">,</span> i<span style="color:#666">,</span> matchType<span style="color:#666">);</span> <span style="color:#080;font-style:italic">// 判断是否包含敏感字符
-</span><span style="color:#080;font-style:italic"></span>			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>matchFlag <span style="color:#666">&gt;</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span> <span style="color:#080;font-style:italic">// 大于0存在，返回true
-</span><span style="color:#080;font-style:italic"></span>				flag <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">true</span><span style="color:#666">;</span>
-			<span style="color:#666">}</span>
-		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">return</span> flag<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">checkSensitiveWord</span><span style="color:#666">(</span>String text<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> beginIndex<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> matchType<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#0b0;font-weight:bold">int</span> matchFlag <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>matchType <span style="color:#666">==</span> SensitiveWordUtil<span style="color:#666">.</span><span style="color:#b44">maxMatchType</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-			matchFlag <span style="color:#666">=</span> checkSensitiveWordMaxMatch<span style="color:#666">(</span>text<span style="color:#666">,</span> beginIndex<span style="color:#666">);</span>
-		<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-			matchFlag <span style="color:#666">=</span> checkSensitiveWordMinMatch<span style="color:#666">(</span>text<span style="color:#666">,</span> beginIndex<span style="color:#666">);</span>
-		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">return</span> matchFlag<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">checkSensitiveWordMinMatch</span><span style="color:#666">(</span>String text<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> beginIndex<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#0b0;font-weight:bold">boolean</span> flag <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 敏感词结束标识位
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#0b0;font-weight:bold">int</span> matchFlag <span style="color:#666">=</span> 0<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 匹配标识数默认为0
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#0b0;font-weight:bold">char</span> wordChar <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-		Map<span style="color:#666">&lt;</span>Character<span style="color:#666">,</span> WordCharMapNode<span style="color:#666">&gt;</span> nowMap <span style="color:#666">=</span> sensitiveWordMap<span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> beginIndex<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> text<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">();</span> i<span style="color:#666">++)</span> <span style="color:#666">{</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nowMap <span style="color:#666">==</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-				<span style="color:#080;font-style:italic">// 到达关键词末尾
-</span><span style="color:#080;font-style:italic"></span>				<span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
-			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-				wordChar <span style="color:#666">=</span> text<span style="color:#666">.</span><span style="color:#b44">charAt</span><span style="color:#666">(</span>i<span style="color:#666">);</span>
-				WordCharMapNode wordCharMapNode <span style="color:#666">=</span> nowMap<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>wordChar<span style="color:#666">);</span>
-				<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>wordCharMapNode <span style="color:#666">!=</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-					nowMap <span style="color:#666">=</span> wordCharMapNode<span style="color:#666">.</span><span style="color:#b44">getNextNodeMap</span><span style="color:#666">();</span>
-					matchFlag<span style="color:#666">++;</span> <span style="color:#080;font-style:italic">// 找到相应key，匹配标识+1
-</span><span style="color:#080;font-style:italic"></span>					<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>wordCharMapNode<span style="color:#666">.</span><span style="color:#b44">isEnd</span><span style="color:#666">)</span> <span style="color:#666">{</span> <span style="color:#080;font-style:italic">// 如果为最后一个匹配规则,结束循环，返回匹配标识数
-</span><span style="color:#080;font-style:italic"></span>						flag <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">true</span><span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 结束标志位为true
-</span><span style="color:#080;font-style:italic"></span>						<span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
-					<span style="color:#666">}</span>
-				<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-					<span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
-				<span style="color:#666">}</span>
-			<span style="color:#666">}</span>
-		<span style="color:#666">}</span>
-		<span style="color:#080;font-style:italic">// 敏感词最小长度，设为1支持单字敏感词。本来条件应为matchFlag &lt; 1 || !flag，
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#080;font-style:italic">// 但matchFlag非负且当matchFlag为0时不需要重置matchFlag故可省略条件matchFlag &lt; 1
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(!</span>flag<span style="color:#666">)</span> <span style="color:#666">{</span>
-			matchFlag <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">return</span> matchFlag<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">int</span> <span style="color:#00a000">checkSensitiveWordMaxMatch</span><span style="color:#666">(</span>String text<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> beginIndex<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#0b0;font-weight:bold">boolean</span> flag <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 敏感词结束标识位
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#0b0;font-weight:bold">int</span> workingMatchFlag <span style="color:#666">=</span> 0<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 匹配标识数默认为0
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#0b0;font-weight:bold">int</span> lastMatchFlag <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-		<span style="color:#0b0;font-weight:bold">char</span> wordChar <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-		Map<span style="color:#666">&lt;</span>Character<span style="color:#666">,</span> WordCharMapNode<span style="color:#666">&gt;</span> nowMap <span style="color:#666">=</span> sensitiveWordMap<span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> beginIndex<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> text<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">();</span> i<span style="color:#666">++)</span> <span style="color:#666">{</span>
-			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nowMap <span style="color:#666">==</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-				<span style="color:#080;font-style:italic">// 到达关键词末尾
-</span><span style="color:#080;font-style:italic"></span>				<span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
-			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-				wordChar <span style="color:#666">=</span> text<span style="color:#666">.</span><span style="color:#b44">charAt</span><span style="color:#666">(</span>i<span style="color:#666">);</span>
-				WordCharMapNode wordCharMapNode <span style="color:#666">=</span> nowMap<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>wordChar<span style="color:#666">);</span>
-				<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>wordCharMapNode <span style="color:#666">!=</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-					nowMap <span style="color:#666">=</span> wordCharMapNode<span style="color:#666">.</span><span style="color:#b44">getNextNodeMap</span><span style="color:#666">();</span>
-					<span style="color:#666">++</span>workingMatchFlag<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 找到相应key，匹配标识+1
-</span><span style="color:#080;font-style:italic"></span>					<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>wordCharMapNode<span style="color:#666">.</span><span style="color:#b44">isEnd</span><span style="color:#666">)</span> <span style="color:#666">{</span>
-						flag <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">true</span><span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 结束标志位为true
-</span><span style="color:#080;font-style:italic"></span>						lastMatchFlag <span style="color:#666">=</span> workingMatchFlag<span style="color:#666">;</span>
-						<span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
-					<span style="color:#666">}</span>
-					flag <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">false</span><span style="color:#666">;</span>
-				<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-					<span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
-				<span style="color:#666">}</span>
-			<span style="color:#666">}</span>
-		<span style="color:#666">}</span>
-		<span style="color:#080;font-style:italic">// 敏感词最小长度，设为1支持单字敏感词。本来条件应为matchFlag &lt; 1 || !flag，
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#080;font-style:italic">// 但matchFlag非负且当matchFlag为0时不需要重置matchFlag故可省略条件matchFlag &lt; 1
-</span><span style="color:#080;font-style:italic"></span>		<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(!</span>flag<span style="color:#666">)</span> <span style="color:#666">{</span>
-			workingMatchFlag <span style="color:#666">=</span> lastMatchFlag<span style="color:#666">;</span>
-		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">return</span> workingMatchFlag<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> Set<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span> <span style="color:#00a000">getSensitiveWord</span><span style="color:#666">(</span>String text<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">return</span> getSensitiveWord<span style="color:#666">(</span>text<span style="color:#666">,</span> matchType<span style="color:#666">);</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> Set<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span> <span style="color:#00a000">getSensitiveWord</span><span style="color:#666">(</span>String text<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> matchType<span style="color:#666">)</span> <span style="color:#666">{</span>
-		Set<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span> sensitiveWordList <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> HashSet<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;();</span>
-		<span style="color:#0b0;font-weight:bold">int</span> length <span style="color:#666">=</span> text<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">();</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> length<span style="color:#666">;)</span> <span style="color:#666">{</span>
-			<span style="color:#0b0;font-weight:bold">int</span> wordLength <span style="color:#666">=</span> checkSensitiveWord<span style="color:#666">(</span>text<span style="color:#666">,</span> i<span style="color:#666">,</span> matchType<span style="color:#666">);</span> <span style="color:#080;font-style:italic">// 判断是否包含敏感字符
-</span><span style="color:#080;font-style:italic"></span>			<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>wordLength <span style="color:#666">&gt;</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span> <span style="color:#080;font-style:italic">// 存在,加入list中
-</span><span style="color:#080;font-style:italic"></span>				sensitiveWordList<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span>text<span style="color:#666">.</span><span style="color:#b44">substring</span><span style="color:#666">(</span>i<span style="color:#666">,</span> i <span style="color:#666">+</span> wordLength<span style="color:#666">));</span>
-				i <span style="color:#666">=</span> i <span style="color:#666">+</span> wordLength<span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 减1的原因，是因为for会自增
-</span><span style="color:#080;font-style:italic"></span>			<span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-				<span style="color:#666">++</span>i<span style="color:#666">;</span>
-			<span style="color:#666">}</span>
-		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">return</span> sensitiveWordList<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> String <span style="color:#00a000">replaceSensitiveWord</span><span style="color:#666">(</span>String txt<span style="color:#666">,</span> String replaceChar<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">return</span> replaceSensitiveWord<span style="color:#666">(</span>txt<span style="color:#666">,</span> matchType<span style="color:#666">,</span> replaceChar<span style="color:#666">);</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> String <span style="color:#00a000">replaceSensitiveWord</span><span style="color:#666">(</span>String txt<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> matchType<span style="color:#666">,</span> String replaceChar<span style="color:#666">)</span> <span style="color:#666">{</span>
-		String resultTxt <span style="color:#666">=</span> txt<span style="color:#666">;</span>
-		Set<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span> set <span style="color:#666">=</span> getSensitiveWord<span style="color:#666">(</span>txt<span style="color:#666">,</span> matchType<span style="color:#666">);</span> <span style="color:#080;font-style:italic">// 获取所有的敏感词
-</span><span style="color:#080;font-style:italic"></span>		Iterator<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span> iterator <span style="color:#666">=</span> set<span style="color:#666">.</span><span style="color:#b44">iterator</span><span style="color:#666">();</span>
-		String word <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">;</span>
-		String replaceString <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">null</span><span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>iterator<span style="color:#666">.</span><span style="color:#b44">hasNext</span><span style="color:#666">())</span> <span style="color:#666">{</span>
-			word <span style="color:#666">=</span> iterator<span style="color:#666">.</span><span style="color:#b44">next</span><span style="color:#666">();</span>
-			replaceString <span style="color:#666">=</span> getReplaceChars<span style="color:#666">(</span>replaceChar<span style="color:#666">,</span> word<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">());</span>
-			resultTxt <span style="color:#666">=</span> resultTxt<span style="color:#666">.</span><span style="color:#b44">replaceAll</span><span style="color:#666">(</span>word<span style="color:#666">,</span> replaceString<span style="color:#666">);</span>
-		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">return</span> resultTxt<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">private</span> String <span style="color:#00a000">getReplaceChars</span><span style="color:#666">(</span>String replaceChar<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> length<span style="color:#666">)</span> <span style="color:#666">{</span>
-		String resultReplace <span style="color:#666">=</span> replaceChar<span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 1<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> length<span style="color:#666">;</span> i<span style="color:#666">++)</span> <span style="color:#666">{</span>
-			resultReplace <span style="color:#666">+=</span> replaceChar<span style="color:#666">;</span>
-		<span style="color:#666">}</span>
-		<span style="color:#a2f;font-weight:bold">return</span> resultReplace<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-<span style="color:#666">}</span>
-
-<span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">WordCharMapNode</span> <span style="color:#666">{</span>
-	<span style="color:#0b0;font-weight:bold">boolean</span> isEnd<span style="color:#666">;</span>
-	<span style="color:#a2f;font-weight:bold">private</span> Map<span style="color:#666">&lt;</span>Character<span style="color:#666">,</span> WordCharMapNode<span style="color:#666">&gt;</span> nextNodeMap<span style="color:#666">;</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#00a000">WordCharMapNode</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">boolean</span> isEnd<span style="color:#666">,</span> Map<span style="color:#666">&lt;</span>Character<span style="color:#666">,</span> WordCharMapNode<span style="color:#666">&gt;</span> nextNodeMap<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">super</span><span style="color:#666">();</span>
-		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">isEnd</span> <span style="color:#666">=</span> isEnd<span style="color:#666">;</span>
-		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">nextNodeMap</span> <span style="color:#666">=</span> nextNodeMap<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">boolean</span> <span style="color:#00a000">isEnd</span><span style="color:#666">()</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">return</span> isEnd<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">setEnd</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">boolean</span> isEnd<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">isEnd</span> <span style="color:#666">=</span> isEnd<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">setNextNodeMap</span><span style="color:#666">(</span>Map<span style="color:#666">&lt;</span>Character<span style="color:#666">,</span> WordCharMapNode<span style="color:#666">&gt;</span> nextNodeMap<span style="color:#666">)</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">.</span><span style="color:#b44">nextNodeMap</span> <span style="color:#666">=</span> nextNodeMap<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-	<span style="color:#a2f;font-weight:bold">public</span> Map<span style="color:#666">&lt;</span>Character<span style="color:#666">,</span> WordCharMapNode<span style="color:#666">&gt;</span> <span style="color:#00a000">getNextNodeMap</span><span style="color:#666">()</span> <span style="color:#666">{</span>
-		<span style="color:#a2f;font-weight:bold">return</span> nextNodeMap<span style="color:#666">;</span>
-	<span style="color:#666">}</span>
-
-<span style="color:#666">}</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">import</span><span style="color:#bbb"> </span><span style="color:#00f;font-weight:bold">java.util.HashMap</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#a2f;font-weight:bold">import</span><span style="color:#bbb"> </span><span style="color:#00f;font-weight:bold">java.util.HashSet</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#a2f;font-weight:bold">import</span><span style="color:#bbb"> </span><span style="color:#00f;font-weight:bold">java.util.Iterator</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#a2f;font-weight:bold">import</span><span style="color:#bbb"> </span><span style="color:#00f;font-weight:bold">java.util.Map</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#a2f;font-weight:bold">import</span><span style="color:#bbb"> </span><span style="color:#00f;font-weight:bold">java.util.Set</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#080;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"> * 敏感词检测 &lt;br&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"> * 修改自 https://blog.csdn.net/chenssy/article/details/26961957
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"> */</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">enum</span><span style="color:#bbb"> </span>SensitiveWordUtil<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>INSTANCE;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">private</span><span style="color:#bbb"> </span>Map<span style="color:#666">&lt;</span>Character,<span style="color:#bbb"> </span>WordCharMapNode<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>sensitiveWordMap;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">static</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>minMatchType<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>1;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 最小匹配规则</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">static</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>maxMatchType<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>2;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 最大匹配规则</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">private</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchType<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>2;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">static</span><span style="color:#bbb"> </span>SensitiveWordUtil<span style="color:#bbb"> </span><span style="color:#00a000">getInstance</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>INSTANCE;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">void</span><span style="color:#bbb"> </span><span style="color:#00a000">init</span>(String<span style="color:#666">[]</span><span style="color:#bbb"> </span>words)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>sensitiveWordMap<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">new</span><span style="color:#bbb"> </span>HashMap<span style="color:#666">&lt;&gt;</span>(words.<span style="color:#b44">length</span>);<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 初始化敏感词容器，减少扩容操作</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">for</span><span style="color:#bbb"> </span>(String<span style="color:#bbb"> </span>keyword<span style="color:#bbb"> </span>:<span style="color:#bbb"> </span>words)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span>keyword<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>keyword.<span style="color:#b44">trim</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(keyword.<span style="color:#b44">isEmpty</span>())<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span><span style="color:#a2f;font-weight:bold">continue</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>addSensitiveWord(keyword);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">void</span><span style="color:#bbb"> </span><span style="color:#00a000">setMatchType</span>(<span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchType)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">this</span>.<span style="color:#b44">matchType</span><span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>matchType;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span><span style="color:#00a000">getMatchType</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>matchType;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">void</span><span style="color:#bbb"> </span><span style="color:#00a000">resetMatchType</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>matchType<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>2;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">void</span><span style="color:#bbb"> </span><span style="color:#00a000">addSensitiveWord</span>(String<span style="color:#bbb"> </span>keyword)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>Map<span style="color:#666">&lt;</span>Character,<span style="color:#bbb"> </span>WordCharMapNode<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>nowMap<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>sensitiveWordMap;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>wordLength<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>keyword.<span style="color:#b44">length</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">for</span><span style="color:#bbb"> </span>(<span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">&lt;</span><span style="color:#bbb"> </span>wordLength;<span style="color:#bbb"> </span>i<span style="color:#666">++</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#0b0;font-weight:bold">char</span><span style="color:#bbb"> </span>keyChar<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>keyword.<span style="color:#b44">charAt</span>(i);<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 转换成char型</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>WordCharMapNode<span style="color:#bbb"> </span>nextNode<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>nowMap.<span style="color:#b44">get</span>(keyChar);<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 获取</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(nextNode<span style="color:#bbb"> </span><span style="color:#666">==</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>nextNode<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">new</span><span style="color:#bbb"> </span>WordCharMapNode(<span style="color:#a2f;font-weight:bold">false</span>,<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>nowMap.<span style="color:#b44">put</span>(keyChar,<span style="color:#bbb"> </span>nextNode);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(i<span style="color:#bbb"> </span><span style="color:#666">==</span><span style="color:#bbb"> </span>wordLength<span style="color:#bbb"> </span><span style="color:#666">-</span><span style="color:#bbb"> </span>1)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>nextNode.<span style="color:#b44">setEnd</span>(<span style="color:#a2f;font-weight:bold">true</span>);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">else</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(nextNode.<span style="color:#b44">getNextNodeMap</span>()<span style="color:#bbb"> </span><span style="color:#666">==</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>nextNode.<span style="color:#b44">setNextNodeMap</span>(<span style="color:#a2f;font-weight:bold">new</span><span style="color:#bbb"> </span>HashMap<span style="color:#666">&lt;&gt;</span>());<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>nowMap<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>nextNode.<span style="color:#b44">getNextNodeMap</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">else</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>nowMap<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>nextNode.<span style="color:#b44">getNextNodeMap</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span><span style="color:#00a000">isContainSensitiveWord</span>(String<span style="color:#bbb"> </span>text)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>isContainSensitiveWord(text,<span style="color:#bbb"> </span>matchType);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span><span style="color:#00a000">isContainSensitiveWord</span>(String<span style="color:#bbb"> </span>text,<span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchType)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span>flag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">false</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">for</span><span style="color:#bbb"> </span>(<span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">&lt;</span><span style="color:#bbb"> </span>text.<span style="color:#b44">length</span>();<span style="color:#bbb"> </span>i<span style="color:#666">++</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">this</span>.<span style="color:#b44">checkSensitiveWord</span>(text,<span style="color:#bbb"> </span>i,<span style="color:#bbb"> </span>matchType);<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 判断是否包含敏感字符</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(matchFlag<span style="color:#bbb"> </span><span style="color:#666">&gt;</span><span style="color:#bbb"> </span>0)<span style="color:#bbb"> </span>{<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 大于0存在，返回true</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>flag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">true</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>flag;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">private</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span><span style="color:#00a000">checkSensitiveWord</span>(String<span style="color:#bbb"> </span>text,<span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>beginIndex,<span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchType)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(matchType<span style="color:#bbb"> </span><span style="color:#666">==</span><span style="color:#bbb"> </span>SensitiveWordUtil.<span style="color:#b44">maxMatchType</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>matchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>checkSensitiveWordMaxMatch(text,<span style="color:#bbb"> </span>beginIndex);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">else</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>matchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>checkSensitiveWordMinMatch(text,<span style="color:#bbb"> </span>beginIndex);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>matchFlag;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">private</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span><span style="color:#00a000">checkSensitiveWordMinMatch</span>(String<span style="color:#bbb"> </span>text,<span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>beginIndex)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span>flag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">false</span>;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 敏感词结束标识位</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 匹配标识数默认为0</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">char</span><span style="color:#bbb"> </span>wordChar<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>Map<span style="color:#666">&lt;</span>Character,<span style="color:#bbb"> </span>WordCharMapNode<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>nowMap<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>sensitiveWordMap;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">for</span><span style="color:#bbb"> </span>(<span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>beginIndex;<span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">&lt;</span><span style="color:#bbb"> </span>text.<span style="color:#b44">length</span>();<span style="color:#bbb"> </span>i<span style="color:#666">++</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(nowMap<span style="color:#bbb"> </span><span style="color:#666">==</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span><span style="color:#080;font-style:italic">// 到达关键词末尾</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span><span style="color:#a2f;font-weight:bold">break</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">else</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>wordChar<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>text.<span style="color:#b44">charAt</span>(i);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>WordCharMapNode<span style="color:#bbb"> </span>wordCharMapNode<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>nowMap.<span style="color:#b44">get</span>(wordChar);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(wordCharMapNode<span style="color:#bbb"> </span><span style="color:#666">!=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span>nowMap<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>wordCharMapNode.<span style="color:#b44">getNextNodeMap</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span>matchFlag<span style="color:#666">++</span>;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 找到相应key，匹配标识+1</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(wordCharMapNode.<span style="color:#b44">isEnd</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 如果为最后一个匹配规则,结束循环，返回匹配标识数</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">						</span>flag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">true</span>;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 结束标志位为true</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">						</span><span style="color:#a2f;font-weight:bold">break</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>}<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">else</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span><span style="color:#a2f;font-weight:bold">break</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#080;font-style:italic">// 敏感词最小长度，设为1支持单字敏感词。本来条件应为matchFlag &lt; 1 || !flag，</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#080;font-style:italic">// 但matchFlag非负且当matchFlag为0时不需要重置matchFlag故可省略条件matchFlag &lt; 1</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(<span style="color:#666">!</span>flag)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>matchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>matchFlag;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">private</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span><span style="color:#00a000">checkSensitiveWordMaxMatch</span>(String<span style="color:#bbb"> </span>text,<span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>beginIndex)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span>flag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">false</span>;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 敏感词结束标识位</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>workingMatchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 匹配标识数默认为0</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>lastMatchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">char</span><span style="color:#bbb"> </span>wordChar<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>Map<span style="color:#666">&lt;</span>Character,<span style="color:#bbb"> </span>WordCharMapNode<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>nowMap<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>sensitiveWordMap;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">for</span><span style="color:#bbb"> </span>(<span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>beginIndex;<span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">&lt;</span><span style="color:#bbb"> </span>text.<span style="color:#b44">length</span>();<span style="color:#bbb"> </span>i<span style="color:#666">++</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(nowMap<span style="color:#bbb"> </span><span style="color:#666">==</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span><span style="color:#080;font-style:italic">// 到达关键词末尾</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span><span style="color:#a2f;font-weight:bold">break</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">else</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>wordChar<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>text.<span style="color:#b44">charAt</span>(i);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>WordCharMapNode<span style="color:#bbb"> </span>wordCharMapNode<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>nowMap.<span style="color:#b44">get</span>(wordChar);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(wordCharMapNode<span style="color:#bbb"> </span><span style="color:#666">!=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span>nowMap<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>wordCharMapNode.<span style="color:#b44">getNextNodeMap</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span><span style="color:#666">++</span>workingMatchFlag;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 找到相应key，匹配标识+1</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(wordCharMapNode.<span style="color:#b44">isEnd</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">						</span>flag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">true</span>;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 结束标志位为true</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">						</span>lastMatchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>workingMatchFlag;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">						</span><span style="color:#a2f;font-weight:bold">continue</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span>flag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">false</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>}<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">else</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">					</span><span style="color:#a2f;font-weight:bold">break</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#080;font-style:italic">// 敏感词最小长度，设为1支持单字敏感词。本来条件应为matchFlag &lt; 1 || !flag，</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#080;font-style:italic">// 但matchFlag非负且当matchFlag为0时不需要重置matchFlag故可省略条件matchFlag &lt; 1</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(<span style="color:#666">!</span>flag)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>workingMatchFlag<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>lastMatchFlag;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>workingMatchFlag;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span>Set<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span><span style="color:#bbb"> </span><span style="color:#00a000">getSensitiveWord</span>(String<span style="color:#bbb"> </span>text)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>getSensitiveWord(text,<span style="color:#bbb"> </span>matchType);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span>Set<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span><span style="color:#bbb"> </span><span style="color:#00a000">getSensitiveWord</span>(String<span style="color:#bbb"> </span>text,<span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchType)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>Set<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>sensitiveWordList<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">new</span><span style="color:#bbb"> </span>HashSet<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>length<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>text.<span style="color:#b44">length</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">for</span><span style="color:#bbb"> </span>(<span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>0;<span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">&lt;</span><span style="color:#bbb"> </span>length;)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>wordLength<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>checkSensitiveWord(text,<span style="color:#bbb"> </span>i,<span style="color:#bbb"> </span>matchType);<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 判断是否包含敏感字符</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span><span style="color:#a2f;font-weight:bold">if</span><span style="color:#bbb"> </span>(wordLength<span style="color:#bbb"> </span><span style="color:#666">&gt;</span><span style="color:#bbb"> </span>0)<span style="color:#bbb"> </span>{<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 存在,加入list中</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>sensitiveWordList.<span style="color:#b44">add</span>(text.<span style="color:#b44">substring</span>(i,<span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">+</span><span style="color:#bbb"> </span>wordLength));<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span>i<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">+</span><span style="color:#bbb"> </span>wordLength;<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 减1的原因，是因为for会自增</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">else</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">				</span><span style="color:#666">++</span>i;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>sensitiveWordList;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span>String<span style="color:#bbb"> </span><span style="color:#00a000">replaceSensitiveWord</span>(String<span style="color:#bbb"> </span>txt,<span style="color:#bbb"> </span>String<span style="color:#bbb"> </span>replaceChar)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>replaceSensitiveWord(txt,<span style="color:#bbb"> </span>matchType,<span style="color:#bbb"> </span>replaceChar);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span>String<span style="color:#bbb"> </span><span style="color:#00a000">replaceSensitiveWord</span>(String<span style="color:#bbb"> </span>txt,<span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>matchType,<span style="color:#bbb"> </span>String<span style="color:#bbb"> </span>replaceChar)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>String<span style="color:#bbb"> </span>resultTxt<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>txt;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>Set<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>set<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>getSensitiveWord(txt,<span style="color:#bbb"> </span>matchType);<span style="color:#bbb"> </span><span style="color:#080;font-style:italic">// 获取所有的敏感词</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>Iterator<span style="color:#666">&lt;</span>String<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>iterator<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>set.<span style="color:#b44">iterator</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>String<span style="color:#bbb"> </span>word<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>String<span style="color:#bbb"> </span>replaceString<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#a2f;font-weight:bold">null</span>;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">while</span><span style="color:#bbb"> </span>(iterator.<span style="color:#b44">hasNext</span>())<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>word<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>iterator.<span style="color:#b44">next</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>replaceString<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>getReplaceChars(replaceChar,<span style="color:#bbb"> </span>word.<span style="color:#b44">length</span>());<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>resultTxt<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>resultTxt.<span style="color:#b44">replaceAll</span>(word,<span style="color:#bbb"> </span>replaceString);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>resultTxt;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">private</span><span style="color:#bbb"> </span>String<span style="color:#bbb"> </span><span style="color:#00a000">getReplaceChars</span>(String<span style="color:#bbb"> </span>replaceChar,<span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>length)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>String<span style="color:#bbb"> </span>resultReplace<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>replaceChar;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">for</span><span style="color:#bbb"> </span>(<span style="color:#0b0;font-weight:bold">int</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>1;<span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">&lt;</span><span style="color:#bbb"> </span>length;<span style="color:#bbb"> </span>i<span style="color:#666">++</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">			</span>resultReplace<span style="color:#bbb"> </span><span style="color:#666">+=</span><span style="color:#bbb"> </span>replaceChar;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>resultReplace;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">WordCharMapNode</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span>isEnd;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">private</span><span style="color:#bbb"> </span>Map<span style="color:#666">&lt;</span>Character,<span style="color:#bbb"> </span>WordCharMapNode<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>nextNodeMap;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#00a000">WordCharMapNode</span>(<span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span>isEnd,<span style="color:#bbb"> </span>Map<span style="color:#666">&lt;</span>Character,<span style="color:#bbb"> </span>WordCharMapNode<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>nextNodeMap)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">super</span>();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">this</span>.<span style="color:#b44">isEnd</span><span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>isEnd;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">this</span>.<span style="color:#b44">nextNodeMap</span><span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>nextNodeMap;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span><span style="color:#00a000">isEnd</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>isEnd;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">void</span><span style="color:#bbb"> </span><span style="color:#00a000">setEnd</span>(<span style="color:#0b0;font-weight:bold">boolean</span><span style="color:#bbb"> </span>isEnd)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">this</span>.<span style="color:#b44">isEnd</span><span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>isEnd;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span><span style="color:#0b0;font-weight:bold">void</span><span style="color:#bbb"> </span><span style="color:#00a000">setNextNodeMap</span>(Map<span style="color:#666">&lt;</span>Character,<span style="color:#bbb"> </span>WordCharMapNode<span style="color:#666">&gt;</span><span style="color:#bbb"> </span>nextNodeMap)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">this</span>.<span style="color:#b44">nextNodeMap</span><span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>nextNodeMap;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span><span style="color:#a2f;font-weight:bold">public</span><span style="color:#bbb"> </span>Map<span style="color:#666">&lt;</span>Character,<span style="color:#bbb"> </span>WordCharMapNode<span style="color:#666">&gt;</span><span style="color:#bbb"> </span><span style="color:#00a000">getNextNodeMap</span>()<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">		</span><span style="color:#a2f;font-weight:bold">return</span><span style="color:#bbb"> </span>nextNodeMap;<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">	</span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div>
         </div>
@@ -614,9 +618,9 @@
         
 <div class="post-archive">
     <ul class="post-copyright">
-        <li><strong>原文作者：</strong><a rel="author" href="https://kkua.github.io">Kaay</a></li>
+        <li><strong>原文作者：</strong><a rel="author" href="https://kkua.github.io/">Kaay</a></li>
         <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://kkua.github.io/post/sensitive-word-check/">https://kkua.github.io/post/sensitive-word-check/</a></li>
-        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享 署名-非商业性使用-禁止演绎(CC BY-NC-ND) 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享 署名-非商业性使用-禁止演绎(CC BY-NC-ND) 4.0 国际许可协议</a>. 进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
     </ul>
 </div>
 <br/>
@@ -626,7 +630,7 @@
         
 
 <div class="post-archive">
-    <h2>See Also</h2>
+    <h2>相关文章</h2>
     <ul class="listing">
         
         <li><a href="/post/java-util-code-snippet/">一些Java实用代码片段</a></li>
@@ -639,7 +643,7 @@
             
             <ul class="clearfix">
                 
-                <li><a href='/tags/java'>Java</a></li>
+                <li><a href='/tags/java' target="_blank">Java</a></li>
                 
             </ul>
             
@@ -660,25 +664,150 @@
       </script>
     </div>
     
+    
+    
+
 </div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2025 <a href="https://kkua.github.io/">一点沉吟 | Kaay&#39;s Blog By Kaay</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    
+<link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.9/katex.min.css" rel="stylesheet">
+     <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+     <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.js"></script>
+     <script>
+       document.addEventListener("DOMContentLoaded", function() {
+         renderMathInElement(document.body, {
+           delimiters: [
+             {left: '\\[', right: '\\]', display: true, displayMode: true},   
+             {left: '$$', right: '$$', display: true, displayMode: true},     
+             {left: '$', right: '$', display: false},  
+             {left: '\\(', right: '\\)', display: false},  
+           ],
+           throwOnError : false
+         });
+       });
+     </script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
 
                 </div>
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='//www.bing.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
-      
-      <input type="text" name="q" maxlength="20" placeholder="Search">
-      <input type="hidden" name="sitesearch" value="https://kkua.github.io">
-      <button type="submit" class="submit icon-search"></button>
-</form>
+        <form id="search" action='////www.bing.com/search/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
 
+    <input type="text" name="q" maxlength="64" placeholder="Search">
+    <input type="hidden" name="site" value="https://kkua.github.io/">
+    <button type="submit" class="submit icon-search"></button>
+</form>
 
 <script>
     document.getElementById('search').onsubmit = function () {
         var url = this.action;
         var q = this.children['q'].value;
-        var site = this.children['sitesearch'].value;
+        var site = this.children['site'].value;
         var url = url + '?q=site:' + site + ' ' + q;
         window.open(url);
         return false;
@@ -686,45 +815,45 @@
 </script>
 
     </section>
-    
+
     <section class="widget">
         <h3 class="widget-title">最近文章</h3>
 <ul class="widget-list">
     
     <li>
-        <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" title="PVE7版本下AMD R5-4650GE核显直通">PVE7版本下AMD R5-4650GE核显直通</a>
+        <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" title="PVE7版本下AMD R5-4650GE核显直通" target="_blank">PVE7版本下AMD R5-4650GE核显直通</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/onekey-set-windows-environment-variables/" title="使用批处理一键设置Windows环境变量">使用批处理一键设置Windows环境变量</a>
+        <a href="https://kkua.github.io/post/onekey-set-windows-environment-variables/" title="使用批处理一键设置Windows环境变量" target="_blank">使用批处理一键设置Windows环境变量</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数">化减法为加法——补数</a>
+        <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数" target="_blank">化减法为加法——补数</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
+        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode" target="_blank">Java的char类型和Unicode</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结">2019年总结</a>
+        <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结" target="_blank">2019年总结</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用">C语言中static关键字的作用</a>
+        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用" target="_blank">C语言中static关键字的作用</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标">Rust程序交叉编译到aarch64目标</a>
+        <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标" target="_blank">Rust程序交叉编译到aarch64目标</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/sensitive-word-check/" title="敏感词检测">敏感词检测</a>
+        <a href="https://kkua.github.io/post/sensitive-word-check/" title="敏感词检测" target="_blank">敏感词检测</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/java-util-code-snippet/" title="一些Java实用代码片段">一些Java实用代码片段</a>
+        <a href="https://kkua.github.io/post/java-util-code-snippet/" title="一些Java实用代码片段" target="_blank">一些Java实用代码片段</a>
     </li>
     
 </ul>
@@ -747,7 +876,6 @@
     <li><a href="https://kkua.github.io/categories/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/">脚本工具 (1)</a></li>
     
 </ul>
-
     </section>
 
     <section class="widget">
@@ -764,7 +892,7 @@
     
     <a href="https://kkua.github.io/tags/rust/">Rust</a>
     
-    <a href="https://kkua.github.io/tags/static/">static</a>
+    <a href="https://kkua.github.io/tags/static/">Static</a>
     
     <a href="https://kkua.github.io/tags/unicode/">Unicode</a>
     
@@ -787,7 +915,6 @@
     <a href="https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/">编码</a>
     
 </div>
-
     </section>
 
     
@@ -802,38 +929,6 @@
             </div>
         </div>
     </div>
-    <footer id="footer">
-    <div class="container">
-        &copy; 2023 <a href="https://kkua.github.io">一点沉吟 | Kaay&#39;s Blog By Kaay</a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
-        
-    </div>
-</footer>
-
-
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.css" integrity="sha384-Cqd8ihRLum0CCg8rz0hYKPoLZ3uw+gES2rXQXycqnL5pgVQIflxAUDS7ZSjITLb5" crossorigin="anonymous">
-
-    
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/katex.min.js" integrity="sha384-1Or6BdeNQb0ezrmtGeqQHFpppNd7a/gw29xeiSikBbsb44xu3uAo8c7FwbF5jhbd" crossorigin="anonymous"></script>
-
-    
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.2/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-
-
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
-
-
-
-    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-
-
-
-
-
 </body>
 
 </html>

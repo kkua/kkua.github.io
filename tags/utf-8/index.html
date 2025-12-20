@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-Hans">
 <head>
 
     <meta charset="utf-8">
@@ -24,15 +24,15 @@
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
     <link rel="alternate" type="application/rss+xml" href="https://kkua.github.io/tags/utf-8/index.xml" title="一点沉吟 | Kaay's Blog" />
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
-
-
+    
+    
+    
     
     
 </head>
-
 
 <body>
     
@@ -86,7 +86,7 @@
         <div class="col-group">
             <div class="site-name ">
                 
-                    <a id="logo" href="https://kkua.github.io">
+                    <a id="logo" href="https://kkua.github.io/">
                         一点沉吟 | Kaay&#39;s Blog
                     </a>
                 
@@ -94,7 +94,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://kkua.github.io">首页</a>
+                    <a class="" href="https://kkua.github.io/">首页</a>
                     
                     <a  href="https://kkua.github.io/archives/" title="归档">归档</a>
                     
@@ -115,7 +115,7 @@
     <h3 class="archive-title">
         包含标签
         <span class="keyword">UTF-8</span>
-        的文章
+        中的文章
     </h3>
     
 
@@ -123,30 +123,26 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://kkua.github.io/post/java-char-type-and-unicode/">Java的char类型和Unicode</a>
+                <a href="https://kkua.github.io/post/java-char-type-and-unicode/" target="_blank">Java的char类型和Unicode</a>
             </h1>
         </header>
-        <date class="post-meta meta-date">
-            2020年3月28日
-        </date>
         
-        <div class="post-meta meta-category">
-            |
-            
-            <a href='/categories/java'>Java</a>
-            
-        </div>
-        
+  <time datetime="2020-03-28T11:49:48Z" class="post-meta meta-date dt-published">
+    2020年3月28日
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/java' target="_blank">Java</a>
+  
+</div>
+
+
         <div class="post-content">
-            最近注意到 Java 中char类型占用2个字节（16位长），而 Unicode 的编码范围是U+000000-U+10FFFF（21位长），两者之间有怎样的关系呢？
-Unicode简介 Unicode是一个字符集，它对世界上大部分的文字系统进行了整理、编码，为每一个字符而非字形定义唯一的整数，这个整数称为码点（Code Point）。
-20世纪80年代，为了给全世界所有的文字字符统一编码，出现了两个标准化组织：
-  国际标准化组织（ISO），是于1984年创建ISO/IEC JTC1/SC2/WG2工作组。试图制定一份“通用字符集”（Universal Character Set，简称UCS），并最终制定了ISO 10646标准。
-  统一码联盟（Unicode Consortium），由Xerox、Apple等软件制造商于1988年组成，并且制定了Unicode 标准。
-  后来他们发现对方的存在，大家为着相同的目的工作。于是在 1991 年，他们开始合并双方的工作成果，并为创立一个单一编码表而协同工作。虽然实际上两者的字集编码相同，但实质上两者确实为两个不同的标准。Unicode 1.1 对应于 ISO 10646-1:1993，Unicode 3.0 对应于 ISO 10646-1:2000，Unicode 3.2 对应于 ISO 10646-2:2001，Unicode 4.0 对应于 ISO 10646:2003，Unicode 5.0 对应于 ISO 10646:2003 及附录 1–3。
-Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平面（Plane），而每一个平面拥有65536（即$2^{16}$）个码点。然而当前只用了少数平面。在表示一个 Unicode 的字符时，通常会用“U+”然后紧接着一组十六进制的数字来表示这一个字符。
-   平面 始末字符值 中文名称 英文名称     0号平面 U+0000 - U+FFFF 基本多文种平面 Basic Multilingual Plane，简称BMP   1号平面 U+10000 - U+1FFFF 多文种补充平面 Supplementary Multilingual Plane，简称SMP   2号平面 U+20000 - U+2FFFF 表意文字补充平面 Supplementary Ideographic Plane，简称SIP   3号平面 U+30000 - U+3FFFF 表意文字第三平面 Tertiary Ideographic Plane，简称TIP   4号平面 至 13号平面 U+40000 - U+DFFFF （尚未使用）    14号平面 U+E0000 - U+EFFFF 特别用途补充平面 Supplementary Special-purpose Plane，简称SSP   15号平面 U+F0000 - U+FFFFF 保留作为私人使用区（A区） Private Use Area-A，简称PUA-A   16号平面 U+100000 - U+10FFFF 保留作为私人使用区（B区） Private Use Area-B，简称PUA-B    UTF UTF是 Unicode/UCS Transformation Format 的缩写，是将 Unicode 码点映射到唯一字节序列的算法，根据映射方法的的不同，有 UTF-8、UTF-16 和 UTF-32 等具体的编码格式。……
-            <p class="readmore"><a href="https://kkua.github.io/post/java-char-type-and-unicode/">阅读全文</a></p>
+            最近注意到 Java 中char类型占用2个字节（16位长），而 Unicode 的编码范围是U+000000-U+10FFFF（21位长），两者之间有怎样的关系呢？……
+            <p class="readmore"><a href="https://kkua.github.io/post/java-char-type-and-unicode/" target="_blank">阅读全文</a></p>
         </div>
     </article>
     
@@ -159,23 +155,52 @@ Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平
 
 </div>
 
+                    <footer id="footer">
+    <div>
+        &copy; 2025 <a href="https://kkua.github.io/">一点沉吟 | Kaay&#39;s Blog By Kaay</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
                 </div>
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='//www.bing.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
-      
-      <input type="text" name="q" maxlength="20" placeholder="Search">
-      <input type="hidden" name="sitesearch" value="https://kkua.github.io">
-      <button type="submit" class="submit icon-search"></button>
-</form>
+        <form id="search" action='////www.bing.com/search/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
 
+    <input type="text" name="q" maxlength="64" placeholder="Search">
+    <input type="hidden" name="site" value="https://kkua.github.io/">
+    <button type="submit" class="submit icon-search"></button>
+</form>
 
 <script>
     document.getElementById('search').onsubmit = function () {
         var url = this.action;
         var q = this.children['q'].value;
-        var site = this.children['sitesearch'].value;
+        var site = this.children['site'].value;
         var url = url + '?q=site:' + site + ' ' + q;
         window.open(url);
         return false;
@@ -183,45 +208,45 @@ Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平
 </script>
 
     </section>
-    
+
     <section class="widget">
         <h3 class="widget-title">最近文章</h3>
 <ul class="widget-list">
     
     <li>
-        <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" title="PVE7版本下AMD R5-4650GE核显直通">PVE7版本下AMD R5-4650GE核显直通</a>
+        <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" title="PVE7版本下AMD R5-4650GE核显直通" target="_blank">PVE7版本下AMD R5-4650GE核显直通</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/onekey-set-windows-environment-variables/" title="使用批处理一键设置Windows环境变量">使用批处理一键设置Windows环境变量</a>
+        <a href="https://kkua.github.io/post/onekey-set-windows-environment-variables/" title="使用批处理一键设置Windows环境变量" target="_blank">使用批处理一键设置Windows环境变量</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数">化减法为加法——补数</a>
+        <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数" target="_blank">化减法为加法——补数</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
+        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode" target="_blank">Java的char类型和Unicode</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结">2019年总结</a>
+        <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结" target="_blank">2019年总结</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用">C语言中static关键字的作用</a>
+        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用" target="_blank">C语言中static关键字的作用</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标">Rust程序交叉编译到aarch64目标</a>
+        <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标" target="_blank">Rust程序交叉编译到aarch64目标</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/sensitive-word-check/" title="敏感词检测">敏感词检测</a>
+        <a href="https://kkua.github.io/post/sensitive-word-check/" title="敏感词检测" target="_blank">敏感词检测</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/java-util-code-snippet/" title="一些Java实用代码片段">一些Java实用代码片段</a>
+        <a href="https://kkua.github.io/post/java-util-code-snippet/" title="一些Java实用代码片段" target="_blank">一些Java实用代码片段</a>
     </li>
     
 </ul>
@@ -244,7 +269,6 @@ Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平
     <li><a href="https://kkua.github.io/categories/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/">脚本工具 (1)</a></li>
     
 </ul>
-
     </section>
 
     <section class="widget">
@@ -261,7 +285,7 @@ Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平
     
     <a href="https://kkua.github.io/tags/rust/">Rust</a>
     
-    <a href="https://kkua.github.io/tags/static/">static</a>
+    <a href="https://kkua.github.io/tags/static/">Static</a>
     
     <a href="https://kkua.github.io/tags/unicode/">Unicode</a>
     
@@ -284,7 +308,6 @@ Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平
     <a href="https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/">编码</a>
     
 </div>
-
     </section>
 
     
@@ -299,28 +322,6 @@ Unicode 平面 当前的 Unicode 字符分为17组编排，每组称为一个平
             </div>
         </div>
     </div>
-    <footer id="footer">
-    <div class="container">
-        &copy; 2023 <a href="https://kkua.github.io">一点沉吟 | Kaay&#39;s Blog By Kaay</a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
-        
-    </div>
-</footer>
-
-
-
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
-
-
-
-    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-
-
-
-
-
 </body>
 
 </html>

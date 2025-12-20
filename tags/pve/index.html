@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-Hans">
 <head>
 
     <meta charset="utf-8">
@@ -24,15 +24,15 @@
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
     <link rel="alternate" type="application/rss+xml" href="https://kkua.github.io/tags/pve/index.xml" title="一点沉吟 | Kaay's Blog" />
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
-
-
+    
+    
+    
     
     
 </head>
-
 
 <body>
     
@@ -86,7 +86,7 @@
         <div class="col-group">
             <div class="site-name ">
                 
-                    <a id="logo" href="https://kkua.github.io">
+                    <a id="logo" href="https://kkua.github.io/">
                         一点沉吟 | Kaay&#39;s Blog
                     </a>
                 
@@ -94,7 +94,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://kkua.github.io">首页</a>
+                    <a class="" href="https://kkua.github.io/">首页</a>
                     
                     <a  href="https://kkua.github.io/archives/" title="归档">归档</a>
                     
@@ -115,7 +115,7 @@
     <h3 class="archive-title">
         包含标签
         <span class="keyword">PVE</span>
-        的文章
+        中的文章
     </h3>
     
 
@@ -123,26 +123,19 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/">PVE7版本下AMD R5-4650GE核显直通</a>
+                <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" target="_blank">PVE7版本下AMD R5-4650GE核显直通</a>
             </h1>
         </header>
-        <date class="post-meta meta-date">
-            2023年4月2日
-        </date>
         
+  <time datetime="2023-04-02T08:53:34Z" class="post-meta meta-date dt-published">
+    2023年4月2日
+  </time>
+
+
+
         <div class="post-content">
-            本文记录了将AMD R5-4650GE直通给PVE内Linux虚拟机的操作过程
-启用IOMMU直通，ACS分组
-vim /etc/default/grub
-GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet iommu=pt pcie_acs_override=downstream,multifunction textonly&quot; update-grub
-屏蔽驱动，避免被宿主机占用
-vim /etc/modprobe.d/pve-blacklist.conf
-blacklist nvidiafb # AMD # blacklist amdgpu blacklist radeon # Intel UHD blacklist snd_hda_codec_hdmi blacklist snd_hda_intel blacklist snd_hda_codec blacklist snd_hda_core vim /etc/modules
-vfio vfio_iommu_type1 vfio_pci vfio_virqfd update-initramfs -u -k all
-提取vBIOS固件
-1 2 3 4 5  cd /sys/bus/pci/devices/0000\:07\:00.0/ echo 1&gt; rom cp rom &gt; /usr/share/kvm/4650ge-vbios.bin echo 0&gt; rom chmod +r /usr/share/kvm/4650ge-vbios.bin   直通显卡给虚拟机 使用命令行设置
-qm set VMID -hostpci0 0000:07:00.……
-            <p class="readmore"><a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/">阅读全文</a></p>
+            本文记录了将AMD R5-4650GE直通给PVE内Linux虚拟机的操作过程 启用IOMMU直通，ACS分组 vim /etc/default/grub GRUB_CMDLINE_LINUX_DEFAULT=&#34;quiet iommu=pt pcie_acs_override=downstream,multifunction textonly&#34; update-grub 屏蔽驱动，避免被宿主……
+            <p class="readmore"><a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" target="_blank">阅读全文</a></p>
         </div>
     </article>
     
@@ -155,23 +148,52 @@ qm set VMID -hostpci0 0000:07:00.……
 
 </div>
 
+                    <footer id="footer">
+    <div>
+        &copy; 2025 <a href="https://kkua.github.io/">一点沉吟 | Kaay&#39;s Blog By Kaay</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
                 </div>
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='//www.bing.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
-      
-      <input type="text" name="q" maxlength="20" placeholder="Search">
-      <input type="hidden" name="sitesearch" value="https://kkua.github.io">
-      <button type="submit" class="submit icon-search"></button>
-</form>
+        <form id="search" action='////www.bing.com/search/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
 
+    <input type="text" name="q" maxlength="64" placeholder="Search">
+    <input type="hidden" name="site" value="https://kkua.github.io/">
+    <button type="submit" class="submit icon-search"></button>
+</form>
 
 <script>
     document.getElementById('search').onsubmit = function () {
         var url = this.action;
         var q = this.children['q'].value;
-        var site = this.children['sitesearch'].value;
+        var site = this.children['site'].value;
         var url = url + '?q=site:' + site + ' ' + q;
         window.open(url);
         return false;
@@ -179,45 +201,45 @@ qm set VMID -hostpci0 0000:07:00.……
 </script>
 
     </section>
-    
+
     <section class="widget">
         <h3 class="widget-title">最近文章</h3>
 <ul class="widget-list">
     
     <li>
-        <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" title="PVE7版本下AMD R5-4650GE核显直通">PVE7版本下AMD R5-4650GE核显直通</a>
+        <a href="https://kkua.github.io/post/amd-core-graphics-card-passthrough-to-pve/" title="PVE7版本下AMD R5-4650GE核显直通" target="_blank">PVE7版本下AMD R5-4650GE核显直通</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/onekey-set-windows-environment-variables/" title="使用批处理一键设置Windows环境变量">使用批处理一键设置Windows环境变量</a>
+        <a href="https://kkua.github.io/post/onekey-set-windows-environment-variables/" title="使用批处理一键设置Windows环境变量" target="_blank">使用批处理一键设置Windows环境变量</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数">化减法为加法——补数</a>
+        <a href="https://kkua.github.io/post/method-of-complements/" title="化减法为加法——补数" target="_blank">化减法为加法——补数</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode">Java的char类型和Unicode</a>
+        <a href="https://kkua.github.io/post/java-char-type-and-unicode/" title="Java的char类型和Unicode" target="_blank">Java的char类型和Unicode</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结">2019年总结</a>
+        <a href="https://kkua.github.io/post/2019-summary/" title="2019年总结" target="_blank">2019年总结</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用">C语言中static关键字的作用</a>
+        <a href="https://kkua.github.io/post/static-keyword-in-c-language/" title="C语言中static关键字的作用" target="_blank">C语言中static关键字的作用</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标">Rust程序交叉编译到aarch64目标</a>
+        <a href="https://kkua.github.io/post/cross-compile-rust-to-aarch64/" title="Rust程序交叉编译到aarch64目标" target="_blank">Rust程序交叉编译到aarch64目标</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/sensitive-word-check/" title="敏感词检测">敏感词检测</a>
+        <a href="https://kkua.github.io/post/sensitive-word-check/" title="敏感词检测" target="_blank">敏感词检测</a>
     </li>
     
     <li>
-        <a href="https://kkua.github.io/post/java-util-code-snippet/" title="一些Java实用代码片段">一些Java实用代码片段</a>
+        <a href="https://kkua.github.io/post/java-util-code-snippet/" title="一些Java实用代码片段" target="_blank">一些Java实用代码片段</a>
     </li>
     
 </ul>
@@ -240,7 +262,6 @@ qm set VMID -hostpci0 0000:07:00.……
     <li><a href="https://kkua.github.io/categories/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/">脚本工具 (1)</a></li>
     
 </ul>
-
     </section>
 
     <section class="widget">
@@ -257,7 +278,7 @@ qm set VMID -hostpci0 0000:07:00.……
     
     <a href="https://kkua.github.io/tags/rust/">Rust</a>
     
-    <a href="https://kkua.github.io/tags/static/">static</a>
+    <a href="https://kkua.github.io/tags/static/">Static</a>
     
     <a href="https://kkua.github.io/tags/unicode/">Unicode</a>
     
@@ -280,7 +301,6 @@ qm set VMID -hostpci0 0000:07:00.……
     <a href="https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/">编码</a>
     
 </div>
-
     </section>
 
     
@@ -295,28 +315,6 @@ qm set VMID -hostpci0 0000:07:00.……
             </div>
         </div>
     </div>
-    <footer id="footer">
-    <div class="container">
-        &copy; 2023 <a href="https://kkua.github.io">一点沉吟 | Kaay&#39;s Blog By Kaay</a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        Theme based on <a href="https://github.com/kkua/maupassant-hugo/tree/for_me" target="_blank">maupassant</a>.
-        
-    </div>
-</footer>
-
-
-
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
-
-
-
-    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
-
-
-
-
-
 </body>
 
 </html>

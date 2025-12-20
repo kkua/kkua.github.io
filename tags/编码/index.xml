@@ -4,26 +4,16 @@
     <title>编码 on 一点沉吟 | Kaay&#39;s Blog</title>
     <link>https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/</link>
     <description>Recent content in 编码 on 一点沉吟 | Kaay&#39;s Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
+    <generator>Hugo</generator>
+    <language>zh-Hans</language>
     <lastBuildDate>Sun, 10 May 2020 09:53:48 +0800</lastBuildDate>
-    
-	<atom:link href="https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <atom:link href="https://kkua.github.io/tags/%E7%BC%96%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>化减法为加法——补数</title>
       <link>https://kkua.github.io/post/method-of-complements/</link>
       <pubDate>Sun, 10 May 2020 09:53:48 +0800</pubDate>
-      
       <guid>https://kkua.github.io/post/method-of-complements/</guid>
-      <description>为了表示负数，世界上大部分的计算机系统都采用了补码来表示整数。补码对应的英文原文是two’s complement，其中的单词 two 有什么含义呢？本文就来探讨一下补码的原理。
-补数 我们都知道CPU内部使用加法器来实现整数加法。那减法运算呢，也有一个专门用作减法运算的减法器吗？其实不然，在模算数系统下减法可以转换为加法。
-在数学和计算中，补数法是一种对正整数和负整数的对称范围进行编码的技术，使它们可以在整个范围内使用相同的算法（硬件）进行加法运算。对于给定的位数，可能表示的数的一半编码正数，另一半表示它们各自的的加法逆元。这对互为加法逆元的数称为补数。
-CPU的加法器是有限域加法，例如，int + int 的结果仍然是int，是一种模算数系统。
-在有限正整数域 \(M = \{x|0 \leq x &amp;lt; m, x \in N\}\) 中，若 \(a + b = M\) 其中 \(a \in M, b \in M\) ，则 \(m \bmod m = 0 = a + b\) ，而且 \(b \equiv -a \pmod m\)。也就是说在数域 \(M\) 中 \(b\) 可以用来表示 \(-a\) ，因此 \(x - a = (x + b) \bmod m\)，这样减法就转换成了加法，也得到了负数的表示方法。
-对于 \(n\) 位 \(r\) 进制数，规定</description>
+      <description>为了表示负数，世界上大部分的计算机系统都采用了补码来表示整数。补码对应的英文原文是two&amp;rsquo;s complement，其中的单词 two 有</description>
     </item>
-    
   </channel>
 </rss>
