@@ -144,11 +144,11 @@
 <p>对于 $n$ 位 $r$ 进制数，规定</p>
 <ul>
 <li>$r^{n}-a$ 是   “ $r$ 进制数 $a$ 的关于<strong>基数的补数</strong>（$r$ 的补数）”</li>
-<li>$r^{n}-a-1$ 是“ $r$ 进制数 $a$ 的关于<strong>减基数的补数</strong>（$r - 1$ 的补数，简称<strong>减补数</strong>、<strong>侪补数</strong>）”</li>
+<li>$r^{n}-1-a$ 是“ $r$ 进制数 $a$ 的关于<strong>减基数的补数</strong>（$r - 1$ 的补数，简称<strong>减补数</strong>、<strong>侪补数</strong>）”</li>
 </ul>
-<!-- 
-$ r^n $ 使用**位置记法（positional notation）**记作，$1\underbrace{0000\cdots0}_{n-1位}$，$ r^n - 1$ 使用**位置记法**写作，$ \underbrace{(r-1)(r-1)(r-1)\cdots(r-1)}_{n-1位(r-1)} $。 故， $ r^n -1 = \sum_{i=0}^{n-1}(r-1)^{i} $ 两边同时加$1$,可得 $ r^n = \sum_{i=0}^{n-1}(r-1)^{i} + 1 $。
-有了上面知识，我们来讨论如何使用补数将减法运算转换为加法运算。 -->
+<p>$ r^n $ 使用 <strong>位置记法（positional notation）</strong>
+记作 $ 1\underbrace{0000\cdots0}_{n-1位} $；显然有$ r^n - 1$ 使用<strong>位置记法</strong>记作 $ \underbrace{(r-1)|(r-1)|(r-1)|\cdots|(r-1)}_{n-1位(r-1)} $。 故 $ r^n -1 = \sum_{i=0}^{n-1}(r-1)^{i} $，两边同时加$1$，可得 $ r^n = \sum_{i=0}^{n-1}(r-1)^{i} + 1 $。</p>
+<p>有了上面知识，我们来讨论如何使用补数法将减法运算转换为加法运算。</p>
 <h2 id="基数的补数radix-complement">基数的补数(radix complement)</h2>
 <p>数 $a$ 是 $r$ 进制数（即基数为r），位数为 $n$，将 $a$ 按其各个数位展开有</p>
 <p>$a = a_{n-1}r^{n-1} + a_{n-2}r^{n-2} +...+ a_0r^0 = \sum_{i=0}^{n-1}a_ir^{i}$</p>
@@ -179,7 +179,7 @@ $$
 \begin{align}
 a + b &= r^{n} - 1 \\
 \sum_{i=0}^{n-1}a_ir^{i} + b &= r^{n} - 1 \\ 
-&= \sum_{i=0}^{n-1}(r-1)^{i} \\
+&= \sum_{i=0}^{n-1}(r-1)^{i} + 1 - 1 \\
 b &= \sum_{i=0}^{n-1}(r-1)^{i} - \sum_{i=0}^{n-1}a_ir^{i} \\
 &= \sum_{i=0}^{n-1}(r - 1 - a_i)r^i
 \end{align}
@@ -194,9 +194,11 @@ c - a &= [c - (r^n - 1 - b)] \bmod (r^n - 1) \\
 &= (c + b) \bmod (r^n - 1) \\
 \\
 分情况讨论:& \\
-1 . 若c + b \leq r^n - 1 
+1 . 若c + b < r^n - 1 
 & (c + b) \bmod (r^n - 1) &= c + b \\
-2 . 若c + b > r^n - 1 
+2 . 若c + b = r^n - 1 
+& (c + b) \bmod (r^n - 1) = 0 = r^n - 1 &= c + b\\
+3 . 若c + b > r^n - 1 
 & (c + b) \bmod (r^n - 1) &= c + b - (r^n - 1) \\
 &&= (c + b - r^n) + 1 \\
 \\
@@ -222,10 +224,9 @@ $$
 1001 & -6
 \end{array}
 $$
-<!-- 所以用反码也能合理地表示负数，虽然会出现2个为0的值。据说历史上曾经有过使用反码来表示负数的计算机。
-
-## 结论
-利用补数（不管是基数的补数还是减基数的补数）就能将减法运算转换为加法运算。在二进制下，利用补码和反码都可以仅使用位运算和加法器实现减法。 -->
+<p>所以用反码也能合理地表示负数，虽然会出现2个为0的值。据说历史上曾经有过使用反码来表示负数的计算机。</p>
+<h2 id="结论">结论</h2>
+<p>利用补数（不管是基数的补数还是减基数的补数）就能将减法运算转换为加法运算。在二进制下，利用补码和反码都可以仅使用位运算和加法器实现减法。</p>
 <h2 id="参考资料">参考资料</h2>
 <p><a href="https://en.wikipedia.org/wiki/Method_of_complements">https://en.wikipedia.org/wiki/Method_of_complements</a></p>
 <p><a href="https://zh.wikipedia.org/wiki/%E6%A8%A1%E7%AE%97%E6%95%B8">https://zh.wikipedia.org/wiki/模算數</a></p>
